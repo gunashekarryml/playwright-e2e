@@ -1,16 +1,18 @@
 import { test, expect } from '../fixtures/pageFixtures';
-import { users, customer } from '../fixtures/testData';
+import { customer } from '../fixtures/testData';
+import { STANDARD_USER_STORAGE_STATE } from '../global-setup';
 
 test.describe('Checkout', () => {
-  test.beforeEach(async ({ loginPage, inventoryPage }) => {
-    await loginPage.goto();
-    await loginPage.login(users.standard.username, users.standard.password);
+  test.use({ storageState: STANDARD_USER_STORAGE_STATE });
+
+  test.beforeEach(async ({ inventoryPage }) => {
+    await inventoryPage.goto();
     await inventoryPage.addItemToCartByName('Sauce Labs Backpack');
     await inventoryPage.addItemToCartByName('Sauce Labs Fleece Jacket');
     await inventoryPage.goToCart();
   });
 
-  test('completes an order end-to-end with valid details', async ({ cartPage, checkoutPage }) => {
+  test('completes an order end-to-end with valid details', { tag: '@smoke' }, async ({ cartPage, checkoutPage }) => {
     await cartPage.checkout();
     await checkoutPage.fillCustomerInfo(customer.firstName, customer.lastName, customer.postalCode);
 

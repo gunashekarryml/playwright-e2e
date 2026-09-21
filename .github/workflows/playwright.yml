@@ -14,9 +14,17 @@ on:
         required: false
         default: ''
       grep:
-        description: 'Only run tests whose title matches this pattern'
+        description: 'Only run tests whose title matches this pattern (overrides "suite" below)'
         required: false
         default: ''
+      suite:
+        description: 'Which suite to run when "grep" is not set'
+        required: false
+        default: full
+        type: choice
+        options:
+          - full
+          - smoke
 
 concurrency:
   group: playwright-${{ github.workflow }}-${{ github.ref }}
@@ -52,8 +60,25 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      - name: Determine test scope
+        id: scope
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "grep=@smoke" >> "$GITHUB_OUTPUT"
+            echo "label=smoke (PR fast gate)" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ github.event.inputs.grep }}" ]; then
+            echo "grep=${{ github.event.inputs.grep }}" >> "$GITHUB_OUTPUT"
+            echo "label=custom grep: ${{ github.event.inputs.grep }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.inputs.suite }}" = "smoke" ]; then
+            echo "grep=@smoke" >> "$GITHUB_OUTPUT"
+            echo "label=smoke (manual)" >> "$GITHUB_OUTPUT"
+          else
+            echo "grep=" >> "$GITHUB_OUTPUT"
+            echo "label=full regression" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Run Playwright tests
-        run: npx playwright test --project=${{ matrix.project }} ${{ github.event.inputs.grep && format('--grep "{0}"', github.event.inputs.grep) || '' }}
+        run: npx playwright test --project=${{ matrix.project }} ${{ steps.scope.outputs.grep && format('--grep "{0}"', steps.scope.outputs.grep) || '' }}
         env:
           BASE_URL: ${{ env.BASE_URL }}
 
@@ -64,6 +89,10 @@ jobs:
           report-file: test-results/results.json
           job-summary: true
           comment: false
+
+      - name: Flaky test report
+        if: always()
+        run: node scripts/report-flaky.js test-results/results.json
 
       - name: Upload HTML report
         if: always()
@@ -148,7 +177,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `${icon} Playwright E2E tests **${result}** across chromium/firefox/webkit/mobile-chrome.\n\nHTML and merged Allure reports are attached to the [workflow run](${runUrl}) as artifacts.`,
+              body: `${icon} Playwright **smoke suite** **${result}** across chromium/firefox/webkit/mobile-chrome.\n\nThe full regression suite runs on merge to \`main\` and nightly. HTML and merged Allure reports are attached to the [workflow run](${runUrl}) as artifacts.`,
             });
 
   deploy-pages:

@@ -1,5 +1,8 @@
 # Playwright E2E Sample (with Claude Code)
 
+[![Playwright E2E Tests](https://github.com/gunashekarryml/playwright-e2e/actions/workflows/playwright.yml/badge.svg)](https://github.com/gunashekarryml/playwright-e2e/actions/workflows/playwright.yml)
+[![Allure Report](https://img.shields.io/badge/Allure%20Report-view-blue)](https://gunashekarryml.github.io/playwright-e2e/)
+
 A working end-to-end test suite you can run today, plus a repo layout that
 Claude Code can extend on its own. It tests the public demo store
 [saucedemo.com](https://www.saucedemo.com) — login, cart, and checkout flows —
@@ -16,6 +19,7 @@ using TypeScript and the Page Object Model.
 playwright-e2e-sample/
 ├── CLAUDE.md                 # context Claude Code reads automatically
 ├── playwright.config.ts      # browsers, retries, reporters, base URL
+├── global-setup.ts           # logs in once, saves storageState for reuse
 ├── pages/                    # Page Objects (locators + actions)
 │   ├── LoginPage.ts
 │   ├── InventoryPage.ts
@@ -27,7 +31,10 @@ playwright-e2e-sample/
 ├── tests/
 │   ├── login.spec.ts
 │   ├── cart.spec.ts
-│   └── checkout.spec.ts
+│   ├── checkout.spec.ts
+│   └── accessibility.spec.ts # axe-core scans on key pages
+├── scripts/
+│   └── report-flaky.js       # flags retried tests in the CI job summary
 └── .github/workflows/playwright.yml
 ```
 
@@ -73,7 +80,31 @@ npm run report:allure:generate   # builds allure-report/ from allure-results/
 npm run report:allure:open       # serves it in a browser
 ```
 
-## 5. How Claude Code fits in
+Every merge to `main` also publishes the merged Allure report to
+**https://gunashekarryml.github.io/playwright-e2e/** automatically — see
+`.github/workflows/playwright.yml`.
+
+## 5. CI behavior
+
+- **Smoke vs. full regression** — pull requests run only tests tagged
+  `@smoke` (fast feedback); pushes to `main`, the nightly cron, and manual
+  runs (`suite: full`) run everything. Tag a test with a second argument —
+  `test('...', { tag: '@smoke' }, async (...) => { ... })` — to add it to the
+  fast gate. Run the same subset locally with `npm run test:smoke`.
+- **Authenticated session reuse** — `global-setup.ts` logs in once as
+  `standard_user` and saves `storageState`; `cart.spec.ts` and
+  `checkout.spec.ts` reuse it (`test.use({ storageState: ... })`) instead of
+  repeating the login flow in every test. `login.spec.ts` itself stays
+  unauthenticated since it's testing the login flow.
+- **Accessibility checks** — `accessibility.spec.ts` runs an axe-core scan
+  against login/inventory/cart/checkout and fails on any `critical` or
+  `serious` violation (SauceDemo's few pre-existing `moderate` issues are
+  left as-is rather than chased).
+- **Flaky-test visibility** — `scripts/report-flaky.js` reads the JSON
+  reporter output after each run and lists any test that only passed after
+  a retry in that job's summary, so retries don't silently hide flakiness.
+
+## 6. How Claude Code fits in
 
 `CLAUDE.md` in this repo tells Claude the folder conventions (Page Object
 pattern, where fixtures live, how specs should import `test`/`expect`) so
@@ -97,7 +128,7 @@ Claude Code at this folder and it can:
 
 Example prompts are listed at the bottom of `CLAUDE.md`.
 
-## 6. Adjusting for your own app
+## 7. Adjusting for your own app
 
 1. Change `use.baseURL` in `playwright.config.ts` (or set `BASE_URL` env var).
 2. Replace `pages/*.ts` with Page Objects for your app's screens.
@@ -107,7 +138,7 @@ Example prompts are listed at the bottom of `CLAUDE.md`.
 4. Update selectors to prefer accessible queries (`getByRole`, `getByLabel`)
    or stable `data-testid` attributes your app exposes.
 
-## 7. Notes on the demo site
+## 8. Notes on the demo site
 
 SauceDemo intentionally ships a few broken users for testing error paths:
 `locked_out_user` (blocked), `problem_user` (broken images/UI), and

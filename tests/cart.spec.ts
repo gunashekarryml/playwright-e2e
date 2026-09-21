@@ -1,13 +1,14 @@
 import { test, expect } from '../fixtures/pageFixtures';
-import { users } from '../fixtures/testData';
+import { STANDARD_USER_STORAGE_STATE } from '../global-setup';
 
 test.describe('Shopping cart', () => {
-  test.beforeEach(async ({ loginPage }) => {
-    await loginPage.goto();
-    await loginPage.login(users.standard.username, users.standard.password);
+  test.use({ storageState: STANDARD_USER_STORAGE_STATE });
+
+  test.beforeEach(async ({ inventoryPage }) => {
+    await inventoryPage.goto();
   });
 
-  test('adding an item updates the cart badge', async ({ inventoryPage }) => {
+  test('adding an item updates the cart badge', { tag: '@smoke' }, async ({ inventoryPage }) => {
     await inventoryPage.addItemToCartByName('Sauce Labs Backpack');
     await inventoryPage.expectCartCount(1);
   });

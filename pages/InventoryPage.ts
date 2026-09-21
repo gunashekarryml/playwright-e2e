@@ -17,6 +17,10 @@ export class InventoryPage {
     this.inventoryItems = page.locator('.inventory_item');
   }
 
+  async goto() {
+    await this.page.goto('/inventory.html');
+  }
+
   async expectLoaded() {
     await expect(this.pageTitle).toHaveText('Products');
   }

@@ -9,12 +9,14 @@
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:chromium": "playwright test --project=chromium",
+    "test:smoke": "playwright test --grep @smoke",
     "report": "playwright show-report",
     "codegen": "playwright codegen https://www.saucedemo.com",
     "report:allure:generate": "allure generate ./allure-results --clean -o ./allure-report",
     "report:allure:open": "allure open ./allure-report"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.48.0",
     "@types/node": "^20.14.0",
     "allure-commandline": "^2.30.0",
