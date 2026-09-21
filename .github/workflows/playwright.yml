@@ -117,6 +117,15 @@ jobs:
           path: allure-results
           merge-multiple: true
 
+      - name: Fetch previous Allure history (for trend charts)
+        continue-on-error: true
+        run: |
+          mkdir -p allure-results/history
+          base_url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/history"
+          for file in history.json history-trend.json categories-trend.json duration-trend.json retry-trend.json; do
+            curl -sSf "$base_url/$file" -o "allure-results/history/$file" || rm -f "allure-results/history/$file"
+          done
+
       - name: Generate merged Allure report
         run: npm run report:allure:generate
 
@@ -141,3 +150,30 @@ jobs:
               issue_number: context.issue.number,
               body: `${icon} Playwright E2E tests **${result}** across chromium/firefox/webkit/mobile-chrome.\n\nHTML and merged Allure reports are attached to the [workflow run](${runUrl}) as artifacts.`,
             });
+
+  deploy-pages:
+    name: Publish Allure report to GitHub Pages
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: report
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download merged Allure report
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: allure-report
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
