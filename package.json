@@ -1,0 +1,24 @@
+{
+  "name": "playwright-e2e-sample",
+  "version": "1.0.0",
+  "description": "Sample end-to-end automation suite built with Playwright + TypeScript, structured for use with Claude Code.",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:chromium": "playwright test --project=chromium",
+    "report": "playwright show-report",
+    "codegen": "playwright codegen https://www.saucedemo.com",
+    "report:allure:generate": "allure generate ./allure-results --clean -o ./allure-report",
+    "report:allure:open": "allure open ./allure-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^20.14.0",
+    "allure-commandline": "^2.30.0",
+    "allure-playwright": "^3.0.0",
+    "typescript": "^5.5.0"
+  }
+}
