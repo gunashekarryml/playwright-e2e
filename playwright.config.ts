@@ -1,9 +1,19 @@
 import { defineConfig, devices } from '@playwright/test';
+import { allureEnvironmentInfo, allureCategories } from './allure/config';
 
 /**
  * Central Playwright configuration.
  * Docs: https://playwright.dev/docs/test-configuration
  */
+const allureReporter = [
+  'allure-playwright',
+  {
+    resultsDir: 'allure-results',
+    environmentInfo: allureEnvironmentInfo(),
+    categories: allureCategories,
+  },
+] as const;
+
 export default defineConfig({
   testDir: './tests',
   globalSetup: './global-setup.ts',
@@ -15,13 +25,13 @@ export default defineConfig({
     ? [
         ['html', { open: 'never' }],
         ['list'],
-        ['allure-playwright', { resultsDir: 'allure-results' }],
+        allureReporter,
         ['json', { outputFile: 'test-results/results.json' }],
       ]
     : [
         ['html', { open: 'never' }],
         ['list'],
-        ['allure-playwright', { resultsDir: 'allure-results' }],
+        allureReporter,
       ],
 
   use: {

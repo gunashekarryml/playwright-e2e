@@ -33,8 +33,12 @@ playwright-e2e-sample/
 │   ├── cart.spec.ts
 │   ├── checkout.spec.ts
 │   └── accessibility.spec.ts # axe-core scans on key pages
+├── allure/
+│   └── config.ts             # Allure environment info + defect categories
 ├── scripts/
-│   └── report-flaky.js       # flags retried tests in the CI job summary
+│   ├── report-flaky.js         # flags retried tests in the CI job summary
+│   ├── strip-language-label.js # drops the redundant "language" chip
+│   └── brand-allure-report.js  # wordmark/favicon/tab-title branding
 └── .github/workflows/playwright.yml
 ```
 
@@ -83,6 +87,36 @@ npm run report:allure:open       # serves it in a browser
 Every merge to `main` also publishes the merged Allure report to
 **https://gunashekarryml.github.io/playwright-e2e/** automatically — see
 `.github/workflows/playwright.yml`.
+
+### Allure report customization
+
+`npm run report:allure:generate` does three things in sequence (see the
+script chain in `package.json`):
+
+1. `scripts/strip-language-label.js` removes the `language: javascript`
+   label `allure-playwright` stamps on every result (it has no config
+   option to disable it) — one less redundant chip on every test page.
+2. `allure generate` builds the report, reading:
+   - `allure/config.ts` → `environment.properties` (Environment tab) and
+     `categories.json` (Categories tab: Product defects / Test-framework
+     defects / Environment issues / Ignored), wired in via the
+     `allure-playwright` reporter's `environmentInfo`/`categories` options
+     in `playwright.config.ts`.
+   - `executor.json`, written by a CI-only step in `playwright.yml` (build
+     number, link back to the GitHub Actions run, link to the published
+     Pages report) — powers the Executions widget.
+3. `scripts/brand-allure-report.js` injects a small "Code & Theory"
+   wordmark, a monogram favicon, and a custom tab title via a linked
+   `custom/custom.css` — deliberately CSS-only and scoped to `body`/
+   scrollbar selectors rather than Allure's internal (minified, versioned)
+   component classes, so it keeps working across Allure upgrades.
+
+To swap the text wordmark for a real logo, drop `assets/logo.svg` or
+`assets/logo.png` into the repo — the branding script already copies it
+into the report's `custom/` folder; reference it from `custom.css` to
+replace the `body::before` text with an `<img>`/background-image. Override
+the wordmark text or accent color without code changes via
+`ALLURE_BRAND_NAME` / `ALLURE_BRAND_ACCENT` env vars.
 
 ## 5. CI behavior
 

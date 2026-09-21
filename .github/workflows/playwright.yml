@@ -155,6 +155,21 @@ jobs:
             curl -sSf "$base_url/$file" -o "allure-results/history/$file" || rm -f "allure-results/history/$file"
           done
 
+      - name: Write executor info
+        run: |
+          cat > allure-results/executor.json <<EOF
+          {
+            "name": "GitHub Actions",
+            "type": "github",
+            "url": "${{ github.server_url }}/${{ github.repository }}/actions",
+            "buildOrder": ${{ github.run_number }},
+            "buildName": "Run #${{ github.run_number }} (${{ github.event_name }})",
+            "buildUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "reportUrl": "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/",
+            "reportName": "Allure Report"
+          }
+          EOF
+
       - name: Generate merged Allure report
         run: npm run report:allure:generate
 
