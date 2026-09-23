@@ -38,6 +38,26 @@ env:
   BASE_URL: ${{ github.event.inputs.base_url || vars.BASE_URL || 'https://www.saucedemo.com' }}
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: ESLint
+        run: npm run lint
+
   test:
     name: Test (${{ matrix.project }})
     timeout-minutes: 30

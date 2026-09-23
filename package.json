@@ -10,6 +10,8 @@
     "test:debug": "playwright test --debug",
     "test:chromium": "playwright test --project=chromium",
     "test:smoke": "playwright test --grep @smoke",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "report": "playwright show-report",
     "codegen": "playwright codegen https://www.saucedemo.com",
     "report:allure:generate": "node scripts/strip-language-label.js ./allure-results && allure generate ./allure-results --clean -o ./allure-report && node scripts/brand-allure-report.js ./allure-report",
@@ -17,10 +19,14 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.48.0",
     "@types/node": "^20.14.0",
     "allure-commandline": "^2.30.0",
     "allure-playwright": "^3.0.0",
-    "typescript": "^5.5.0"
+    "eslint": "^10.11.0",
+    "eslint-plugin-playwright": "^2.12.0",
+    "typescript": "^5.5.0",
+    "typescript-eslint": "^8.70.1"
   }
 }

@@ -1,4 +1,4 @@
-import { test, expect } from '../fixtures/pageFixtures';
+import { test } from '../fixtures/pageFixtures';
 import { users } from '../fixtures/testData';
 
 test.describe('Login', () => {

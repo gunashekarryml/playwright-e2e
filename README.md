@@ -19,6 +19,7 @@ using TypeScript and the Page Object Model.
 playwright-e2e-sample/
 ├── CLAUDE.md                 # context Claude Code reads automatically
 ├── playwright.config.ts      # browsers, retries, reporters, base URL
+├── eslint.config.mjs         # flat config: typescript-eslint + Playwright rules
 ├── global-setup.ts           # logs in once, saves storageState for reuse
 ├── pages/                    # Page Objects (locators + actions)
 │   ├── LoginPage.ts
@@ -137,6 +138,13 @@ the wordmark text or accent color without code changes via
 - **Flaky-test visibility** — `scripts/report-flaky.js` reads the JSON
   reporter output after each run and lists any test that only passed after
   a retry in that job's summary, so retries don't silently hide flakiness.
+- **Lint & type-check gate** — a standalone `lint` job runs `tsc --noEmit`
+  and `npm run lint` (ESLint, flat config in `eslint.config.mjs`) on every
+  push/PR, independently of the browser test matrix. It combines
+  `typescript-eslint`'s type-aware rules with `eslint-plugin-playwright`
+  (catches missing `await`s, focused/skipped tests left in by accident,
+  `page.waitForTimeout` usage, etc.). Run it locally with `npm run lint`
+  (or `npm run lint:fix` for auto-fixable issues).
 
 ## 6. How Claude Code fits in
 
