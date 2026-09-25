@@ -18,7 +18,6 @@ using TypeScript and the Page Object Model.
 ```
 playwright-e2e-sample/
 ├── CLAUDE.md                 # context Claude Code reads automatically
-├── .mcp.json                 # Playwright MCP server for Claude Code
 ├── playwright.config.ts      # browsers, retries, reporters, base URL
 ├── eslint.config.mjs         # flat config: typescript-eslint + Playwright rules
 ├── global-setup.ts           # logs in once, saves storageState for reuse
@@ -171,21 +170,35 @@ Claude Code at this folder and it can:
 
 Example prompts are listed at the bottom of `CLAUDE.md`.
 
-### Playwright MCP
+### Playwright MCP (standalone, any client)
 
-`.mcp.json` wires up the [Playwright MCP server](https://github.com/microsoft/playwright-mcp)
-(`@playwright/mcp`, launched on demand via `npx` — no install step) so
-Claude Code can drive a real, visible browser directly — navigate, click,
-fill forms, read the accessibility tree — instead of writing a throwaway
-script just to see what a page looks like. It's independent of this repo's
-own `playwright.config.ts`/test suite; think of it as a live "hands on the
+`npm run mcp:playwright` starts the [Playwright MCP server](https://github.com/microsoft/playwright-mcp)
+(`@playwright/mcp`, launched on demand via `npx` — no install step). It's a
+plain [Model Context Protocol](https://modelcontextprotocol.io) server with
+no dependency on any specific AI tool or vendor — it lets *any* MCP client
+drive a real, visible browser directly (navigate, click, fill forms, read
+the accessibility tree) instead of writing a throwaway script just to see
+what a page looks like. It's independent of this repo's own
+`playwright.config.ts`/test suite; think of it as a live "hands on the
 keyboard" tool for exploring SauceDemo, debugging a selector, or sanity
 checking a flow before turning it into a Page Object + spec, complementing
 `npm run codegen`.
 
-The first time you open this repo in Claude Code after pulling this
-change, it'll prompt you to approve the project's `.mcp.json` before the
-server is available — that's expected, one-time per machine.
+To use it, point your MCP client of choice at the same command
+(`npx -y @playwright/mcp@latest`, or `npm run mcp:playwright` from this
+directory) in whatever config format that client expects, for example:
+
+- **Claude Code**: `claude mcp add playwright -- npx -y @playwright/mcp@latest`
+  (or add it to a project's own `.mcp.json` if you want it checked in and
+  shared with a team)
+- **Cursor**: add the same command under `mcpServers` in `.cursor/mcp.json`
+- **VS Code (Copilot)**: add it under `servers` in `.vscode/mcp.json`
+
+It can also run as a standalone network server instead of being spawned
+per-client — `npx @playwright/mcp@latest --port 8931` starts it listening
+over SSE/HTTP, so multiple MCP clients (or machines) can connect to the
+same instance; add `--shared-browser-context` to have them share one
+browser instead of each getting their own.
 
 ## 7. Adjusting for your own app
 
