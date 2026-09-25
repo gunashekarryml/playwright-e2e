@@ -18,6 +18,7 @@ using TypeScript and the Page Object Model.
 ```
 playwright-e2e-sample/
 ├── CLAUDE.md                 # context Claude Code reads automatically
+├── .mcp.json                 # Playwright MCP server for Claude Code
 ├── playwright.config.ts      # browsers, retries, reporters, base URL
 ├── eslint.config.mjs         # flat config: typescript-eslint + Playwright rules
 ├── global-setup.ts           # logs in once, saves storageState for reuse
@@ -169,6 +170,22 @@ Claude Code at this folder and it can:
   notifications to `.github/workflows/playwright.yml`.
 
 Example prompts are listed at the bottom of `CLAUDE.md`.
+
+### Playwright MCP
+
+`.mcp.json` wires up the [Playwright MCP server](https://github.com/microsoft/playwright-mcp)
+(`@playwright/mcp`, launched on demand via `npx` — no install step) so
+Claude Code can drive a real, visible browser directly — navigate, click,
+fill forms, read the accessibility tree — instead of writing a throwaway
+script just to see what a page looks like. It's independent of this repo's
+own `playwright.config.ts`/test suite; think of it as a live "hands on the
+keyboard" tool for exploring SauceDemo, debugging a selector, or sanity
+checking a flow before turning it into a Page Object + spec, complementing
+`npm run codegen`.
+
+The first time you open this repo in Claude Code after pulling this
+change, it'll prompt you to approve the project's `.mcp.json` before the
+server is available — that's expected, one-time per machine.
 
 ## 7. Adjusting for your own app
 
