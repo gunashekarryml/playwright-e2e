@@ -122,6 +122,15 @@ jobs:
           path: playwright-report/
           retention-days: 14
 
+      - name: Upload JSON results (for QA dashboard)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: json-results-${{ matrix.project }}
+          path: test-results/results.json
+          if-no-files-found: ignore
+          retention-days: 14
+
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
@@ -216,27 +225,45 @@ jobs:
             });
 
   deploy-pages:
-    name: Publish Allure report to GitHub Pages
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: report
+    name: Publish Allure report + QA dashboard to GitHub Pages
+    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && needs.report.result == 'success'
+    needs: [test, report]
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
+
       - name: Download merged Allure report
         uses: actions/download-artifact@v4
         with:
           name: allure-report
-          path: allure-report
+          path: site
+
+      - name: Download JSON results from all projects
+        uses: actions/download-artifact@v4
+        with:
+          pattern: json-results-*
+          path: dashboard-input
+
+      - name: Build QA dashboard at /dashboard/
+        run: |
+          mkdir -p site/dashboard/data
+          base="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/dashboard"
+          curl -sSf "$base/data/runs.json" -o site/dashboard/data/runs.json || echo '[]' > site/dashboard/data/runs.json
+          cp dashboard/index.html site/dashboard/index.html
+          node scripts/build-dashboard-run.js dashboard-input run.json
+          node scripts/update-dashboard-history.js run.json site/dashboard/data/runs.json
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: allure-report
+          path: site
 
       - name: Deploy to GitHub Pages
         id: deployment

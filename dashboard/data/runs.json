@@ -1,0 +1,53 @@
+[
+  {
+    "id": "1792069361728",
+    "runNumber": 0,
+    "date": "2026-09-23T13:06:48.929Z",
+    "event": "local",
+    "branch": "local",
+    "sha": "",
+    "runUrl": "",
+    "baseUrl": "",
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "durationMs": 3604.645,
+    "passRate": 100,
+    "features": {
+      "cart": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "checkout": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "login": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      }
+    },
+    "projects": {
+      "chromium": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      }
+    },
+    "flakyTests": [],
+    "failedTests": []
+  }
+]

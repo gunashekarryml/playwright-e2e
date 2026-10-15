@@ -216,3 +216,15 @@ SauceDemo intentionally ships a few broken users for testing error paths:
 `locked_out_user` (blocked), `problem_user` (broken images/UI), and
 `performance_glitch_user` (slow responses) — useful for practicing
 resilient locators and negative-path tests.
+
+## QA Dashboard
+
+The same GitHub Pages site serves two reports:
+- `/` — Allure report
+- `/dashboard/` — QA dashboard (`dashboard/index.html`)
+
+On every non-PR run on `main`, the `deploy-pages` job fetches the previous `dashboard/data/runs.json`
+from the live site, appends this run (last 60 kept, built by `scripts/build-dashboard-run.js` and
+`scripts/update-dashboard-history.js`) and deploys both together. No extra repo or token needed.
+
+Preview locally: `cd dashboard && python3 -m http.server`, then open http://localhost:8000.
