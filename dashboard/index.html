@@ -440,7 +440,7 @@ function render(runs) {
 
   app.innerHTML = `
   <div class="top">
-    <div class="brand"><div class="logo">Q</div><div><h1>QA Release Dashboard</h1><small>Automated test health · saucedemo.com${latest.baseUrl ? '' : ''}</small></div></div>
+    <div class="brand"><div class="logo">Q</div><div><h1>QA Release Dashboard</h1><small>Automated test health${latest.environment && latest.environment !== 'Default' ? ' · ' + esc(latest.environment) : ''}</small></div></div>
     <div class="actions">
       <span>Updated ${esc(when(latest.date))} · ${esc(latest.branch)}${latest.sha ? ' @ ' + esc(latest.sha) : ''}</span>
       <a class="btn" href="${ALLURE_URL}">Detailed Allure report ↗</a>

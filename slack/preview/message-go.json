@@ -1,0 +1,117 @@
+{
+  "text": "GO: Run #41 — 100% pass rate",
+  "attachments": [
+    {
+      "color": "#2eb67d",
+      "blocks": [
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "🟢  GO · Run #41",
+            "emoji": true
+          }
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "*Full regression*  ·  Env *QA*  ·  merge to main"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Safe to release — all quality gates are green.*\n🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩  *100%* pass rate"
+          }
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "✅ *56* passed    ▫️ *0* failed    ▫️ *0* flaky    ⏭ *0* skipped    ⏱ *4m 12s*"
+            }
+          ]
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Severity breakdown*\n```Severity  Total   Pass   Fail   Skip\nCritical     12     12      0      0\nHigh         20     20      0      0\nMedium       16     16      0      0\nLow           8      8      0      0```"
+          }
+        },
+        {
+          "type": "section",
+          "fields": [
+            {
+              "type": "mrkdwn",
+              "text": "*Features*\n🟢 Login & Auth *100%*\n🟢 Shopping Cart *100%*\n🟢 Checkout *100%*\n🟢 Accessibility *100%*"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*Browsers*\n🟢 Chrome 100%\n🟢 Firefox 100%\n🟢 Safari 100%\n🟢 Android 100%"
+            }
+          ]
+        },
+        {
+          "type": "actions",
+          "elements": [
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "📊 Dashboard",
+                "emoji": true
+              },
+              "url": "https://x/dashboard/",
+              "style": "primary"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "📑 Allure report",
+                "emoji": true
+              },
+              "url": "https://x/"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "⚙️ CI run",
+                "emoji": true
+              },
+              "url": "https://github.com/o/r/actions/runs/1"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "▶️ Run again",
+                "emoji": true
+              },
+              "url": "https://x/run"
+            }
+          ]
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "main @ `1f4ffce`  ·  Thu, 15 Oct 2026 09:24:00 UTC"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

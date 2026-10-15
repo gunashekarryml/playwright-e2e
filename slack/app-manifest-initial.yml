@@ -1,0 +1,43 @@
+# INITIAL manifest: paste at api.slack.com/apps -> Create New App -> From a manifest -> YAML.
+# It leaves out event subscriptions, because Slack verifies that URL with a signed request and the relay
+# only gets the Signing Secret after the app exists. Add them later with app-manifest.yml (the full version).
+display_information:
+  name: QA Bot
+  description: Posts Playwright test results and starts test runs from Slack
+  background_color: "#5b5bf0"
+features:
+  app_home:
+    home_tab_enabled: true            # personal dashboard: run button + recent runs
+    messages_tab_enabled: false
+    messages_tab_read_only_enabled: true
+  bot_user:
+    display_name: QA Bot
+    always_online: true
+  slash_commands:
+    - command: /qa-run
+      url: https://qa-run-slack-relay.ct-automation-gs.workers.dev/command
+      description: Run the QA tests
+      usage_hint: "[smoke | full | tag @critical]"
+      should_escape: false
+  shortcuts:
+    - name: Run QA tests              # the ⚡ menu in any channel
+      type: global
+      callback_id: qa_run_shortcut
+      description: Choose environment and suite, then start a run
+oauth_config:
+  scopes:
+    bot:
+      - chat:write          # post results and "run started" messages
+      - commands            # the /qa-run slash command
+      - app_mentions:read   # "@QA Bot run smoke on QA" in plain text
+      - channels:history    # reads channel messages; not used by the relay yet (remove if you want less access)
+      - users:read          # reserved: map Slack users to GitHub / Jira users (not used yet)
+      - users:read.email    # reserved: same, by email (not used yet)
+      - reactions:write     # reserved: add ✅/❌ to result messages (not used yet)
+settings:
+  interactivity:
+    is_enabled: true
+    request_url: https://qa-run-slack-relay.ct-automation-gs.workers.dev/interactivity
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  token_rotation_enabled: false

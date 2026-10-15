@@ -9,8 +9,26 @@ on:
     - cron: '0 3 * * *' # nightly regression run, 03:00 UTC
   workflow_dispatch:
     inputs:
+      environment:
+        description: 'Environment to test (URLs come from repo variables QA_URL, DEV_URL, STAGING_URL, PROD_URL)'
+        required: true
+        default: QA
+        type: choice
+        options:
+          - QA
+          - DEV
+          - STAGING
+          - PROD
+      suite:
+        description: 'Which suite to run (ignored when "grep" is set)'
+        required: true
+        default: Full Regression
+        type: choice
+        options:
+          - Smoke
+          - Full Regression
       base_url:
-        description: 'Override BASE_URL for this run'
+        description: 'Advanced: override the environment URL for this run'
         required: false
         default: ''
       grep:
@@ -21,14 +39,6 @@ on:
         description: 'Who asked for this run (set automatically by the Slack /qa-run command)'
         required: false
         default: ''
-      suite:
-        description: 'Which suite to run when "grep" is not set'
-        required: false
-        default: full
-        type: choice
-        options:
-          - full
-          - smoke
 
 concurrency:
   # manual / Slack-triggered runs get their own group so they never cancel (or get cancelled by) a push run
@@ -40,7 +50,15 @@ permissions:
   pull-requests: write
 
 env:
-  BASE_URL: ${{ github.event.inputs.base_url || vars.BASE_URL || 'https://www.saucedemo.com' }}
+  # Manual runs pick an environment; its URL comes from a repo variable. Falls back to BASE_URL, then the public demo site.
+  BASE_URL: >-
+    ${{ github.event.inputs.base_url
+    || (github.event.inputs.environment == 'QA' && vars.QA_URL)
+    || (github.event.inputs.environment == 'DEV' && vars.DEV_URL)
+    || (github.event.inputs.environment == 'STAGING' && vars.STAGING_URL)
+    || (github.event.inputs.environment == 'PROD' && vars.PROD_URL)
+    || vars.BASE_URL || 'https://www.saucedemo.com' }}
+  TEST_ENV: ${{ github.event.inputs.environment || 'Default' }}
 
 jobs:
   lint:
@@ -96,7 +114,7 @@ jobs:
             echo "grep=@smoke" >> "$GITHUB_OUTPUT"
           elif [ -n "$INPUT_GREP" ]; then
             echo "grep=$INPUT_GREP" >> "$GITHUB_OUTPUT"
-          elif [ "$INPUT_SUITE" = "smoke" ]; then
+          elif [ "$INPUT_SUITE" = "Smoke" ]; then
             echo "grep=@smoke" >> "$GITHUB_OUTPUT"
           else
             echo "grep=" >> "$GITHUB_OUTPUT"
@@ -237,7 +255,8 @@ jobs:
 
   deploy-pages:
     name: Publish Allure report + QA dashboard to GitHub Pages
-    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && needs.report.result == 'success'
+    # Only QA/default runs update the public Allure + dashboard history, so other environments don't skew the trend.
+    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && needs.report.result == 'success' && (github.event.inputs.environment == '' || github.event.inputs.environment == 'QA')
     needs: [test, report]
     runs-on: ubuntu-latest
     permissions:
@@ -307,6 +326,7 @@ jobs:
           ALLURE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
           WORKFLOW_RESULT: ${{ needs.test.result }}
           ACTOR: ${{ github.actor }}
+          SLACK_RUN_FORM: ${{ vars.SLACK_RUN_FORM }}
           WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/workflows/playwright.yml
         run: |
           node scripts/build-dashboard-run.js dashboard-input run.json

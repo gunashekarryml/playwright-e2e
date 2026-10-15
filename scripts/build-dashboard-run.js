@@ -85,6 +85,7 @@ const run = {
   sha: (env.GITHUB_SHA ?? '').slice(0, 7),
   runUrl: env.GITHUB_SERVER_URL ? `${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}` : '',
   baseUrl: env.BASE_URL ?? '',
+  environment: env.TEST_ENV ?? '',
   scope: smoke.total === totals.total ? 'smoke' : 'full',
   ...totals,
   smoke,

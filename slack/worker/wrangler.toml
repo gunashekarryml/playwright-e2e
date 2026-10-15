@@ -9,3 +9,7 @@ WORKFLOW_FILE = "playwright.yml"
 # Optional but recommended: comma-separated Slack IDs (channel starts with C, user with U)
 ALLOWED_CHANNEL_IDS = ""
 ALLOWED_USER_IDS = ""
+# Where "run started" confirmations go when a run is started from App Home or the ⚡ shortcut (a channel ID, starts with C)
+RESULT_CHANNEL_ID = ""
+# Optional: shown as a button on the App Home tab
+DASHBOARD_URL = ""

@@ -231,4 +231,11 @@ Preview locally: `cd dashboard && python3 -m http.server`, then open http://loca
 
 ## Slack
 
-Results are posted to Slack after every run, and `/qa-run smoke|full|tag @x` starts a build from Slack. Setup (incl. where each secret goes): [slack/README.md](slack/README.md).
+Results are posted to Slack after every run, and `/qa-run` opens a Slack form (environment, suite, tag) that starts a build. Setup (incl. where each secret goes): [slack/README.md](slack/README.md).
+
+## Running manually (Actions → Playwright E2E Tests → Run workflow)
+
+- **Use workflow from** (GitHub's built-in dropdown): the branch to run.
+- **environment**: QA / DEV / STAGING / PROD. The URL for each comes from a repo variable (Settings → Secrets and variables → Actions → Variables): `QA_URL`, `DEV_URL`, `STAGING_URL`, `PROD_URL`. If a variable is missing it falls back to `BASE_URL`, then https://www.saucedemo.com.
+- **suite**: Smoke or Full Regression (or give a `grep` tag, which wins).
+- Only QA/default runs on `main` update the published Allure report and dashboard history.

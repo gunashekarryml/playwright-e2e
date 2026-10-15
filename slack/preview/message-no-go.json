@@ -1,0 +1,124 @@
+{
+  "text": "NO-GO: Run #43 — 94.6% pass rate",
+  "attachments": [
+    {
+      "color": "#e01e5a",
+      "blocks": [
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "🔴  NO-GO · Run #43",
+            "emoji": true
+          }
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "*Full regression*  ·  Env *STAGING*  ·  requested by @guna from Slack"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Not ready to release — critical checks failing, a browser is below 90%.*\n🟥🟥🟥🟥🟥🟥🟥🟥🟥⬜  *94.6%* pass rate"
+          }
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "✅ *53* passed    🔴 *3* failed    🟡 *1* flaky    ⏭ *0* skipped    ⏱ *4m 12s*"
+            }
+          ]
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Severity breakdown*\n```Severity  Total   Pass   Fail   Skip\nCritical     12     11      1      0  ◀\nHigh         20     18      2      0  ◀\nMedium       16     16      0      0\nLow           8      8      0      0```"
+          }
+        },
+        {
+          "type": "section",
+          "fields": [
+            {
+              "type": "mrkdwn",
+              "text": "*Features*\n🟡 Checkout *75%*\n🟢 Login & Auth *93.8%*\n🟢 Shopping Cart *100%*\n🟢 Accessibility *100%*"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*Browsers*\n🟢 Chrome 100%\n🔴 Firefox 71.4%\n🟢 Safari 100%\n🟢 Android 100%"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Needs attention*\n🔴 *Checkout* — completes an order end-to-end with valid details  _(Firefox)_\n🟠 *Checkout* — blocks checkout when required fields are missing  _(Safari)_\n🟠 *Login &amp; Auth* — locked out user sees an error  _(Firefox)_"
+          }
+        },
+        {
+          "type": "actions",
+          "elements": [
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "📊 Dashboard",
+                "emoji": true
+              },
+              "url": "https://x/dashboard/",
+              "style": "primary"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "📑 Allure report",
+                "emoji": true
+              },
+              "url": "https://x/"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "⚙️ CI run",
+                "emoji": true
+              },
+              "url": "https://github.com/o/r/actions/runs/1"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "▶️ Run again",
+                "emoji": true
+              },
+              "url": "https://x/run"
+            }
+          ]
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "main @ `1f4ffce`  ·  Thu, 15 Oct 2026 09:24:00 UTC"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -40,7 +40,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['scripts/**/*.js'],
+    files: ['scripts/**/*.js', 'slack/preview/*.js'],
     languageOptions: {
       sourceType: 'commonjs',
       globals: {
@@ -49,6 +49,7 @@ export default tseslint.config(
         process: 'readonly',
         console: 'readonly',
         __dirname: 'readonly',
+        structuredClone: 'readonly',
       },
     },
     rules: {
