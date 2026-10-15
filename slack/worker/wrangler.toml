@@ -1,0 +1,11 @@
+name = "qa-run-slack-relay"
+main = "index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+GITHUB_REPO = "gunashekarryml/playwright-e2e"
+GITHUB_REF = "main"
+WORKFLOW_FILE = "playwright.yml"
+# Optional but recommended: comma-separated Slack IDs (channel starts with C, user with U)
+ALLOWED_CHANNEL_IDS = ""
+ALLOWED_USER_IDS = ""

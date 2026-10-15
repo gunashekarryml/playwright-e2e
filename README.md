@@ -228,3 +228,7 @@ from the live site, appends this run (last 60 kept, built by `scripts/build-dash
 `scripts/update-dashboard-history.js`) and deploys both together. No extra repo or token needed.
 
 Preview locally: `cd dashboard && python3 -m http.server`, then open http://localhost:8000.
+
+## Slack
+
+Results are posted to Slack after every run, and `/qa-run smoke|full|tag @x` starts a build from Slack. Setup (incl. where each secret goes): [slack/README.md](slack/README.md).

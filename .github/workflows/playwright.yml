@@ -17,6 +17,10 @@ on:
         description: 'Only run tests whose title matches this pattern (overrides "suite" below)'
         required: false
         default: ''
+      requested_by:
+        description: 'Who asked for this run (set automatically by the Slack /qa-run command)'
+        required: false
+        default: ''
       suite:
         description: 'Which suite to run when "grep" is not set'
         required: false
@@ -27,7 +31,8 @@ on:
           - smoke
 
 concurrency:
-  group: playwright-${{ github.workflow }}-${{ github.ref }}
+  # manual / Slack-triggered runs get their own group so they never cancel (or get cancelled by) a push run
+  group: playwright-${{ github.workflow }}-${{ github.ref }}-${{ github.event_name == 'workflow_dispatch' && github.run_id || '' }}
   cancel-in-progress: true
 
 permissions:
@@ -82,25 +87,31 @@ jobs:
 
       - name: Determine test scope
         id: scope
+        env:
+          EVENT: ${{ github.event_name }}
+          INPUT_GREP: ${{ github.event.inputs.grep }}
+          INPUT_SUITE: ${{ github.event.inputs.suite }}
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
+          if [ "$EVENT" = "pull_request" ]; then
             echo "grep=@smoke" >> "$GITHUB_OUTPUT"
-            echo "label=smoke (PR fast gate)" >> "$GITHUB_OUTPUT"
-          elif [ -n "${{ github.event.inputs.grep }}" ]; then
-            echo "grep=${{ github.event.inputs.grep }}" >> "$GITHUB_OUTPUT"
-            echo "label=custom grep: ${{ github.event.inputs.grep }}" >> "$GITHUB_OUTPUT"
-          elif [ "${{ github.event.inputs.suite }}" = "smoke" ]; then
+          elif [ -n "$INPUT_GREP" ]; then
+            echo "grep=$INPUT_GREP" >> "$GITHUB_OUTPUT"
+          elif [ "$INPUT_SUITE" = "smoke" ]; then
             echo "grep=@smoke" >> "$GITHUB_OUTPUT"
-            echo "label=smoke (manual)" >> "$GITHUB_OUTPUT"
           else
             echo "grep=" >> "$GITHUB_OUTPUT"
-            echo "label=full regression" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Run Playwright tests
-        run: npx playwright test --project=${{ matrix.project }} ${{ steps.scope.outputs.grep && format('--grep "{0}"', steps.scope.outputs.grep) || '' }}
         env:
           BASE_URL: ${{ env.BASE_URL }}
+          GREP: ${{ steps.scope.outputs.grep }}
+        run: |
+          if [ -n "$GREP" ]; then
+            npx playwright test --project=${{ matrix.project }} --grep "$GREP"
+          else
+            npx playwright test --project=${{ matrix.project }}
+          fi
 
       - name: Job summary
         if: always()
@@ -268,3 +279,33 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+  notify-slack:
+    name: Notify Slack
+    if: always() && github.event_name != 'pull_request' && needs.test.result != 'cancelled'
+    needs: [test, deploy-pages]
+    runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      SLACK_CHANNEL_ID: ${{ vars.SLACK_CHANNEL_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download JSON results from all projects
+        if: env.SLACK_WEBHOOK_URL != '' || (env.SLACK_BOT_TOKEN != '' && env.SLACK_CHANNEL_ID != '')
+        uses: actions/download-artifact@v4
+        with:
+          pattern: json-results-*
+          path: dashboard-input
+
+      - name: Post result to Slack
+        if: env.SLACK_WEBHOOK_URL != '' || (env.SLACK_BOT_TOKEN != '' && env.SLACK_CHANNEL_ID != '')
+        env:
+          REQUESTED_BY: ${{ github.event.inputs.requested_by }}
+          DASHBOARD_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/dashboard/
+          ALLURE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+          WORKFLOW_RESULT: ${{ needs.test.result }}
+        run: |
+          node scripts/build-dashboard-run.js dashboard-input run.json
+          node scripts/notify-slack.js run.json
