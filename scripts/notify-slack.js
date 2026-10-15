@@ -15,7 +15,7 @@ if (!(botToken && channel) && !webhook) {
 }
 
 const run = JSON.parse(fs.readFileSync(process.argv[2] ?? 'run.json', 'utf8'));
-const { DASHBOARD_URL, ALLURE_URL, REQUESTED_BY, WORKFLOW_RESULT } = process.env;
+const { DASHBOARD_URL, ALLURE_URL, REQUESTED_BY, WORKFLOW_RESULT, ACTOR, WORKFLOW_URL } = process.env;
 const sev = run.severity ?? {};
 const critOrHigh = (sev.critical?.failed ?? 0) + (sev.high?.failed ?? 0);
 const smokeFailed = run.smoke?.failed ?? 0;
@@ -35,7 +35,9 @@ if (WORKFLOW_RESULT === 'failure' && run.failed === 0 && run.total === 0) {
 
 const esc = (t) => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const mins = Math.round(run.durationMs / 6000) / 10;
-const trigger = REQUESTED_BY ? `Requested by *${esc(REQUESTED_BY)}* from Slack` : `Trigger: ${esc(run.event)}`;
+const trigger = REQUESTED_BY ? `Requested by *${esc(REQUESTED_BY)}* from Slack`
+  : run.event === 'workflow_dispatch' ? `Started manually by *${esc(ACTOR ?? 'someone')}*`
+  : `Trigger: ${{ schedule: 'nightly schedule', push: 'merge to main' }[run.event] ?? esc(run.event)}`;
 
 const failures = (run.failedTests ?? []).slice(0, 5)
   .map((f) => `• [${esc(f.severity ?? 'medium')}] ${esc(f.feature)} › ${esc(f.title)} (${esc(f.project)})`).join('\n');
@@ -61,6 +63,8 @@ if (sev.critical) {
 }
 if (failures) blocks.push({ type: 'section', text: { type: 'mrkdwn', text: `*Failing checks*\n${failures}` } });
 if (links) blocks.push({ type: 'context', elements: [{ type: 'mrkdwn', text: links }] });
+// Link button: opens GitHub's "Run workflow" page (choose smoke / full / tag). No Slack interactivity or server needed.
+if (WORKFLOW_URL) blocks.push({ type: 'actions', elements: [{ type: 'button', text: { type: 'plain_text', text: '▶ Run again' }, url: WORKFLOW_URL }] });
 
 const payload = { text: `${status}: ${run.passRate}% pass rate`, blocks };
 

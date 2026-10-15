@@ -20,6 +20,13 @@ Two independent pieces. Neither needs a secret to be committed or shared.
 
 You type each one only into the secret store's own prompt/field.
 
+## Simplest way to start a build from Slack (no server, no extra secrets)
+Every result message has a **▶ Run again** button that opens GitHub's *Run workflow* page for this repo:
+pick `suite` = smoke or full (or type a `grep` tag) and click **Run workflow**. The result then posts back to the channel,
+naming who started it. For a first run, pin the same link in the channel (channel → Bookmarks → Add a link):
+`https://github.com/gunashekarryml/playwright-e2e/actions/workflows/playwright.yml`.
+It needs GitHub access, which is also the permission control. Use the `/qa-run` relay below only if people without GitHub access must start runs.
+
 ## Already have a bot token and channel ID?
 Use these instead of a webhook (step 1 below becomes optional):
 1. Token must start with `xoxb-` (Bot User OAuth Token) and the app needs the `chat:write` scope; run `/invite @YourBot` in the channel.
