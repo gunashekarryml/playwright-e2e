@@ -23,6 +23,7 @@ function collectSpecs(suite, specs = []) {
   return specs;
 }
 
+const ANSI = new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, 'g'); // terminal colour codes in error messages
 const blank = () => ({ total: 0, passed: 0, failed: 0, flaky: 0, skipped: 0 });
 const bump = (b, status) => {
   b.total++;
@@ -33,10 +34,14 @@ const bump = (b, status) => {
 };
 
 const totals = blank();
+const smoke = blank(); // tests tagged @smoke
+const SEVERITIES = ['critical', 'high', 'medium', 'low'];
+const severity = Object.fromEntries(SEVERITIES.map((k) => [k, blank()]));
 const features = {};
 const projects = {};
 const flakyTests = [];
 const failedTests = [];
+const testMap = {}; // one row per spec, with a result per browser
 let durationMs = 0;
 let startTime = null;
 
@@ -48,14 +53,22 @@ for (const file of findJson(dir)) {
     const feature = path.basename(spec.file).replace(/\.spec\.ts$/, '');
     for (const t of spec.tests ?? []) {
       const status = t.status; // expected | unexpected | flaky | skipped
+      const isSmoke = (spec.tags ?? []).includes('smoke');
+      const sev = SEVERITIES.find((k) => (spec.tags ?? []).includes(k)) ?? 'medium'; // untagged tests count as medium
       bump(totals, status);
-      bump((features[feature] ??= blank()), status);
+      bump(severity[sev], status);
+      if (isSmoke) bump(smoke, status);
+      const f = (features[feature] ??= { ...blank(), smoke: blank() });
+      bump(f, status);
+      if (isSmoke) bump(f.smoke, status);
       bump((projects[t.projectName] ??= blank()), status);
-      const entry = { title: spec.title, file: spec.file, project: t.projectName, feature };
+      const row = (testMap[`${spec.file}::${spec.title}`] ??= { title: spec.title, feature, smoke: isSmoke, severity: sev, results: {} });
+      row.results[t.projectName] = [status, t.results.reduce((n, r) => n + (r.duration ?? 0), 0)];
+      const entry = { title: spec.title, file: spec.file, project: t.projectName, feature, severity: sev };
       if (status === 'flaky') flakyTests.push({ ...entry, retries: t.results.length - 1 });
       if (status === 'unexpected') {
         const err = t.results.at(-1)?.error?.message ?? '';
-        failedTests.push({ ...entry, error: err.replace(/\u001b\[[0-9;]*m/g, '').split('\n')[0].slice(0, 240) });
+        failedTests.push({ ...entry, error: err.replace(ANSI, '').split('\n')[0].slice(0, 240) });
       }
     }
   }
@@ -72,13 +85,17 @@ const run = {
   sha: (env.GITHUB_SHA ?? '').slice(0, 7),
   runUrl: env.GITHUB_SERVER_URL ? `${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}` : '',
   baseUrl: env.BASE_URL ?? '',
+  scope: smoke.total === totals.total ? 'smoke' : 'full',
   ...totals,
+  smoke,
+  severity,
   durationMs,
   passRate: executed ? Math.round(((totals.passed + totals.flaky) / executed) * 1000) / 10 : 0,
   features,
   projects,
   flakyTests,
   failedTests,
+  tests: Object.values(testMap),
 };
 
 fs.writeFileSync(out, JSON.stringify(run, null, 2));

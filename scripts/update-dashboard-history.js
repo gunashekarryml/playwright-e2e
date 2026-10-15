@@ -5,12 +5,14 @@ const fs = require('fs');
 
 const [runPath, historyPath] = process.argv.slice(2);
 const MAX_RUNS = 60;
+const KEEP_TESTS = 3;
 
 const run = JSON.parse(fs.readFileSync(runPath, 'utf8'));
 let history = [];
 if (fs.existsSync(historyPath)) {
   try { history = JSON.parse(fs.readFileSync(historyPath, 'utf8')); } catch { history = []; }
 }
-history = [run, ...history.filter((r) => r.id !== run.id)].slice(0, MAX_RUNS);
+history = [run, ...history.filter((r) => r.id !== run.id)].slice(0, MAX_RUNS)
+  .map((r, i) => (i < KEEP_TESTS || !r.tests ? r : { ...r, tests: undefined })); // per-test detail only for recent runs
 fs.writeFileSync(historyPath, JSON.stringify(history, null, 2));
 console.log(`History now holds ${history.length} runs.`);

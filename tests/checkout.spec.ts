@@ -12,7 +12,7 @@ test.describe('Checkout', () => {
     await inventoryPage.goToCart();
   });
 
-  test('completes an order end-to-end with valid details', { tag: '@smoke' }, async ({ cartPage, checkoutPage }) => {
+  test('completes an order end-to-end with valid details', { tag: ['@smoke', '@critical'] }, async ({ cartPage, checkoutPage }) => {
     await cartPage.checkout();
     await checkoutPage.fillCustomerInfo(customer.firstName, customer.lastName, customer.postalCode);
 
@@ -23,7 +23,7 @@ test.describe('Checkout', () => {
     await checkoutPage.expectOrderComplete();
   });
 
-  test('blocks checkout when required fields are missing', async ({ cartPage, checkoutPage }) => {
+  test('blocks checkout when required fields are missing', { tag: '@high' }, async ({ cartPage, checkoutPage }) => {
     await cartPage.checkout();
     await checkoutPage.fillCustomerInfo('', '', '');
     await checkoutPage.expectValidationError('First Name is required');

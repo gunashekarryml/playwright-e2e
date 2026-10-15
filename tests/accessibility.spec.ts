@@ -11,7 +11,7 @@ function expectNoBlockingViolations(results: AxeResults) {
 }
 
 test.describe('Accessibility', () => {
-  test('login page has no critical or serious a11y violations', async ({ page, loginPage }) => {
+  test('login page has no critical or serious a11y violations', { tag: '@medium' }, async ({ page, loginPage }) => {
     await loginPage.goto();
     expectNoBlockingViolations(await new AxeBuilder({ page }).analyze());
   });
@@ -19,12 +19,12 @@ test.describe('Accessibility', () => {
   test.describe('authenticated pages', () => {
     test.use({ storageState: STANDARD_USER_STORAGE_STATE });
 
-    test('inventory page has no critical or serious a11y violations', async ({ page, inventoryPage }) => {
+    test('inventory page has no critical or serious a11y violations', { tag: '@medium' }, async ({ page, inventoryPage }) => {
       await inventoryPage.goto();
       expectNoBlockingViolations(await new AxeBuilder({ page }).analyze());
     });
 
-    test('cart page has no critical or serious a11y violations', async ({ page, inventoryPage, cartPage }) => {
+    test('cart page has no critical or serious a11y violations', { tag: '@low' }, async ({ page, inventoryPage, cartPage }) => {
       await inventoryPage.goto();
       await inventoryPage.addItemToCartByName('Sauce Labs Backpack');
       await inventoryPage.goToCart();
@@ -32,7 +32,7 @@ test.describe('Accessibility', () => {
       expectNoBlockingViolations(await new AxeBuilder({ page }).analyze());
     });
 
-    test('checkout page has no critical or serious a11y violations', async ({ page, inventoryPage, cartPage }) => {
+    test('checkout page has no critical or serious a11y violations', { tag: '@medium' }, async ({ page, inventoryPage, cartPage }) => {
       await inventoryPage.goto();
       await inventoryPage.addItemToCartByName('Sauce Labs Backpack');
       await inventoryPage.goToCart();
