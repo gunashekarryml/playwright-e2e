@@ -255,8 +255,13 @@ jobs:
 
   deploy-pages:
     name: Publish Allure report + QA dashboard to GitHub Pages
-    # Only QA/default runs update the public Allure + dashboard history, so other environments don't skew the trend.
-    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && needs.report.result == 'success' && (github.event.inputs.environment == '' || github.event.inputs.environment == 'QA')
+    # Every environment's run is recorded in the dashboard history (it filters by environment, and opens on QA).
+    # Note: the Allure report at the site root is whichever run published last.
+    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && needs.report.result == 'success'
+    # Serialize publishing: each run downloads the history file, adds itself, and re-uploads it, so overlapping runs must queue.
+    concurrency:
+      group: pages-publish
+      cancel-in-progress: false
     needs: [test, report]
     runs-on: ubuntu-latest
     permissions:
