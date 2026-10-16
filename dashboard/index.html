@@ -245,10 +245,90 @@ dialog{border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.5)}
   .chart circle:hover{filter:drop-shadow(0 0 6px var(--brand))}
 }
 .btn:focus-visible,.feat:focus-visible,.seg button:focus-visible,summary:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+/* ===== v2: toolbar, heatmap, matrix, explorer, skeleton, toast, print brief ===== */
+.toolbar{display:flex;gap:10px 14px;align-items:center;flex-wrap:wrap;margin:0 0 14px}
+.toolbar .tb-note{color:var(--text-faint);font-size:12.5px}
+.toolbar .hint{margin-left:auto;color:var(--text-faint);font-size:12px}
+kbd{font:600 11px var(--mono);background:var(--surface-2);border:1px solid var(--border);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--text-dim)}
+.fresh{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:8px;background:var(--surface);border:1px solid var(--border);font-size:12.5px}
+.fresh::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.fresh-good{--c:var(--good)}.fresh-warn{--c:var(--warn)}.fresh-bad{--c:var(--bad)}
+.muted-sm{color:var(--text-faint);font-size:12.5px}
+.link{background:none;border:0;padding:0;color:inherit;font:inherit;font-weight:550;text-align:left;cursor:pointer}
+.link:hover{color:var(--brand)}
+.clickable{cursor:pointer;border-radius:8px}.clickable:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+.filters input,.filters select{background:var(--surface-2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 10px;font:500 13px var(--sans)}
+.filters input{flex:1 1 220px;min-width:180px}
+.filters input:focus,.filters select:focus{outline:2px solid var(--brand);outline-offset:1px}
+.exp-foot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:var(--text-faint);font-size:12.5px}
+
+/* heatmap */
+.hm-scroll{overflow-x:auto;padding-bottom:4px}
+.hm-row{display:flex;align-items:center;gap:12px;padding:3px 0;min-width:max-content}
+.hm-name{flex:0 0 340px;max-width:340px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+.hm-cells{display:flex;gap:3px}
+.hm{width:15px;height:22px;border:0;padding:0;border-radius:4px;cursor:pointer;background:var(--surface-2)}
+.hm-expected{background:color-mix(in srgb,var(--good) 70%,transparent)}.hm-flaky{background:var(--warn)}.hm-unexpected{background:var(--bad)}.hm-skipped{background:var(--text-faint);opacity:.45}.hm-none{background:var(--surface-2);border:1px dashed var(--border)}
+.hm:hover{transform:scale(1.25);position:relative;z-index:2}
+.hm-axis{display:flex;justify-content:space-between;color:var(--text-faint);font-size:11.5px;margin:6px 0 0 352px;min-width:max-content}
+
+/* browser matrix */
+.mx{display:grid;gap:6px;align-items:center;font-size:13px}
+.mx-h{color:var(--text-faint);font-size:12px;font-weight:600;text-align:center}
+.mx-r{font-weight:600}
+.mx-c{text-align:center;padding:10px 6px;border-radius:10px;font-weight:700;font-variant-numeric:tabular-nums}
+.mx-c.t-good{background:var(--good-soft);color:var(--good)}.mx-c.t-warn{background:var(--warn-soft);color:var(--warn)}.mx-c.t-bad{background:var(--bad-soft);color:var(--bad)}.mx-c.t-mute{background:var(--surface-2);color:var(--text-faint)}
+.mx-c.weak{outline:2px solid currentColor;outline-offset:1px}
+
+/* failure causes */
+.legend i.sq{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+.cause{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:6px;background:var(--surface-2)}
+.cause::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--c)}
+.errbox{font:12px/1.5 var(--mono);background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;white-space:pre-wrap;word-break:break-word;color:var(--text-dim)}
+.dlg-sec{margin:16px 0 8px;font-size:12px;font-weight:650;color:var(--text-faint);text-transform:uppercase;letter-spacing:.05em}
+.short li{margin:6px 0}.short{padding-left:0;list-style:none}
+
+/* skeleton, toast */
+.skel{display:grid;gap:14px}.skel div{border-radius:14px;background:linear-gradient(90deg,var(--surface) 25%,var(--surface-2) 50%,var(--surface) 75%);background-size:200% 100%;animation:skel 1.4s infinite linear;border:1px solid var(--border)}
+@keyframes skel{to{background-position:-200% 0}}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:13px;font-weight:550;opacity:0;pointer-events:none;transition:.25s;z-index:80}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+.print-only{display:none}
+
+.grid>*{min-width:0}.item>div:first-child{min-width:0;flex:1}.item .pill{flex:none}.item .s,.item .t{overflow-wrap:anywhere}.mx-h{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* filters: env counts, custom dates, period summary */
+.seg{flex-wrap:wrap}.seg button.nodata{opacity:.5}.seg button.nodata[aria-pressed="true"]{opacity:.85}
+.daterange{display:inline-flex;align-items:center;gap:8px}
+.daterange input{background:var(--surface-2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:5px 8px;font:500 12.5px var(--sans)}
+.daterange input:focus{outline:2px solid var(--brand);outline-offset:1px}
+.tb-summary{margin:-4px 0 16px;color:var(--text-dim);font-size:13px}.tb-summary b{font-weight:650}
+/* mobile pass */
+@media(max-width:700px){
+  .mx{font-size:12px;gap:4px}.mx-h{font-size:10.5px}.mx-c{padding:8px 2px}
+  .wrap{padding:16px 12px 48px!important}
+  .actions{width:100%;justify-content:flex-start}.actions .muted-sm{display:none}
+  .toolbar .hint{display:none}.daterange{width:100%}.daterange input{flex:1}
+  .hm-name{flex-basis:170px;max-width:170px}.hm-axis{margin-left:182px}
+  dialog{width:96vw;border-radius:14px}
+  .g-kpi{grid-template-columns:repeat(2,1fr)}
+  .v-body h2{font-size:18px}
+  .filters input{flex-basis:100%}
+}
+/* printable release brief: only the key sections, on a light theme */
+@media print{
+  body.print-brief::before{display:none}
+  body.print-brief .wrap>*:not([data-print]){display:none!important}
+  body.print-brief .print-only{display:block;margin-bottom:12px}
+  body.print-brief .top .actions,body.print-brief .toolbar{display:none!important}
+  body.print-brief .card{break-inside:avoid;box-shadow:none}
+}
 </style>
 </head>
 <body>
-<div class="wrap" id="app"><p style="color:var(--text-faint)">Loading dashboard…</p></div>
+<div class="wrap" id="app"><div class="skel" aria-busy="true" aria-label="Loading dashboard"><div style="height:56px"></div><div style="height:260px"></div><div style="height:130px"></div><div style="height:240px"></div></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
 <div class="tip" id="tip"></div>
 <dialog id="dlg"><div class="dlg-h"><h2 id="dlg-t" style="margin:0;font-size:18px"></h2><button class="btn" id="dlg-x">Close ✕</button></div><div class="dlg-b" id="dlg-b"></div></dialog>
 <script>
@@ -416,8 +496,8 @@ function severityHtml(run) {
 const STATUS = { expected: 'Passed', flaky: 'Flaky', unexpected: 'Failed', skipped: 'Skipped' };
 const worst = (t) => { const v = Object.values(t.results).map((x) => x[0]); return v.includes('unexpected') ? 'unexpected' : v.includes('flaky') ? 'flaky' : v.every((x) => x === 'skipped') ? 'skipped' : 'expected'; };
 const key = (t) => `${t.feature}|${t.title}`;
-function changesHtml(runs) {
-  const a = runs[0], b = runs.slice(1).find((r) => isFull(r) === isFull(a)) ?? runs[1];
+const defaultPair = (runs) => { const a = runs[0]; return [a, runs.slice(1).find((r) => isFull(r) === isFull(a)) ?? runs[1]]; };
+function diffHtml(a, b) {
   if (!b) return '<div class="empty">Comparison appears after the second run.</div>';
   const chip = (k, cur, prev, unit, goodUp, fmtv = (x) => x) => {
     if (cur === null || prev === null) return `<div class="dl"><div class="k">${k}</div><div class="x">${cur === null ? '–' : fmtv(cur)}</div><div class="y c-faint">—</div></div>`;
@@ -450,15 +530,29 @@ function changesHtml(runs) {
   // feature movement
   const moves = Object.entries(a.features).map(([k, f]) => [k, rate(f), b.features[k] ? rate(b.features[k]) : null]).filter(([, x, y]) => x !== null && y !== null && x !== y);
   if (moves.length) html += `<div class="chg-h"><span>Feature movement</span></div><div class="chips">${moves.map(([k, x, y]) => `<span class="chip">${esc(nice(k))} <b class="${x > y ? 'c-good' : 'c-bad'}">${x > y ? '▲' : '▼'} ${Math.abs(Math.round((x - y) * 10) / 10)} pts</b></span>`).join('')}</div>`;
+  if (a.tests && b.tests) { // checks that got noticeably slower
+    const prevT = Object.fromEntries(b.tests.map((t) => [key(t), t])), mx = (t) => Math.max(...Object.values(t.results).map((x) => x[1]));
+    const slower = a.tests.map((t) => [t, prevT[key(t)]]).filter(([, o]) => o).map(([t, o]) => [t, mx(o), mx(t)]).filter(([, p, c]) => c > p * 1.3 && c - p >= 500).sort((x, y) => (y[2] - y[1]) - (x[2] - x[1]));
+    if (slower.length) {
+      any = true;
+      html += `<div class="chg-h"><span>Slower checks</span><span class="c-warn">${slower.length}</span></div>` + slower.slice(0, 4).map(([t, p, c]) => `<div class="chg">${sevPill(t.severity ?? 'medium')}<span><b>${esc(nice(t.feature))}</b> — ${esc(t.title)}<span style="color:var(--text-faint);font-size:12px;display:block">${(p / 1000).toFixed(1)}s → ${(c / 1000).toFixed(1)}s (+${Math.round((c / p - 1) * 100)}%)</span></span></div>`).join('');
+    }
+  }
   if (!any && !moves.length) html += `<div class="empty">No status changes — behaves exactly as in the previous ${isFull(b) ? 'full' : 'smoke'} run.</div>`;
   else if (!a.tests || !b.tests) html += '<div class="s" style="color:var(--text-faint);font-size:12px;margin-top:12px">Check-level changes appear once two runs with detailed results exist.</div>';
   return html;
 }
-function slowHtml(run) {
-  const rows = (run.tests ?? []).map((t) => [t, Math.max(...Object.values(t.results).map((x) => x[1]))]).sort((x, y) => y[1] - x[1]).slice(0, 5);
+function slowHtml(run, runs) {
+  const mx = (t) => Math.max(...Object.values(t.results).map((x) => x[1]));
+  const rows = (run.tests ?? []).map((t) => [t, mx(t)]).sort((x, y) => y[1] - x[1]).slice(0, 5);
   if (!rows.length) return '<div class="empty">Timing detail appears after the next CI run.</div>';
   const max = rows[0][1] || 1;
-  return rows.map(([t, ms]) => `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;gap:10px"><span>${esc(nice(t.feature))} — ${esc(t.title)}</span><b class="num">${(ms / 1000).toFixed(1)}s</b></div><div class="bar" style="margin-top:6px"><div class="bg-good" style="width:${(ms / max) * 100}%;background:linear-gradient(90deg,var(--brand),var(--brand-2))"></div></div></div>`).join('');
+  return rows.map(([t, ms]) => {
+    const series = [...runs].reverse().map((r) => { const x = IDX.get(r)?.get(key(t)); return x ? mx(x) : null; }).filter((x) => x !== null);
+    const prev = series.length > 1 ? series[series.length - 2] : null, d = prev ? Math.round((ms / prev - 1) * 100) : null;
+    return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;gap:10px"><span>${esc(nice(t.feature))} — ${esc(t.title)}</span><b class="num">${(ms / 1000).toFixed(1)}s</b></div><div class="bar" style="margin-top:6px"><div class="bg-good" style="width:${(ms / max) * 100}%"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:12px;color:var(--text-faint)"><span class="${d > 10 ? 'c-bad' : d < -10 ? 'c-good' : ''}">${d === null ? 'First measurement' : d === 0 ? 'No change vs previous run' : `${d > 0 ? '▲' : '▼'} ${Math.abs(d)}% vs previous run`}</span><span style="width:110px;height:26px">${spark(series, 'brand')}</span></div></div>`;
+  }).join('');
 }
 function runHtml(r) {
   const p = rate(r), f = Object.entries(r.features ?? {});
@@ -482,6 +576,231 @@ function openFeature(full, k) {
   d.showModal();
 }
 
+/* ---- v2: filters, history, failure causes ---- */
+const view = { range: 'all', env: 'all', from: '', to: '' };      // toolbar filters (re-render everything). env: 'all' or "QA,STAGING"
+const PRESETS = [['1', '24h'], ['7', '7d'], ['14', '14d'], ['30', '30d'], ['90', '90d'], ['all', 'All'], ['custom', 'Custom']];
+const iso = (ms) => { const d = new Date(ms); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const exp = { q: '', sev: 'all', feat: 'all', browser: 'all', status: 'all', limit: 40 }; // check explorer filters
+let ALL = [], VIEW_RUNS = [], IDX = new Map(), CUR = { full: null, fullIdx: 0 }, envExplicit = false;
+(() => {
+  const p = new URLSearchParams(location.search);
+  if (!p.has('range') && !p.has('env')) { try { Object.assign(view, JSON.parse(localStorage.getItem('qa-filters') ?? '{}')); } catch {} } // remembered from last visit
+  for (const k of Object.keys(view)) if (p.has(k)) view[k] = p.get(k);
+  envExplicit = p.has('env') || (() => { try { return 'env' in JSON.parse(localStorage.getItem('qa-filters') ?? '{}'); } catch { return false; } })();
+  for (const k of ['q', 'sev', 'feat', 'browser', 'status']) if (p.has(k)) exp[k] = p.get(k);
+})();
+function syncUrl() { // keeps the URL shareable: "?range=30&env=QA&sev=high&status=failed"
+  const p = new URLSearchParams();
+  try { localStorage.setItem('qa-filters', JSON.stringify(view)); } catch {}
+  if (view.env === 'all' && defaultEnv() !== 'all') p.set('env', 'all'); // an explicit "All environments" must survive a shared link
+  for (const [k, v] of Object.entries({ ...view, from: view.range === 'custom' ? view.from : '', to: view.range === 'custom' ? view.to : '', q: exp.q, sev: exp.sev, feat: exp.feat, browser: exp.browser, status: exp.status })) if (v && v !== 'all') p.set(k, v);
+  try { history.replaceState(null, '', p.toString() ? `?${p}` : location.pathname); } catch {}
+}
+const KNOWN_ENVS = ['QA', 'DEV', 'STAGING', 'PROD']; // the environments the run workflow and Slack form offer
+const envOf = (r) => (!r.environment || r.environment === 'Default' ? 'QA' : r.environment); // unnamed runs (push / nightly) are QA runs
+const defaultEnv = () => { const e = new Set(ALL.map(envOf)); return e.size > 1 && e.has('QA') ? 'QA' : 'all'; }; // open on QA so other environments don't skew trends and the verdict
+const envList = () => [...KNOWN_ENVS, ...[...new Set(ALL.map(envOf))].filter((e) => !KNOWN_ENVS.includes(e)).sort()]; // known first, then any others found in the data
+const envSel = () => (view.env === 'all' ? null : view.env.split(','));
+const envMatch = (r) => { const e = envSel(); return !e || e.includes(envOf(r)); };
+const windowOf = () => { // [startMs, endMs], or null for "all time"
+  if (view.range === 'all') return null;
+  if (view.range === 'custom') return [view.from ? new Date(`${view.from}T00:00:00`).getTime() : -Infinity, view.to ? new Date(`${view.to}T23:59:59.999`).getTime() : Infinity];
+  return [Date.now() - Number(view.range) * 864e5, Date.now()];
+};
+const inWin = (r, w) => !w || (new Date(r.date).getTime() >= w[0] && new Date(r.date).getTime() <= w[1]);
+const inView = () => { const w = windowOf(); return ALL.filter((r) => envMatch(r) && inWin(r, w)); };
+const prevWindow = (w) => (w && isFinite(w[0]) && isFinite(w[1]) ? [w[0] - (w[1] - w[0]), w[0]] : null);
+const filterLabel = () => `${view.env === 'all' ? 'All environments' : view.env.split(',').join(' + ')} · ${view.range === 'all' ? 'all time' : view.range === 'custom' ? `${view.from || '…'} → ${view.to || 'now'}` : `last ${PRESETS.find((x) => x[0] === view.range)?.[1] ?? view.range}`}`;
+function periodNote(runs) {
+  if (!runs.length) return 'No runs in this view';
+  const avg = (rs) => { const v = rs.map(rate).filter((x) => x !== null); return v.length ? Math.round((v.reduce((x, y) => x + y, 0) / v.length) * 10) / 10 : null; };
+  const day = (r) => new Date(r.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  const cur = avg(runs), pw = prevWindow(windowOf()), prevRuns = pw ? ALL.filter((r) => envMatch(r) && inWin(r, pw)) : [], prev = avg(prevRuns);
+  const d = cur !== null && prev !== null ? Math.round((cur - prev) * 10) / 10 : null;
+  return `<b>${runs.length}</b> run${runs.length === 1 ? '' : 's'} · ${day(runs[runs.length - 1])}${runs.length > 1 ? ` – ${day(runs[0])}` : ''} · avg pass rate <b class="c-${tone(cur)}">${pct(cur)}</b>` +
+    (d === null ? (pw ? ' · <span>no runs in the previous period to compare</span>' : '') : ` · <b class="${d >= 0 ? 'c-good' : 'c-bad'}">${d === 0 ? 'no change' : `${d > 0 ? '▲' : '▼'} ${Math.abs(d)} pts`}</b> vs previous period (${prevRuns.length} run${prevRuns.length === 1 ? '' : 's'})`);
+}
+const buildIdx = (runs) => { IDX = new Map(runs.map((r) => [r, new Map((r.tests ?? []).map((t) => [key(t), t]))])); };
+const histOf = (runs, k) => [...runs].reverse().map((r) => { const t = IDX.get(r)?.get(k); return t ? worst(t) : null; });
+const strip = (arr) => `<span class="dots">${arr.map((s) => `<i class="dot ${s ?? 'none'}"></i>`).join('')}</span>`;
+const ago = (d) => { const m = Math.round((Date.now() - new Date(d)) / 60000); return m < 1 ? 'just now' : m < 60 ? `${m}m ago` : m < 2880 ? `${Math.round(m / 60)}h ago` : `${Math.round(m / 1440)}d ago`; };
+const freshTone = (d) => { const h = (Date.now() - new Date(d)) / 36e5; return h < 26 ? 'good' : h < 72 ? 'warn' : 'bad'; }; // nightly cadence: >26h is late
+const ST = { expected: ['good', 'Passed'], flaky: ['warn', 'Flaky'], unexpected: ['bad', 'Failed'], skipped: ['mute', 'Skipped'], none: ['mute', 'Not run'] };
+const toast = (m) => { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2400); };
+
+// Failure cause is estimated from the error text unless the run data carries an explicit `cause`.
+const CAUSE = { product: ['Product defects', 'var(--brand)'], test: ['Test issues', 'var(--warn)'], env: ['Environment', '#14b8a6'] };
+function causeOf(f) {
+  if (f.cause && CAUSE[f.cause]) return f.cause;
+  const e = f.error ?? '';
+  if (/net::|ECONN|ENOTFOUND|ETIMEDOUT|EAI_AGAIN|socket hang up|ERR_|\b50[234]\b|certificate|fetch failed|DNS/i.test(e)) return 'env';
+  if (/strict mode violation|waiting for (locator|selector|getBy)|locator\.|not attached|detached|is not a function|TypeError|ReferenceError|Cannot read|Test timeout of|selector/i.test(e)) return 'test';
+  return 'product';
+}
+const wk = (d) => { const x = new Date(d); x.setHours(0, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x.getTime(); };
+function causesHtml(runs) {
+  const weeks = new Map();
+  for (const r of runs) { const o = weeks.get(wk(r.date)) ?? { product: 0, test: 0, env: 0 }; for (const f of r.failedTests ?? []) o[causeOf(f)]++; weeks.set(wk(r.date), o); }
+  const rows = [...weeks.entries()].sort((a, b) => a[0] - b[0]).slice(-8);
+  const tot = (o) => o.product + o.test + o.env;
+  if (!rows.some(([, o]) => tot(o))) return '<div class="empty">No failures in this period. 🎉</div>';
+  const W = 560, H = 230, L = 26, T = 22, B = 28, slot = (W - L) / rows.length, bw = Math.min(46, slot * 0.62), max = Math.max(1, ...rows.map(([, o]) => tot(o)));
+  const bars = rows.map(([w, o], i) => {
+    const x = L + slot * (i + 0.5) - bw / 2; let y = H - B;
+    const segs = ['product', 'test', 'env'].filter((k) => o[k]).map((k) => { const h = ((H - T - B) * o[k]) / max; y -= h; return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="3" fill="${CAUSE[k][1]}" data-tip="${esc(`${CAUSE[k][0]} · week of ${new Date(w).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} · ${o[k]}`)}"/>`; }).join('');
+    return `${segs}<text x="${(x + bw / 2).toFixed(1)}" y="${(y - 6).toFixed(1)}" text-anchor="middle" style="fill:var(--text-dim);font-weight:600">${tot(o)}</text><text x="${(x + bw / 2).toFixed(1)}" y="${H - 8}" text-anchor="middle">${new Date(w).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</text>`;
+  }).join('');
+  return `<div class="legend">${Object.values(CAUSE).map(([n, c]) => `<span><i class="sq" style="background:${c}"></i>${n}</span>`).join('')}</div>
+    <svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Failed checks by cause, per week">${bars}</svg>
+    <div class="s" style="color:var(--text-faint);font-size:12px;margin-top:6px">Cause is estimated from the error message (network → environment, selector/timeout → test issue, otherwise product).</div>`;
+}
+
+function flakyBoard(runs) {
+  const m = new Map();
+  for (const r of runs) for (const t of r.tests ?? []) { const k = key(t), o = m.get(k) ?? { k, t, seen: 0, flaky: 0 }; o.seen++; if (worst(t) === 'flaky') o.flaky++; m.set(k, o); }
+  const rows = [...m.values()].filter((o) => o.flaky).sort((a, b) => b.flaky / b.seen - a.flaky / a.seen || b.flaky - a.flaky).slice(0, 8);
+  if (!rows.length) return '<div class="empty">No unstable checks detected in this period.</div>';
+  const fi = VIEW_RUNS.indexOf(CUR.full);
+  return rows.map((o) => { const pc = Math.round((o.flaky / o.seen) * 100); return `<div class="item clickable" role="button" tabindex="0" data-t="${esc(o.k)}" data-ri="${fi}"><div><div class="t">${esc(nice(o.t.feature))} — ${esc(o.t.title)}</div><div class="s">Flaky in ${o.flaky} of ${o.seen} runs · ${pc}%</div><div style="margin-top:6px">${strip(histOf(runs, o.k))}</div></div><span class="pill ${pc >= 30 ? 'bad' : 'warn'}">${pc >= 30 ? 'High' : 'Medium'}</span></div>`; }).join('');
+}
+
+function heatHtml(runs) {
+  const cols = runs.filter((r) => r.tests).slice(0, 20).reverse();
+  if (!cols.length) return '<div class="empty">The heatmap appears once runs include check-level results.</div>';
+  const keys = new Map();
+  for (const r of [...cols].reverse()) for (const t of r.tests) if (!keys.has(key(t))) keys.set(key(t), t);
+  const rows = [...keys.entries()].map(([k, t]) => { const h = cols.map((r) => { const x = IDX.get(r).get(k); return x ? worst(x) : null; }); return { k, t, h, bad: h.filter((x) => x === 'unexpected').length, flk: h.filter((x) => x === 'flaky').length }; })
+    .sort((a, b) => b.bad - a.bad || b.flk - a.flk || a.t.title.localeCompare(b.t.title));
+  const row = (x) => `<div class="hm-row"><button class="hm-name link" data-t="${esc(x.k)}" data-ri="${VIEW_RUNS.indexOf(cols[cols.length - 1])}" title="${esc(x.t.title)}">${sevPill(x.t.severity ?? 'medium')} ${esc(nice(x.t.feature))} — ${esc(x.t.title)}</button>
+    <span class="hm-cells">${x.h.map((s, i) => `<button class="hm hm-${s ?? 'none'}" data-t="${esc(x.k)}" data-ri="${VIEW_RUNS.indexOf(cols[i])}" data-tip="${esc(`Run #${cols[i].runNumber} · ${ST[s ?? 'none'][1]}`)}" aria-label="Run ${esc(cols[i].runNumber)}: ${ST[s ?? 'none'][1]}"></button>`).join('')}</span></div>`;
+  const issues = rows.filter((x) => x.bad || x.flk), rest = rows.filter((x) => !x.bad && !x.flk);
+  const axis = `<div class="hm-axis"><span>Run #${esc(cols[0].runNumber)}</span><span>Run #${esc(cols[cols.length - 1].runNumber)}</span></div>`;
+  return `<div class="legend"><span><i class="dot expected"></i>Passed</span><span><i class="dot flaky"></i>Flaky</span><span><i class="dot unexpected"></i>Failed</span><span><i class="dot none"></i>Not in run</span></div>
+    <div class="hm-scroll">${issues.length ? issues.map(row).join('') : '<div class="empty">Every check passed in every run. 🎉</div>'}${axis}
+    ${rest.length ? `<details class="gdet"><summary>Show ${rest.length} check${rest.length > 1 ? 's' : ''} that always passed ▾</summary><div style="margin-top:8px">${rest.slice(0, 60).map(row).join('')}</div></details>` : ''}</div>`;
+}
+
+function matrixHtml(full) {
+  if (!full.tests?.length) return '<div class="empty">The matrix appears once runs include check-level results.</div>';
+  const projects = Object.keys(full.projects), feats = Object.keys(full.features);
+  const cell = (f, p) => { const ts = full.tests.filter((t) => t.feature === f && t.results[p] && t.results[p][0] !== 'skipped'); if (!ts.length) return null; const bad = ts.filter((t) => t.results[p][0] === 'unexpected').length; return { p: Math.round(((ts.length - bad) / ts.length) * 1000) / 10, n: ts.length, bad }; };
+  const data = feats.map((f) => projects.map((p) => cell(f, p)));
+  const min = Math.min(100, ...data.flat().filter(Boolean).map((c) => c.p));
+  return `<div class="mx" style="grid-template-columns:minmax(0,1.3fr) repeat(${projects.length},minmax(0,1fr))"><span></span>${projects.map((p) => `<span class="mx-h" title="${esc(niceB(p))}">${esc(p)}</span>`).join('')}
+    ${feats.map((f, i) => `<span class="mx-r">${esc(nice(f))}</span>${data[i].map((c, j) => c ? `<span class="mx-c t-${tone(c.p, { pass: POLICY.browser.pass, warn: POLICY.browser.warn })}${c.p === min && min < 100 ? ' weak' : ''}" data-tip="${esc(`${nice(f)} on ${niceB(projects[j])}: ${c.n - c.bad}/${c.n} passing`)}">${c.p}%</span>` : '<span class="mx-c t-mute">–</span>').join('')}`).join('')}</div>
+    <div class="s" style="color:var(--text-faint);font-size:12px;margin-top:10px">Outlined cell = weakest feature/browser combination.</div>`;
+}
+
+const STATUS_FILTER = { failed: 'unexpected', flaky: 'flaky', passed: 'expected', skipped: 'skipped' };
+function expRows(full) {
+  const q = exp.q.trim().toLowerCase();
+  return (full.tests ?? []).map((t) => [t, exp.browser === 'all' ? worst(t) : (t.results[exp.browser]?.[0] ?? 'none')]).filter(([t, st]) =>
+    (exp.sev === 'all' || (t.severity ?? 'medium') === exp.sev) && (exp.feat === 'all' || t.feature === exp.feat) &&
+    (exp.status === 'all' || st === STATUS_FILTER[exp.status]) && (!q || `${t.title} ${nice(t.feature)}`.toLowerCase().includes(q)));
+}
+function expBody(full) {
+  const all = full.tests ?? [];
+  if (!all.length) return '<div class="empty">Check-level detail appears after the next CI run.</div>';
+  const rows = expRows(full), projects = exp.browser === 'all' ? Object.keys(full.projects) : [exp.browser];
+  const flk = (k) => { let seen = 0, f = 0; for (const r of VIEW_RUNS) { const t = IDX.get(r)?.get(k); if (!t) continue; seen++; if (worst(t) === 'flaky') f++; } return seen ? `${f}/${seen}` : '–'; };
+  if (!rows.length) return `<div class="empty">No checks match these filters. <button class="btn" data-act="reset">Clear filters</button></div>`;
+  return `<div class="scroll"><table><thead><tr><th>Check</th><th>Severity</th><th>Feature</th>${projects.map((p) => `<th title="${esc(niceB(p))}">${esc(p)}</th>`).join('')}<th>Status</th><th>Flaky runs</th><th>Slowest</th></tr></thead><tbody>
+    ${rows.slice(0, exp.limit).map(([t, st]) => `<tr><td><button class="link" data-t="${esc(key(t))}" data-ri="${CUR.fullIdx}">${esc(t.title)}</button></td><td>${sevPill(t.severity ?? 'medium')}</td><td>${esc(nice(t.feature))}</td>
+      ${projects.map((p) => { const x = t.results[p]; return `<td><span class="dot ${x ? x[0] : 'none'}" title="${esc(niceB(p))}: ${x ? STATUS[x[0]] : 'not run'}"></span></td>`; }).join('')}
+      <td><span class="pill ${ST[st][0]}">${ST[st][1]}</span></td><td class="num">${flk(key(t))}</td><td class="num">${(Math.max(...Object.values(t.results).map((x) => x[1])) / 1000).toFixed(1)}s</td></tr>`).join('')}</tbody></table></div>
+    <div class="exp-foot"><span>Showing ${Math.min(exp.limit, rows.length)} of ${rows.length} checks${rows.length !== all.length ? ` (${all.length} total)` : ''}</span>${rows.length > exp.limit ? '<button class="btn" data-act="more">Show more</button>' : ''}</div>`;
+}
+const refreshExplorer = () => { const el = document.getElementById('exp-body'); if (el) el.innerHTML = expBody(CUR.full); };
+const opts = (list, cur) => list.map(([v, l]) => `<option value="${esc(v)}"${cur === v ? ' selected' : ''}>${esc(l)}</option>`).join('');
+function explorerCard(full) {
+  return `<div class="card" id="explorer" style="margin-bottom:16px"><div class="head"><div><h2>Check explorer</h2><p class="sub">Search and filter every check in run #${esc(full.runNumber)}. Copy the page URL to share this exact view.</p></div><button class="btn" data-act="csv">⬇ Export CSV</button></div>
+    <div class="filters"><input id="q" type="search" placeholder="Search checks…  ( / )" value="${esc(exp.q)}" aria-label="Search checks">
+      <select data-x="sev" aria-label="Severity">${opts([['all', 'All severities'], ...SEVS.map((k) => [k, k[0].toUpperCase() + k.slice(1)])], exp.sev)}</select>
+      <select data-x="feat" aria-label="Feature">${opts([['all', 'All features'], ...Object.keys(full.features).map((k) => [k, nice(k)])], exp.feat)}</select>
+      <select data-x="browser" aria-label="Browser">${opts([['all', 'All browsers'], ...Object.keys(full.projects).map((k) => [k, niceB(k)])], exp.browser)}</select>
+      <select data-x="status" aria-label="Status">${opts([['all', 'Any status'], ['failed', 'Failed'], ['flaky', 'Flaky'], ['passed', 'Passed'], ['skipped', 'Skipped']], exp.status)}</select></div>
+    <div id="exp-body">${expBody(full)}</div></div>`;
+}
+function downloadCsv() {
+  const full = CUR.full; if (!full?.tests) return toast('No check-level data to export yet');
+  const projects = Object.keys(full.projects), q = (v) => `"${String(v).replace(/"/g, '""')}"`;
+  const lines = [['Feature', 'Check', 'Severity', 'Type', ...projects, 'Slowest (s)'].map(q).join(',')];
+  for (const [t] of expRows(full)) lines.push([nice(t.feature), t.title, t.severity ?? 'medium', t.smoke ? 'Smoke' : 'Regression', ...projects.map((p) => (t.results[p] ? STATUS[t.results[p][0]] : 'Not run')), (Math.max(...Object.values(t.results).map((x) => x[1])) / 1000).toFixed(1)].map(q).join(','));
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' })), download: `qa-checks-run-${full.runNumber}.csv` });
+  a.click(); URL.revokeObjectURL(a.href); toast(`Exported ${lines.length - 1} checks`);
+}
+function printBrief() { // light theme + only the data-print sections, via the print stylesheet
+  const root = document.documentElement, prev = root.dataset.theme;
+  root.dataset.theme = 'light'; document.body.classList.add('print-brief');
+  const done = () => { document.body.classList.remove('print-brief'); root.dataset.theme = prev; removeEventListener('afterprint', done); };
+  addEventListener('afterprint', done); print();
+}
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark' || (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('qa-theme', dark ? 'light' : 'dark'); } catch {}
+}
+
+/* ---- failure / check detail panel ---- */
+function openTest(k, run) {
+  if (!run) return;
+  const fails0 = (run.failedTests ?? []);
+  const sep = k.indexOf('|'), feature = k.slice(0, sep), title = k.slice(sep + 1);
+  const fails = fails0.filter((f) => f.feature === feature && f.title === title);
+  const t = IDX.get(run)?.get(k) ?? { feature, title, severity: fails[0]?.severity ?? 'medium', smoke: false, results: {} };
+  const projects = Object.keys(t.results).length ? Object.keys(t.results) : fails.map((f) => f.project);
+  const cause = fails[0] ? causeOf(fails[0]) : null;
+  const trace = fails.find((f) => f.traceUrl);
+  const h = histOf(VIEW_RUNS, k);
+  document.getElementById('dlg-t').textContent = title;
+  document.getElementById('dlg-b').innerHTML = `
+    <div class="chips" style="margin-bottom:6px">${sevPill(t.severity ?? 'medium')}<span class="chip">${esc(nice(feature))}</span><span class="pill ${t.smoke ? 'brand' : 'mute'}">${t.smoke ? 'Smoke' : 'Regression'}</span>${cause ? `<span class="cause" style="--c:${CAUSE[cause][1]}">${CAUSE[cause][0]} (estimated)</span>` : ''}<span class="chip">Run #${esc(run.runNumber)} · ${esc(when(run.date))}</span></div>
+    <div class="dlg-sec">Result by browser</div>
+    <div class="scroll"><table><thead><tr><th>Browser</th><th>Status</th><th>Time</th></tr></thead><tbody>
+      ${projects.map((p) => { const x = t.results[p], f = fails.find((y) => y.project === p), st = x ? x[0] : f ? 'unexpected' : 'none'; return `<tr><td>${esc(niceB(p))}</td><td><span class="pill ${ST[st][0]}">${ST[st][1]}</span></td><td class="num">${x ? (x[1] / 1000).toFixed(1) + 's' : '–'}</td></tr>`; }).join('') || '<tr><td colspan="3" class="c-faint">No per-browser detail in this run.</td></tr>'}
+    </tbody></table></div>
+    ${fails.length ? `<div class="dlg-sec">Error</div>${fails.map((f) => `<div class="errbox" style="margin-bottom:8px"><b>${esc(niceB(f.project))}</b>\n${esc(f.error ?? 'No error message recorded.')}${f.file ? `\n\n${esc(f.file)}` : ''}</div>`).join('')}` : ''}
+    ${h.some(Boolean) ? `<div class="dlg-sec">History · oldest → newest (${h.length} runs)</div>${strip(h)}` : ''}
+    <div class="dlg-sec">Investigate</div>
+    <ul class="short">
+      ${trace ? `<li><a class="btn" href="${esc(trace.traceUrl)}" target="_blank" rel="noopener">Open trace ↗</a></li>` : fails.length ? `<li class="muted-sm">Traces are saved on retried failures as the <b>traces-${esc(fails[0].project)}</b> artifact of the CI run. Unzip it and run <span class="mono">npx playwright show-trace trace.zip</span>.</li>` : ''}
+      ${run.runUrl ? `<li><a href="${esc(run.runUrl)}" target="_blank" rel="noopener">Open CI run ↗</a> · <a href="${ALLURE_URL}" target="_blank" rel="noopener">Allure report ↗</a></li>` : ''}
+    </ul>`;
+  document.getElementById('dlg').showModal();
+}
+function openHelp() {
+  document.getElementById('dlg-t').textContent = 'Keyboard shortcuts';
+  document.getElementById('dlg-b').innerHTML = `<table><tbody>${[['/', 'Search checks'], ['t', 'Toggle light / dark theme'], ['r', 'Refresh results now'], ['e', 'Export checks as CSV'], ['?', 'Show this help'], ['Esc', 'Close a panel']].map(([a, b]) => `<tr><td><kbd>${a}</kbd></td><td>${b}</td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('dlg').showModal();
+}
+
+/* ---- chrome: header, toolbar ---- */
+function topHtml(latest) {
+  const newest = ALL[0] ?? latest;
+  return `<div class="top" data-print>
+    <div class="brand"><div class="logo">Q</div><div><h1>QA Release Dashboard</h1><small>Automated test health${latest.environment && latest.environment !== 'Default' ? ' · ' + esc(latest.environment) : ''}</small></div></div>
+    <div class="actions">
+      <span class="fresh fresh-${freshTone(newest.date)}" id="fresh" title="Checks for new results every 5 minutes · ${esc(when(newest.date))}">Last run ${esc(ago(newest.date))}</span>
+      <span class="muted-sm">${esc(latest.branch)}${latest.sha ? ' @ ' + esc(latest.sha) : ''}</span>
+      <a class="btn" href="${ALLURE_URL}">Allure report ↗</a>
+      ${latest.runUrl ? `<a class="btn" href="${esc(latest.runUrl)}" target="_blank" rel="noopener">CI run ↗</a>` : ''}
+      <button class="btn" data-act="csv" title="Export checks (e)">⬇ CSV</button>
+      <button class="btn" data-act="brief" title="Print or save the release brief as PDF">🖨 Brief</button>
+      <button class="btn" data-act="theme" aria-label="Toggle dark mode" title="Theme (t)">◐ Theme</button>
+    </div></div>`;
+}
+function toolbarHtml(runs) {
+  const envs = envList(), has = new Set(ALL.map(envOf)), sel = envSel() ?? [];
+  const envBlock = `<div class="seg" role="group" aria-label="Environment"><button data-k="env" data-v="all" aria-pressed="${view.env === 'all'}">All environments</button>${envs.map((e) => `<button class="${has.has(e) ? '' : 'nodata'}" data-k="env" data-v="${esc(e)}" aria-pressed="${sel.includes(e)}" title="${has.has(e) ? 'Click to toggle — select several to combine' : 'No runs recorded for this environment yet'}">${esc(e)}</button>`).join('')}</div>`;
+  const today = iso(Date.now());
+  const custom = view.range === 'custom' ? `<span class="daterange"><input type="date" data-d="from" value="${esc(view.from)}" max="${esc(view.to || today)}" aria-label="From date"><span class="c-faint">to</span><input type="date" data-d="to" value="${esc(view.to)}" min="${esc(view.from)}" max="${today}" aria-label="To date"></span>` : '';
+  const dirty = view.env !== defaultEnv() || view.range !== 'all';
+  return `<div class="toolbar" data-print>${envBlock}
+    <div class="seg" role="group" aria-label="Time range">${PRESETS.map(([v, l]) => `<button data-k="range" data-v="${v}" aria-pressed="${view.range === v}">${l}</button>`).join('')}</div>${custom}
+    ${dirty ? '<button class="btn" data-act="resetview" title="Clear environment and time filters">↺ Reset</button>' : ''}<span class="hint">Press <kbd>?</kbd> for shortcuts</span></div>
+    <div class="tb-summary" data-print>${periodNote(runs)}</div>`;
+}
+
 /* ---- sections ---- */
 let featView = 'all';
 function featuresHtml(full) {
@@ -500,7 +819,16 @@ function featuresHtml(full) {
 
 function render(runs) {
   const app = document.getElementById('app');
-  if (!runs.length) { app.innerHTML = '<div class="empty">No runs recorded yet. Results appear here after the next CI run on main.</div>'; return; }
+  if (!runs.length) {
+    app.innerHTML = ALL.length
+      ? `${topHtml(ALL[0])}${toolbarHtml(runs)}<div class="empty">No runs match <b>${esc(filterLabel())}</b>.${(() => {
+          const near = PRESETS.filter(([v]) => v !== 'all' && v !== 'custom').find(([v]) => ALL.some((r) => envMatch(r) && Date.now() - new Date(r.date) <= Number(v) * 864e5));
+          return near ? ` <button class="btn" data-k="range" data-v="${near[0]}">Show last ${near[1]}</button>` : '';
+        })()} <button class="btn" data-act="showall">Show all runs</button></div>`
+      : '<div class="empty">No runs recorded yet. Results appear here after the next CI run on main.</div>';
+    return;
+  }
+  VIEW_RUNS = runs; buildIdx(runs);
   const { gates, verdict, latest, full, prevFull } = readiness(runs);
   const score = healthScore(latest, full), prevScore = prevFull ? healthScore(prevFull, prevFull) : null;
   const vt = { good: ['✓', 'GO', 'Ready to release', 'All quality gates are green. Critical journeys work and the regression suite is within target.'],
@@ -514,23 +842,14 @@ function render(runs) {
   const reg = rate(full), sm = rate(smokeOf(latest)), fl = flakeRate(full);
   const prevSm = prevFull ? rate(smokeOf(prevFull)) : null;
   const failList = full.failedTests ?? [];
-  const flakyCount = {};
-  runs.slice(0, 5).forEach((r) => (r.flakyTests ?? []).forEach((f) => { const k = `${f.feature}|${f.title}`; (flakyCount[k] ??= { ...f, n: 0 }).n++; }));
-  const flaky = Object.values(flakyCount).sort((a, b) => b.n - a.n).slice(0, 6);
-  const win = Math.min(5, runs.length);
+  CUR = { full, fullIdx: runs.indexOf(full) };
 
   app.innerHTML = `
-  <div class="top">
-    <div class="brand"><div class="logo">Q</div><div><h1>QA Release Dashboard</h1><small>Automated test health${latest.environment && latest.environment !== 'Default' ? ' · ' + esc(latest.environment) : ''}</small></div></div>
-    <div class="actions">
-      <span>Updated ${esc(when(latest.date))} · ${esc(latest.branch)}${latest.sha ? ' @ ' + esc(latest.sha) : ''}</span>
-      <a class="btn" href="${ALLURE_URL}">Detailed Allure report ↗</a>
-      ${latest.runUrl ? `<a class="btn" href="${esc(latest.runUrl)}" target="_blank" rel="noopener">CI run ↗</a>` : ''}
-      <button class="btn" id="theme" aria-label="Toggle dark mode">◐ Theme</button>
-    </div>
-  </div>
+  <div class="print-only" data-print><h1>Release brief · ${esc(vt[1])}</h1><p>${esc(brief.summary)}</p><p class="muted-sm">${esc(filterLabel())} · Run #${esc(latest.runNumber)} · ${esc(when(latest.date))} · ${esc(latest.branch)}${latest.sha ? ' @ ' + esc(latest.sha) : ''} · generated ${esc(new Date().toLocaleString())}</p></div>
+  ${topHtml(latest)}
+  ${toolbarHtml(runs)}
 
-  <div class="grid g-hero">
+  <div class="grid g-hero" data-print>
     <div class="card verdict ${verdict}">
       <div class="v-badge v-${verdict}"><div class="v-ic">${vt[0]}</div><div class="v-t">${vt[1]}</div></div>
       <div class="v-body"><h2>${vt[2]}</h2><p>${esc(brief.summary)}</p>
@@ -548,7 +867,7 @@ function render(runs) {
     </div>
   </div>
 
-  <div class="grid g-kpi">
+  <div class="grid g-kpi" data-print>
     <div class="card kpi"><div class="l">Regression pass rate</div><div class="v c-${tone(reg, { pass: POLICY.regression.pass, warn: POLICY.regression.warn })}">${pct(reg)}</div>${dlt(reg, prevFull ? rate(prevFull) : null, ' pts')}${spark(fullHist.map(rate), 'brand')}</div>
     <div class="card kpi"><div class="l">Smoke pass rate</div><div class="v c-${tone(sm, { pass: 100, warn: 90 })}">${pct(sm)}</div>${dlt(sm, prevSm, ' pts')}${spark(hist.map((r) => rate(smokeOf(r))), 'good')}</div>
     <div class="card kpi"><div class="l">Checks executed</div><div class="v">${ran(full)}</div><div class="d">${Object.keys(full.features).length} features × ${Object.keys(full.projects).length} platforms</div>${spark(fullHist.map(ran), 'brand')}</div>
@@ -563,7 +882,7 @@ function render(runs) {
     <div id="feats">${featuresHtml(full)}</div>
   </div>
 
-  ${severityHtml(full)}
+  <div data-print>${severityHtml(full)}</div>
 
   <div class="grid g-2">
     <div class="card"><h2>Quality trend</h2><p class="sub">Pass rate across the last ${Math.min(30, runs.length)} runs</p>${trend(runs)}</div>
@@ -576,25 +895,36 @@ function render(runs) {
     </div>
   </div>
 
-  <div class="card" style="margin-bottom:16px"><h2>Platform coverage</h2><p class="sub">Browsers and devices in the latest full run</p>
+  <div class="grid g-eq">
+    <div class="card"><h2>What is behind the failures</h2><p class="sub">Failed checks by estimated cause, per week</p>${causesHtml(runs)}</div>
+    <div class="card"><h2>Feature × browser matrix</h2><p class="sub">Where exactly things break · latest ${isFull(full) ? 'full regression' : 'run'} (#${esc(full.runNumber)})</p>${matrixHtml(full)}</div>
+  </div>
+
+  <div class="card" data-print style="margin-bottom:16px"><h2>Platform coverage</h2><p class="sub">Browsers and devices in the latest full run</p>
     <div class="scroll"><table><thead><tr><th>Platform</th><th>Checks</th><th>Passing</th><th>Failing</th><th>Flaky</th><th style="min-width:140px">Pass rate</th><th>Status</th></tr></thead><tbody>
     ${Object.entries(full.projects).map(([k, b]) => { const p = rate(b), t = tone(p, { pass: POLICY.browser.pass, warn: POLICY.browser.warn }); return `<tr><td><b>${esc(niceB(k))}</b></td><td class="num">${ran(b)}</td><td class="num">${b.passed + b.flaky}</td><td class="num ${b.failed ? 'c-bad' : ''}">${b.failed}</td><td class="num">${b.flaky}</td>
       <td><div style="display:flex;gap:8px;align-items:center"><div class="bar" style="flex:1"><div class="bg-${t}" style="width:${p ?? 0}%"></div></div><span class="num">${pct(p)}</span></div></td><td><span class="pill ${t}">${TXT[t]}</span></td></tr>`; }).join('')}
     </tbody></table></div></div>
 
-  <div class="grid g-eq">
+  <div class="grid g-eq" data-print>
     <div class="card"><h2>Needs attention</h2><p class="sub">Checks failing after retries in the latest full run</p>
-      ${failList.length ? failList.slice(0, 8).map((f) => `<div class="item"><div><div class="t">${f.severity ? sevPill(f.severity) + ' ' : ''}${esc(nice(f.feature))} — ${esc(f.title)}</div><div class="s">${esc(niceB(f.project))}${f.error ? ' · ' + esc(f.error) : ''}</div></div><span class="pill bad">Failing</span></div>`).join('') + (failList.length > 8 ? `<div class="s" style="padding-top:10px;color:var(--text-faint)">+${failList.length - 8} more in the Allure report</div>` : '') : '<div class="empty">Nothing failing. 🎉</div>'}
+      ${failList.length ? failList.slice(0, 8).map((f) => `<div class="item clickable" role="button" tabindex="0" data-t="${esc(f.feature + '|' + f.title)}" data-ri="${CUR.fullIdx}"><div><div class="t">${f.severity ? sevPill(f.severity) + ' ' : ''}${esc(nice(f.feature))} — ${esc(f.title)}</div><div class="s">${esc(niceB(f.project))}${f.error ? ' · ' + esc(f.error) : ''}</div></div><span class="pill bad">Failing</span></div>`).join('') + (failList.length > 8 ? `<div class="s" style="padding-top:10px;color:var(--text-faint)">+${failList.length - 8} more in the Allure report</div>` : '') : '<div class="empty">Nothing failing. 🎉</div>'}
     </div>
-    <div class="card"><h2>Unstable checks</h2><p class="sub">Pass only after a retry · last ${win} run${win > 1 ? 's' : ''}. These erode trust in results.</p>
-      ${flaky.length ? flaky.map((f) => `<div class="item"><div><div class="t">${esc(nice(f.feature))} — ${esc(f.title)}</div><div class="s">Unstable in ${f.n} of ${win} runs</div></div><span class="pill ${f.n >= 3 ? 'bad' : 'warn'}">${f.n >= 3 ? 'High' : 'Medium'}</span></div>`).join('') : '<div class="empty">No unstable checks detected.</div>'}
+    <div class="card"><h2>Flaky leaderboard</h2><p class="sub">Checks that pass only after a retry · last ${runs.length} run${runs.length > 1 ? 's' : ''}. Click one for its history.</p>
+      ${flakyBoard(runs)}
     </div>
   </div>
 
+  <div class="card" style="margin-bottom:16px"><h2>Check history heatmap</h2><p class="sub">Every check across the last ${Math.min(20, runs.filter((r) => r.tests).length)} runs · click a cell to investigate · problem checks first</p>${heatHtml(runs)}</div>
+
   <div class="grid g-eq">
-    <div class="card"><h2>What changed</h2><p class="sub">Run #${esc(latest.runNumber)} compared with the previous ${isFull(latest) ? 'full regression' : 'smoke'} run</p>${changesHtml(runs)}</div>
-    <div class="card"><h2>Slowest checks</h2><p class="sub">Longest time per check, across browsers — candidates to speed up</p>${slowHtml(full)}</div>
+    <div class="card"><h2>Compare runs</h2><p class="sub">Pick any two runs to see regressions, fixes, flaky and slower checks</p>
+      ${(() => { const [da, db] = defaultPair(runs); const o = (sel) => runs.slice(0, 30).map((r, i) => `<option value="${i}"${r === sel ? ' selected' : ''}>#${esc(r.runNumber)} · ${esc(when(r.date))} · ${isFull(r) ? 'Full' : 'Smoke'} · ${pct(rate(r))}</option>`).join('');
+        return `<div class="filters"><select data-cmp="a" aria-label="Newer run">${o(da)}</select><span class="c-faint" style="align-self:center">vs</span><select data-cmp="b" aria-label="Older run">${o(db)}</select></div><div id="cmp">${diffHtml(da, db)}</div>`; })()}</div>
+    <div class="card"><h2>Slowest checks</h2><p class="sub">Longest time per check, across browsers — candidates to speed up</p>${slowHtml(full, runs)}</div>
   </div>
+
+  ${explorerCard(full)}
 
   <div class="card"><h2>Recent runs</h2><p class="sub">Last 5 automated runs · click a run for the breakdown</p>
     <div class="runrow" style="font-size:12px;color:var(--text-faint);padding-top:0"><span>Run</span><span>Date</span><span>Trigger</span><span>Scope</span><span>Checks</span><span>Failed</span><span>Pass rate</span></div>
@@ -609,15 +939,8 @@ function render(runs) {
     document.getElementById('feats').innerHTML = featuresHtml(full);
     wireFeats();
   };
-  document.getElementById('theme').onclick = () => {
-    const dark = document.documentElement.dataset.theme === 'dark' || (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
-    document.documentElement.dataset.theme = dark ? 'light' : 'dark';
-    try { localStorage.setItem('qa-theme', dark ? 'light' : 'dark'); } catch {}
-  };
   const wireFeats = () => document.querySelectorAll('.feat').forEach((el) => { el.onclick = () => openFeature(full, el.dataset.f); });
   wireFeats();
-  document.getElementById('dlg-x').onclick = () => document.getElementById('dlg').close();
-  document.getElementById('dlg').addEventListener('click', (e) => { if (e.target.id === 'dlg') e.target.close(); });
   requestAnimationFrame(() => requestAnimationFrame(() => document.querySelectorAll('.arc').forEach((a) => a.setAttribute('stroke-dasharray', a.dataset.to))));
   const tip = document.getElementById('tip');
   document.querySelectorAll('[data-tip]').forEach((el) => {
@@ -629,7 +952,79 @@ function render(runs) {
 let savedTheme = null;
 try { savedTheme = localStorage.getItem('qa-theme'); } catch {}
 document.documentElement.dataset.theme = savedTheme || 'dark'; // dark by default
-fetch('data/runs.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : [])).catch(() => []).then(render);
+
+const draw = () => { const y = scrollY; render(inView()); scrollTo(0, y); };
+function showError() {
+  document.getElementById('app').innerHTML = '<div class="empty">Could not load the test results. <button class="btn" data-act="reload">Try again</button></div>';
+}
+async function load(mode) {
+  try {
+    const r = await fetch('data/runs.json', { cache: 'no-store' });
+    if (!r.ok) throw new Error(r.status);
+    const data = await r.json();
+    const changed = !ALL.length || data.length !== ALL.length || data[0]?.id !== ALL[0]?.id || data[0]?.date !== ALL[0]?.date;
+    ALL = data;
+    if (!envExplicit && view.env === 'all') view.env = defaultEnv();
+    if (changed) draw();
+    if (mode === 'manual') toast(changed ? 'Updated with the latest results' : 'Already up to date');
+  } catch { if (!ALL.length) showError(); else if (mode === 'manual') toast('Could not refresh right now'); }
+}
+
+const app = document.getElementById('app');
+app.addEventListener('click', (e) => {
+  const kv = e.target.closest('[data-k]');
+  if (kv) {
+    const { k, v } = kv.dataset;
+    if (k === 'env') envExplicit = true;
+    if (k === 'env' && v !== 'all') { // multi-select: toggle this environment in the set
+      const all = envList(), cur = new Set(envSel() ?? []);
+      cur.has(v) ? cur.delete(v) : cur.add(v);
+      view.env = !cur.size || cur.size === all.length ? 'all' : [...cur].sort().join(',');
+    } else if (k === 'range' && v === 'custom') {
+      view.range = 'custom'; view.to ||= iso(Date.now()); view.from ||= iso(Date.now() - 30 * 864e5);
+    } else view[k] = v;
+    syncUrl(); draw(); return;
+  }
+  const act = e.target.closest('[data-act]');
+  if (act) {
+    ({ theme: toggleTheme, csv: downloadCsv, brief: printBrief, reload: () => load('manual'),
+      more: () => { exp.limit += 40; refreshExplorer(); },
+      resetview: () => { Object.assign(view, { range: 'all', env: defaultEnv(), from: '', to: '' }); syncUrl(); draw(); },
+      showall: () => { Object.assign(view, { range: 'all', env: 'all', from: '', to: '' }); envExplicit = true; syncUrl(); draw(); },
+      reset: () => { Object.assign(exp, { q: '', sev: 'all', feat: 'all', browser: 'all', status: 'all', limit: 40 }); syncUrl(); draw(); } })[act.dataset.act]?.();
+    return;
+  }
+  const tt = e.target.closest('[data-t]');
+  if (tt) openTest(tt.dataset.t, VIEW_RUNS[Number(tt.dataset.ri) || 0]);
+});
+app.addEventListener('keydown', (e) => { // role="button" rows: Enter / Space open the detail panel
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches?.('[role="button"][data-t]')) { e.preventDefault(); e.target.click(); }
+});
+app.addEventListener('input', (e) => { if (e.target.id === 'q') { exp.q = e.target.value; exp.limit = 40; syncUrl(); refreshExplorer(); } });
+app.addEventListener('change', (e) => {
+  if (e.target.dataset?.d) {
+    view[e.target.dataset.d] = e.target.value;
+    if (view.from && view.to && view.from > view.to) [view.from, view.to] = [view.to, view.from];
+    syncUrl(); draw(); return;
+  }
+  const x = e.target.dataset?.x;
+  if (x) { exp[x] = e.target.value; exp.limit = 40; syncUrl(); refreshExplorer(); return; }
+  if (e.target.dataset?.cmp) {
+    const [a, b] = ['a', 'b'].map((k) => VIEW_RUNS[Number(app.querySelector(`[data-cmp="${k}"]`).value)]);
+    document.getElementById('cmp').innerHTML = diffHtml(a, b);
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.metaKey || e.ctrlKey || e.altKey || e.target.matches?.('input,select,textarea')) return;
+  const act = { '/': () => { const q = document.getElementById('q'); if (q) { q.scrollIntoView({ block: 'center' }); q.focus(); } }, t: toggleTheme, r: () => load('manual'), e: downloadCsv, '?': openHelp }[e.key];
+  if (act) { e.preventDefault(); act(); }
+});
+document.getElementById('dlg-x').onclick = () => document.getElementById('dlg').close();
+document.getElementById('dlg').addEventListener('click', (ev) => { if (ev.target.id === 'dlg') ev.target.close(); });
+
+load();
+setInterval(() => { if (!document.hidden && !document.getElementById('dlg').open) load(); }, 300000); // auto-refresh every 5 min
+setInterval(() => { const el = document.getElementById('fresh'); if (el && ALL[0]) { el.textContent = `Last run ${ago(ALL[0].date)}`; el.className = `fresh fresh-${freshTone(ALL[0].date)}`; } }, 60000);
 </script>
 </body>
 </html>
