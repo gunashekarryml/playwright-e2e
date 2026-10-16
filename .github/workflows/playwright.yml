@@ -143,6 +143,10 @@ jobs:
         if: always()
         run: node scripts/report-flaky.js test-results/results.json
 
+      - name: Analyze results (rule-based)
+        if: always()
+        run: node scripts/analyze-results.js test-results/results.json test-results/analysis.json
+
       - name: Upload HTML report
         if: always()
         uses: actions/upload-artifact@v4
@@ -150,6 +154,14 @@ jobs:
           name: playwright-report-${{ matrix.project }}
           path: playwright-report/
           retention-days: 14
+
+      - name: Upload analysis report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: analysis-report-${{ matrix.project }}
+          path: test-results/analysis.html
+          if-no-files-found: ignore
 
       - name: Upload JSON results (for QA dashboard)
         if: always()

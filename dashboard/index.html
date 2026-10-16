@@ -655,6 +655,26 @@ function causesHtml(runs) {
     <div class="s" style="color:var(--text-faint);font-size:12px;margin-top:6px">Cause is estimated from the error message (network → environment, selector/timeout → test issue, otherwise product).</div>`;
 }
 
+// Latest run's failed and flaky checks: count badges, failures by cause, and full tables.
+function analysisHtml(full) {
+  const fails = full.failedTests ?? [], flaky = full.flakyTests ?? [];
+  const nproj = Object.keys(full.projects ?? {}).length;
+  const failedOn = {};
+  for (const f of fails) (failedOn[f.file + f.title] ??= new Set()).add(f.project);
+  const note = (f) => nproj > 1 ? (failedOn[f.file + f.title].size < nproj ? `Fails only on: ${[...failedOn[f.file + f.title]].join(', ')} (browser-specific).` : 'Fails on every browser (likely app or test logic).') : '';
+  const badge = (n, label, tone) => `<span class="pill ${tone}" style="font-size:14px;padding:8px 14px;margin:0 8px 8px 0;display:inline-block"><b>${n}</b> ${label}</span>`;
+  const byCause = {};
+  for (const f of fails) { const k = f.category ?? 'Unclassified'; byCause[k] = (byCause[k] ?? 0) + 1; }
+  const rows = (arr, withNote) => arr.map((f) => `<tr><td>${esc(nice(f.feature))} — ${esc(f.title)}</td><td>${esc(f.project)}</td><td><b>${esc(f.category ?? 'Unclassified')}</b></td><td>${esc(f.error ?? '')}</td><td>${esc(f.hint ?? '')} ${withNote ? `<i>${esc(note(f))}</i>` : ''}</td></tr>`).join('');
+  const table = (arr, withNote) => arr.length ? `<div class="scroll"><table><thead><tr><th>Check</th><th>Browser</th><th>Cause</th><th>Error</th><th>Detail</th></tr></thead><tbody>${rows(arr, withNote)}</tbody></table></div>` : '<div class="empty">None. 🎉</div>';
+  return `<div>${badge(full.passed, 'passed', 'good')}${badge(full.failed, 'failed', 'bad')}${badge(full.flaky, 'flaky', 'warn')}${badge(full.skipped, 'skipped', 'mute')}</div>
+    <h3 style="margin:14px 0 6px;font-size:14px">Failures by cause</h3>
+    ${Object.keys(byCause).length ? `<ul style="margin:0 0 6px 18px">${Object.entries(byCause).sort((x, y) => y[1] - x[1]).map(([k, n]) => `<li>${esc(k)}: ${n}</li>`).join('')}</ul>` : '<div class="empty">None. 🎉</div>'}
+    <h3 style="margin:14px 0 6px;font-size:14px">Failures</h3>${table(fails, true)}
+    <h3 style="margin:14px 0 6px;font-size:14px">Flaky (passed only on retry)</h3>${table(flaky, false)}
+    <div class="s" style="color:var(--text-faint);font-size:12px;margin-top:6px">Rule-based: the cause is matched from the error message, no AI involved. Runs recorded before this feature have no categories.</div>`;
+}
+
 function flakyBoard(runs) {
   const m = new Map();
   for (const r of runs) for (const t of r.tests ?? []) { const k = key(t), o = m.get(k) ?? { k, t, seen: 0, flaky: 0 }; o.seen++; if (worst(t) === 'flaky') o.flaky++; m.set(k, o); }
@@ -908,12 +928,14 @@ function render(runs) {
 
   <div class="grid g-eq" data-print>
     <div class="card"><h2>Needs attention</h2><p class="sub">Checks failing after retries in the latest full run</p>
-      ${failList.length ? failList.slice(0, 8).map((f) => `<div class="item clickable" role="button" tabindex="0" data-t="${esc(f.feature + '|' + f.title)}" data-ri="${CUR.fullIdx}"><div><div class="t">${f.severity ? sevPill(f.severity) + ' ' : ''}${esc(nice(f.feature))} — ${esc(f.title)}</div><div class="s">${esc(niceB(f.project))}${f.error ? ' · ' + esc(f.error) : ''}</div></div><span class="pill bad">Failing</span></div>`).join('') + (failList.length > 8 ? `<div class="s" style="padding-top:10px;color:var(--text-faint)">+${failList.length - 8} more in the Allure report</div>` : '') : '<div class="empty">Nothing failing. 🎉</div>'}
+      ${failList.length ? failList.slice(0, 8).map((f) => `<div class="item clickable" role="button" tabindex="0" data-t="${esc(f.feature + '|' + f.title)}" data-ri="${CUR.fullIdx}"><div><div class="t">${f.severity ? sevPill(f.severity) + ' ' : ''}${esc(nice(f.feature))} — ${esc(f.title)}</div><div class="s">${esc(niceB(f.project))}${f.error ? ' · ' + esc(f.error) : ''}</div>${f.category ? `<div class="s" style="margin-top:4px"><b>${esc(f.category)}</b> · ${esc(f.hint ?? '')}</div>` : ''}</div><span class="pill bad">Failing</span></div>`).join('') + (failList.length > 8 ? `<div class="s" style="padding-top:10px;color:var(--text-faint)">+${failList.length - 8} more in the Allure report</div>` : '') : '<div class="empty">Nothing failing. 🎉</div>'}
     </div>
     <div class="card"><h2>Flaky leaderboard</h2><p class="sub">Checks that pass only after a retry · last ${runs.length} run${runs.length > 1 ? 's' : ''}. Click one for its history.</p>
       ${flakyBoard(runs)}
     </div>
   </div>
+
+  <div class="card" data-print style="margin-bottom:16px"><h2>Failure analysis</h2><p class="sub">Failed and flaky checks grouped by cause · latest ${isFull(full) ? 'full regression' : 'run'} (#${esc(full.runNumber)})</p>${analysisHtml(full)}</div>
 
   <div class="card" style="margin-bottom:16px"><h2>Check history heatmap</h2><p class="sub">Every check across the last ${Math.min(20, runs.filter((r) => r.tests).length)} runs · click a cell to investigate · problem checks first</p>${heatHtml(runs)}</div>
 

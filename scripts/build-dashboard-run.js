@@ -5,6 +5,7 @@
 // Run metadata comes from the GitHub Actions environment when present.
 const fs = require('fs');
 const path = require('path');
+const { classify } = require('./lib/classify-failure');
 
 const [dir = 'dashboard-input', out = 'run.json'] = process.argv.slice(2);
 
@@ -65,10 +66,16 @@ for (const file of findJson(dir)) {
       const row = (testMap[`${spec.file}::${spec.title}`] ??= { title: spec.title, feature, smoke: isSmoke, severity: sev, results: {} });
       row.results[t.projectName] = [status, t.results.reduce((n, r) => n + (r.duration ?? 0), 0)];
       const entry = { title: spec.title, file: spec.file, project: t.projectName, feature, severity: sev };
-      if (status === 'flaky') flakyTests.push({ ...entry, retries: t.results.length - 1 });
+      if (status === 'flaky') {
+        const first = t.results.find((r) => r.status !== 'passed' && r.status !== 'skipped');
+        const err = (first?.error?.message ?? '').replace(ANSI, '');
+        const { category, hint } = classify(err);
+        flakyTests.push({ ...entry, retries: t.results.length - 1, error: err.split('\n')[0].slice(0, 240), category, hint });
+      }
       if (status === 'unexpected') {
-        const err = t.results.at(-1)?.error?.message ?? '';
-        failedTests.push({ ...entry, error: err.replace(ANSI, '').split('\n')[0].slice(0, 240) });
+        const err = (t.results.at(-1)?.error?.message ?? '').replace(ANSI, '');
+        const { category, cause, hint } = classify(err);
+        failedTests.push({ ...entry, error: err.split('\n')[0].slice(0, 240), category, cause, hint });
       }
     }
   }

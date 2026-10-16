@@ -32,6 +32,7 @@ export default defineConfig({
         ['html', { open: 'never' }],
         ['list'],
         allureReporter,
+        ['json', { outputFile: 'test-results/results.json' }],
       ],
 
   use: {
