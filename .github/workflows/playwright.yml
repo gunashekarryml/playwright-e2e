@@ -291,7 +291,7 @@ jobs:
   deploy-pages:
     name: Publish Allure report + QA dashboard to GitHub Pages
     # Every environment's run is recorded in the dashboard history (it filters by environment, and opens on QA).
-    # Note: the Allure report at the site root is whichever run published last.
+    # The Allure report at the site root is the latest FULL regression; every run's own report is at /latest-run/.
     if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && needs.report.result == 'success'
     # Serialize publishing: each run downloads the history file, adds itself, and re-uploads it, so overlapping runs must queue.
     concurrency:
@@ -300,7 +300,7 @@ jobs:
     needs: [test, report]
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write   # to keep a backup copy of the history on the dashboard-data branch
       pages: write
       id-token: write
     environment:
@@ -313,7 +313,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: allure-report
-          path: site
+          path: allure-run
 
       - name: Download JSON results from all projects
         uses: actions/download-artifact@v4
@@ -321,14 +321,70 @@ jobs:
           pattern: json-results-*
           path: dashboard-input
 
+      - name: Read the history backup (dashboard-data branch)
+        continue-on-error: true
+        run: git fetch -q --depth=1 origin dashboard-data && git show FETCH_HEAD:runs.json > history-backup.json || echo "No history backup yet."
+
       - name: Build QA dashboard at /dashboard/
+        id: dash
         run: |
           mkdir -p site/dashboard/data
           base="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/dashboard"
-          curl -sSf "$base/data/runs.json" -o site/dashboard/data/runs.json || echo '[]' > site/dashboard/data/runs.json
+          # Never starts from an empty history unless this is the very first run: live site, else the backup branch, else stop.
+          backup=""; [ -f history-backup.json ] && backup="history-backup.json"
+          node scripts/fetch-dashboard-history.js "$base/data/runs.json" site/dashboard/data/runs.json $backup
           cp dashboard/index.html site/dashboard/index.html
           node scripts/build-dashboard-run.js dashboard-input run.json
           node scripts/update-dashboard-history.js run.json site/dashboard/data/runs.json
+          echo "scope=$(node -p "require('./run.json').scope")" >> "$GITHUB_OUTPUT"
+
+      - name: Back up the history (dashboard-data branch)
+        continue-on-error: true
+        run: |
+          set -e
+          mkdir data-branch && cd data-branch
+          git init -q
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          if git fetch -q --depth=1 origin dashboard-data; then git checkout -q -B dashboard-data FETCH_HEAD; else git checkout -q --orphan dashboard-data; fi
+          cp ../site/dashboard/data/runs.json runs.json
+          git add runs.json
+          git commit -q -m "Dashboard history after run #${{ github.run_number }}" || exit 0
+          git push -q origin dashboard-data
+
+      - name: Restore the latest full-regression Allure report
+        uses: actions/cache/restore@v4
+        continue-on-error: true
+        with:
+          path: last-full-report
+          key: allure-full-never-matches-exactly
+          restore-keys: allure-full-
+
+      - name: Assemble the site (full report at /, this run at /latest-run/)
+        env:
+          SCOPE: ${{ steps.dash.outputs.scope }}
+        run: |
+          # A smoke or feature run must not replace the full-regression report, so the root keeps the last full one.
+          if [ "$SCOPE" = "full" ] || [ ! -d last-full-report ]; then
+            cp -R allure-run/. site/
+          else
+            cp -R last-full-report/. site/
+          fi
+          mkdir -p site/latest-run
+          cp -R allure-run/. site/latest-run/
+
+      - name: Keep this full-regression report for later smoke and feature runs
+        if: steps.dash.outputs.scope == 'full'
+        run: rm -rf last-full-report && cp -R allure-run last-full-report
+
+      - name: Save the full-regression report
+        if: steps.dash.outputs.scope == 'full'
+        uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: last-full-report
+          key: allure-full-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
@@ -364,6 +420,7 @@ jobs:
           REQUESTED_BY: ${{ github.event.inputs.requested_by }}
           DASHBOARD_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/dashboard/
           ALLURE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+          ALLURE_RUN_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/latest-run/
           WORKFLOW_RESULT: ${{ needs.test.result }}
           ACTOR: ${{ github.actor }}
           SLACK_RUN_FORM: ${{ vars.SLACK_RUN_FORM }}
