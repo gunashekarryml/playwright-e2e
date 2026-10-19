@@ -24,4 +24,29 @@ export class CartPage {
   async checkout() {
     await this.checkoutButton.click();
   }
+
+  cartItem(name: string) {
+    return this.page.locator('.cart_item', { hasText: name });
+  }
+
+  async removeItem(name: string) {
+    await this.cartItem(name).getByRole('button', { name: /remove/i }).click();
+  }
+
+  async continueShopping() {
+    await this.continueShoppingButton.click();
+  }
+
+  async getItemPrice(name: string): Promise<number> {
+    const text = await this.cartItem(name).locator('.inventory_item_price').textContent();
+    return parseFloat(text!.replace('$', ''));
+  }
+
+  async getItemQuantity(name: string): Promise<string> {
+    return (await this.cartItem(name).locator('.cart_quantity').textContent())!.trim();
+  }
+
+  async expectOnCartPage() {
+    await expect(this.page).toHaveURL(/cart\.html/);
+  }
 }

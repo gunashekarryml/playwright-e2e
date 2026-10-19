@@ -7,6 +7,9 @@ export class InventoryPage {
   readonly cartLink: Locator;
   readonly sortDropdown: Locator;
   readonly inventoryItems: Locator;
+  readonly productNames: Locator;
+  readonly productImages: Locator;
+  readonly footerCopy: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -15,6 +18,9 @@ export class InventoryPage {
     this.cartLink = page.locator('.shopping_cart_link');
     this.sortDropdown = page.locator('[data-test="product-sort-container"]');
     this.inventoryItems = page.locator('.inventory_item');
+    this.productNames = page.locator('[data-test="inventory-item-name"]');
+    this.productImages = page.locator('.inventory_item_img img');
+    this.footerCopy = page.locator('[data-test="footer-copy"]');
   }
 
   async goto() {
@@ -55,5 +61,34 @@ export class InventoryPage {
 
   async goToCart() {
     await this.cartLink.click();
+  }
+
+  productCard(name: string) {
+    return this.page.locator('.inventory_item', { hasText: name });
+  }
+
+  addToCartButton(name: string) {
+    return this.productCard(name).getByRole('button', { name: /add to cart/i });
+  }
+
+  removeButton(name: string) {
+    return this.productCard(name).getByRole('button', { name: /remove/i });
+  }
+
+  socialLink(key: 'x' | 'facebook' | 'linkedin') {
+    return this.page.locator(`[data-test="social-${key}"]`);
+  }
+
+  async openProductByName(name: string) {
+    await this.productCard(name).locator('[data-test="inventory-item-name"]').click();
+  }
+
+  async openProductByImage(name: string) {
+    await this.productCard(name).getByRole('img').click();
+  }
+
+  async getDisplayedNames(): Promise<string[]> {
+    await this.productNames.first().waitFor();
+    return this.productNames.allTextContents();
   }
 }

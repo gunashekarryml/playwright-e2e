@@ -3,6 +3,9 @@ import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
 import { CartPage } from '../pages/CartPage';
 import { CheckoutPage } from '../pages/CheckoutPage';
+import { MenuPage } from '../pages/MenuPage';
+import { ProductDetailsPage } from '../pages/ProductDetailsPage';
+import { DynamicCatalogPage } from '../pages/DynamicCatalogPage';
 
 /**
  * Extends Playwright's base test with ready-to-use Page Objects,
@@ -14,6 +17,9 @@ type Pages = {
   inventoryPage: InventoryPage;
   cartPage: CartPage;
   checkoutPage: CheckoutPage;
+  menuPage: MenuPage;
+  productDetailsPage: ProductDetailsPage;
+  dynamicCatalogPage: DynamicCatalogPage;
 };
 
 export const test = base.extend<Pages>({
@@ -28,6 +34,15 @@ export const test = base.extend<Pages>({
   },
   checkoutPage: async ({ page }, use) => {
     await use(new CheckoutPage(page));
+  },
+  menuPage: async ({ page }, use) => {
+    await use(new MenuPage(page));
+  },
+  productDetailsPage: async ({ page }, use) => {
+    await use(new ProductDetailsPage(page));
+  },
+  dynamicCatalogPage: async ({ page }, use) => {
+    await use(new DynamicCatalogPage(page));
   },
 });
 

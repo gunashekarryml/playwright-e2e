@@ -11,6 +11,7 @@ export class LoginPage {
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
   readonly errorMessage: Locator;
+  readonly errorDismissButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -18,6 +19,7 @@ export class LoginPage {
     this.passwordInput = page.getByPlaceholder('Password');
     this.loginButton = page.getByRole('button', { name: 'Login' });
     this.errorMessage = page.locator('[data-test="error"]');
+    this.errorDismissButton = page.locator('[data-test="error-button"]');
   }
 
   async goto() {
@@ -33,5 +35,9 @@ export class LoginPage {
   async expectLoginError(message: string) {
     await expect(this.errorMessage).toBeVisible();
     await expect(this.errorMessage).toContainText(message);
+  }
+
+  async expectOnLoginPage() {
+    await expect(this.loginButton).toBeVisible();
   }
 }

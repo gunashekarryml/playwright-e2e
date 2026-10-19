@@ -23,6 +23,7 @@ app https://www.saucedemo.com. Structured with the Page Object Model (POM).
 - Prefer `getByRole`, `getByPlaceholder`, `getByText` over CSS selectors; fall back to `data-test` attributes (SauceDemo exposes these) before brittle class selectors.
 - One `test.describe` per feature; use `test.beforeEach` for shared setup (e.g., login).
 - Keep assertions in the spec file, not in the Page Object — Page Objects should only expose `expectX()` helpers for common, reused checks.
+- Every test needs a feature tag matching its spec (`@login`, `@inventory`, `@product`, `@cart`, `@checkout`, `@menu`, `@catalog`, `@a11y`, `@users`); the run form's feature suites select on these. New feature area = new tag + a matching entry in the workflow's `suite` options and the Slack relay's `FEATURES` list.
 - Every test needs a severity tag (`@critical`, `@high`, `@medium` or `@low`) in its `tag` option; add `@smoke` as well for critical journeys, e.g. `{ tag: ['@smoke', '@critical'] }`. The QA dashboard groups results by it (untagged counts as medium).
 - New credentials or fixtures go in `fixtures/testData.ts`, not hardcoded in specs.
 

@@ -12,6 +12,11 @@ export class CheckoutPage {
   readonly summaryTax: Locator;
   readonly summaryTotal: Locator;
   readonly errorMessage: Locator;
+  readonly cancelButton: Locator;
+  readonly backHomeButton: Locator;
+  readonly generatePdfButton: Locator;
+  readonly overviewItems: Locator;
+  readonly completeText: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -25,6 +30,11 @@ export class CheckoutPage {
     this.summaryTax = page.locator('.summary_tax_label');
     this.summaryTotal = page.locator('.summary_total_label');
     this.errorMessage = page.locator('[data-test="error"]');
+    this.cancelButton = page.getByRole('button', { name: 'Cancel' });
+    this.backHomeButton = page.getByRole('button', { name: 'Back Home' });
+    this.generatePdfButton = page.getByRole('button', { name: /Generate PDF/i });
+    this.overviewItems = page.locator('.cart_item');
+    this.completeText = page.locator('.complete-text');
   }
 
   async fillCustomerInfo(firstName: string, lastName: string, postalCode: string) {
@@ -51,5 +61,28 @@ export class CheckoutPage {
     const tax = parseFloat((await this.summaryTax.textContent())!.replace('Tax: $', ''));
     const total = parseFloat((await this.summaryTotal.textContent())!.replace('Total: $', ''));
     return { subtotal, tax, total };
+  }
+
+  async expectOnInformationStep() {
+    await expect(this.page).toHaveURL(/checkout-step-one/);
+  }
+
+  async expectOnOverviewStep() {
+    await expect(this.page).toHaveURL(/checkout-step-two/);
+  }
+
+  async expectOnCompleteStep() {
+    await expect(this.page).toHaveURL(/checkout-complete/);
+  }
+
+  async getOverviewItemNames(): Promise<string[]> {
+    await this.overviewItems.first().waitFor();
+    return this.overviewItems.locator('[data-test="inventory-item-name"]').allTextContents();
+  }
+
+  async getOverviewItemPrices(): Promise<number[]> {
+    await this.overviewItems.first().waitFor();
+    const texts = await this.overviewItems.locator('.inventory_item_price').allTextContents();
+    return texts.map((t) => parseFloat(t.replace('$', '')));
   }
 }

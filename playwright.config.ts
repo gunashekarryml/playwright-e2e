@@ -17,6 +17,8 @@ const allureReporter = [
 export default defineConfig({
   testDir: './tests',
   globalSetup: './global-setup.ts',
+  // Intentional demo failures (tagged @demo-failure) run by default; set DEMO_FAILURES=off to exclude them.
+  grepInvert: process.env.DEMO_FAILURES === 'off' ? /@demo-failure/ : undefined,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
