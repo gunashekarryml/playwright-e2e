@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>QA Release Dashboard · Bento layout</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 48 48%22 role=%22img%22 aria-label=%22QA Release Dashboard%22%3E%3Cdefs%3E%3ClinearGradient id=%22qa-logo-g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%232563eb%22/%3E%3Cstop offset=%221%22 stop-color=%22%2306b6d4%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2248%22 height=%2248%22 rx=%2214%22 fill=%22url(%23qa-logo-g)%22/%3E%3Cpath d=%22M32.6 32.6A12 12 0 1 1 36 24%22 fill=%22none%22 stroke=%22%23fff%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%224.2%22/%3E%3Cpath d=%22M18.5 24.5l4.2 4.2 7.8-8.8%22 fill=%22none%22 stroke=%22%23fff%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%224.2%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
 <style>
@@ -557,7 +558,7 @@ table.xt td,table.xt th{padding-top:7px;padding-bottom:7px}
 
 /* ================= modern hero ================= */
 .m-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;margin-bottom:18px}
-.m-grid,.m-spot{--c:var(--good)}.m-bad{--c:var(--bad)}.m-warn{--c:var(--warn)}.m-good{--c:var(--good)}
+.m-grid,.m-spot{--c:var(--good)}.m-info{--c:var(--brand)}.m-bad{--c:var(--bad)}.m-warn{--c:var(--warn)}.m-good{--c:var(--good)}
 .m-tile{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:22px 24px;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 18px 40px -18px rgba(0,0,0,.45);isolation:isolate}
 .m-tile::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(120% 90% at 0% 0%,color-mix(in srgb,var(--glow,transparent) 22%,transparent),transparent 62%);pointer-events:none}
 .m-verdict{--glow:var(--c);grid-column:span 7;display:flex;flex-direction:column;gap:12px;min-height:250px}
@@ -612,6 +613,7 @@ table.xt td,table.xt th{padding-top:7px;padding-bottom:7px}
 .m-spot-msg{display:flex;flex-direction:column;gap:14px}
 .m-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--border);border-radius:16px;background:color-mix(in srgb,var(--surface) 70%,transparent);margin-bottom:14px}
 .m-strip>div{padding:14px 20px;display:flex;flex-direction:column;gap:2px;border-left:1px solid var(--border)}.m-strip>div:first-child{border-left:0}
+.m-strip small{font-size:11.5px;color:var(--text-faint);margin-top:1px}
 .m-strip span{font-size:12px;color:var(--text-faint);font-weight:600}.m-strip b{font-size:28px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .m-spot .m-checks{border-radius:16px;box-shadow:none}.m-spot .m-checks::before{display:none}
 @media(max-width:900px){.m-spot-main{grid-template-columns:1fr;gap:22px}.m-strip{grid-template-columns:repeat(2,1fr)}.m-strip>div:nth-child(3){border-left:0}}
@@ -788,6 +790,10 @@ table.xt td,table.xt th{padding-top:7px;padding-bottom:7px}
 .td-cmd{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:10px;padding:8px 8px 8px 14px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border)}
 .td-cmd .mono{overflow:auto;white-space:nowrap;font-size:12px}
 dialog .fa-steps{margin:12px 0}
+
+/* ---- logo mark ---- */
+.tb-logo{background:none;display:block;border-radius:13px;box-shadow:0 8px 20px -8px var(--brand)}
+.tb-logo svg{display:block;width:42px;height:42px}
 </style>
 </head>
 <body>
@@ -807,6 +813,7 @@ const POLICY = {
   feature:    { pass: 85, warn: 70 },   // lowest feature pass rate
   browser:    { pass: 90, warn: 80 },   // lowest browser/device pass rate
   severity:   { critical: { pass: 100, warn: 90 }, high: { pass: 100, warn: 90 }, medium: { pass: 90, warn: 75 }, low: { pass: 80, warn: 60 } }, // colours of the severity tiles
+  staleHours: 48,                       // a full regression older than this turns the verdict amber (nightly runs keep it fresh)
   drop:       5                         // pts drop vs the previous full run that triggers a warning
 };
 const FEATURE_NAMES = { login: 'Login & Authentication', cart: 'Shopping Cart', checkout: 'Checkout & Payment', accessibility: 'Accessibility (WCAG)', inventory: 'Product Listing', 'product-details': 'Product Details', 'menu-navigation': 'Menu & Navigation', 'dynamic-catalog': 'Dynamic Catalog', 'user-profiles': 'User Profiles' };
@@ -856,6 +863,7 @@ function readiness(runs) {
   const latest = runs[0];
   const full = runs.find(isFull) ?? latest;
   const prevFull = runs.filter(isFull).find((r) => r !== full);
+  const fullKnown = isFull(full); // false when only smoke / feature runs exist in this view
   const gates = [];
   // short = the phrase used in the one-line verdict explanation
   const g = (name, status, detail, short) => gates.push({ name, status, detail, short: short ?? detail });
@@ -865,6 +873,11 @@ function readiness(runs) {
   if (smr === null) g('Critical journeys work', 'wn', 'No smoke tests in the latest run', 'no smoke tests ran');
   else if (sm.failed) g('Critical journeys work', 'no', `${sm.failed} of ${ran(sm)} critical-journey checks failing`, 'a critical journey is failing');
   else g('Critical journeys work', 'ok', `All ${ran(sm)} critical-journey checks pass`);
+
+  if (!fullKnown) { // nothing to judge a release on yet: smoke alone is not a release verdict
+    g('Full regression has run', 'wn', 'No full regression in this view yet', 'no full regression has run yet');
+    return { gates, verdict: gates[0].status === 'no' ? 'bad' : 'info', latest, full, prevFull, fullKnown };
+  }
 
   if (sev) {
     const c = sev.critical, h = sev.high, hr = rate(h);
@@ -897,13 +910,16 @@ function readiness(runs) {
   if (br.length) g('Works on every browser', br[0][1] >= POLICY.browser.pass ? 'ok' : br[0][1] >= POLICY.browser.warn ? 'wn' : 'no',
     br[0][1] >= POLICY.browser.pass ? `${br.length} platforms, lowest ${br[0][1]}%` : `${niceB(br[0][0])} is at ${br[0][1]}%`, `${niceB(br[0][0])} is at ${br[0][1]}%`);
 
+  const ageH = (Date.now() - new Date(full.date)) / 36e5;
+  g('Full regression is recent', ageH <= POLICY.staleHours ? 'ok' : 'wn', `Last full run ${ago(full.date)} (limit ${POLICY.staleHours}h)`, `the last full regression ran ${ago(full.date)}`);
+
   if (prevFull) {
     const d = Math.round((rr - rate(prevFull)) * 10) / 10;
     g('Quality is not dropping', d >= -POLICY.drop ? 'ok' : 'wn', d >= 0 ? `Up ${d} pts vs the previous full run` : `Down ${Math.abs(d)} pts vs the previous full run`, `quality dropped ${Math.abs(d)} points since the last full run`);
   }
 
   const verdict = gates.some((x) => x.status === 'no') ? 'bad' : gates.some((x) => x.status === 'wn') ? 'warn' : 'good';
-  return { gates, verdict, latest, full, prevFull };
+  return { gates, verdict, latest, full, prevFull, fullKnown };
 }
 
 function briefFor(verdict, gates, latest, full) {
@@ -926,6 +942,7 @@ function briefFor(verdict, gates, latest, full) {
       { k: 'Weakest area', t: weak ? tone(weak[1]) : 'mute', x: weak ? weak[0] : '–', y: weak ? `${weak[1]}% passing` : '' },
     ],
     next: verdict === 'good' ? 'No action needed — proceed with the release.'
+      : verdict === 'info' ? 'Run the full regression to get a release verdict.'
       : verdict === 'warn' ? `Get the owners to sign off the ${warn.length} known issue${warn.length > 1 ? 's' : ''}, then release.`
       : `Fix the ${bad.length} blocking issue${bad.length > 1 ? 's' : ''} before releasing.`,
   };
@@ -1395,7 +1412,7 @@ function barHtml(latest, runs) {
   const newest = ALL[0] ?? latest, t = toolbarParts(runs);
   const avg = Math.round((runs.reduce((n, r) => n + (rate(r) ?? 0), 0) / runs.length) * 10) / 10;
   return `<header class="topbar" data-print>
-    <div class="tb-brand"><div class="tb-logo" aria-hidden="true">Q</div>
+    <div class="tb-brand"><div class="tb-logo" aria-hidden="true"><svg viewBox="0 0 48 48" width="42" height="42" aria-hidden="true" focusable="false"><defs><linearGradient id="qa-logo-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><rect width="48" height="48" rx="14" fill="url(#qa-logo-g)"/><path d="M32.6 32.6A12 12 0 1 1 36 24" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.2"/><path d="M18.5 24.5l4.2 4.2 7.8-8.8" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.2"/></svg></div>
       <div class="tb-title"><h1>QA Release Dashboard</h1>
         <div class="tb-sub"><span class="fresh fresh-${freshTone(newest.date)}" id="fresh" title="Last test run ${esc(when(newest.date))} · ${runs.length} run${runs.length === 1 ? '' : 's'} shown, ${avg}% average pass rate. The page checks for new results every 5 minutes · ${esc(latest.branch)}${latest.sha ? ' @ ' + esc(latest.sha) : ''}">Updated ${esc(ago(newest.date))}</span>
           <span class="tb-note" title="${esc(t.summary.replace(/<[^>]+>/g, ''))}">${runs.length} run${runs.length === 1 ? '' : 's'} · <b>${avg}%</b> avg</span></div></div></div>
@@ -1458,6 +1475,7 @@ const gateLabel = (n) => GATE_LABEL[n] ?? n;
 function reasonFor(verdict, full, gates) {
   const bad = gates.filter((x) => x.status === 'no'), warn = gates.filter((x) => x.status === 'wn');
   const say = (list) => { const t = list.slice(0, 2).map((x) => x.short).join(' and '); return t[0].toUpperCase() + t.slice(1); };
+  if (verdict === 'info') return 'The critical journeys work, but no full regression has run in this view yet, so there is no release verdict.';
   if (verdict === 'good') return 'All release criteria are met: critical journeys work, critical and high-severity cases pass, and quality is on target.';
   if (verdict === 'warn') return `${say(warn)}. Nothing blocks the release, but agree these known issues with the owners first.`;
   return `${say(bad)}. Fix before releasing.`;
@@ -1501,40 +1519,43 @@ function heroCta(c) {
   return c.full.failed ? `<button class="m-cta" data-tab="analysis">See what is failing <span aria-hidden="true">→</span></button>` : `<button class="m-cta" data-act="brief">Open the release brief <span aria-hidden="true">→</span></button>`;
 }
 function heroBento(c) {
-  const { verdict, vt, brief, full, latest, score, prevScore, sc, R, C } = c, kp = heroKpis(c);
-  const comps = [['Pass rate', rate(full) ?? 0, 'brand'], ['Smoke', rate(smokeOf(latest)) ?? 0, 'good'], ['Stability', Math.max(0, 100 - Math.min(100, flakeRate(latest) * 5)), 'warn']];
+  const { verdict, vt, brief, full, latest, score, prevScore, sc, R, C, fullKnown, basis, bigLabel, bigSuf } = c, kp = heroKpis(c);
+  const comps = fullKnown ? [['Pass rate', rate(full) ?? 0, 'brand'], ['Smoke', rate(smokeOf(latest)) ?? 0, 'good'], ['Stability', Math.max(0, 100 - Math.min(100, flakeRate(latest) * 5)), 'warn']] : [['Smoke', rate(smokeOf(latest)) ?? 0, 'good']];
   return `<section class="m-grid m-${verdict}" data-print>
     <div class="m-tile m-verdict">
       <span class="m-pill"><i></i>${vt[1]}</span>
       <h2>${vt[2]}</h2>
       <p>${esc(reasonFor(verdict, full, c.gates))}</p>
       <div class="m-next"><span class="m-next-k">Next</span>${esc(brief.next)}</div>
-      <div class="m-actions">${heroCta(c)}<span class="m-meta">Run #${esc(latest.runNumber)}${latest.environment && latest.environment !== 'Default' ? ' · ' + esc(latest.environment) : ''} · ${esc(brief.items[0].x === 'Working' ? 'Core journeys working' : 'Core journeys at risk')}</span></div>
+      <div class="m-actions">${heroCta(c)}<span class="m-meta">Run #${esc(latest.runNumber)}${latest.environment && latest.environment !== 'Default' ? ' · ' + esc(latest.environment) : ''} · ${esc(basis || (brief.items[0].x === 'Working' ? 'Core journeys working' : 'Core journeys at risk'))}</span></div>
     </div>
     <div class="m-tile m-score">
       <div class="m-ring"><svg viewBox="0 0 170 170"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--brand)"/><stop offset="1" stop-color="var(--${sc})"/></linearGradient></defs><circle cx="85" cy="85" r="${R}" fill="none" stroke="var(--surface-2)" stroke-width="11"/>
         <circle cx="85" cy="85" r="${R}" fill="none" stroke="url(#rg)" stroke-width="11" stroke-linecap="round" class="arc" stroke-dasharray="0 ${C}" data-to="${(C * score) / 100} ${C}"/></svg>
-        <div class="m-ring-n"><b ${countAttr(score, 0, '')}>${score}</b><small>Health score</small></div></div>
-      <div class="m-score-side"><span class="m-delta ${prevScore === null ? 'flat' : score >= prevScore ? 'up' : 'dn'}">${prevScore === null ? 'first scored run' : score === prevScore ? 'no change' : `${score > prevScore ? '▲' : '▼'} ${Math.abs(score - prevScore)} vs previous`}</span>
+        <div class="m-ring-n"><b ${countAttr(score, 0, bigSuf)}>${score}${bigSuf}</b><small>${bigLabel}</small></div></div>
+      <div class="m-score-side"><span class="m-delta ${prevScore === null ? 'flat' : score >= prevScore ? 'up' : 'dn'}">${!fullKnown ? 'full regression not run' : prevScore === null ? 'first scored run' : score === prevScore ? 'no change' : `${score > prevScore ? '▲' : '▼'} ${Math.abs(score - prevScore)} vs previous`}</span>
         <div class="m-comps">${comps.map(([n, v, t]) => `<div><span>${n}</span><div class="m-bar"><i style="width:${Math.round(v)}%;background:var(--${t})"></i></div></div>`).join('')}</div></div>
     </div>
-    ${kp.map((k, i) => `<div class="m-tile m-kpi m-t-${k.tn}"><div class="m-kpi-l">${k.l}</div><div class="m-kpi-v c-${k.tn}"><b ${countAttr(k.v, k.dec, k.suf)}>${k.v === null ? '–' : k.v + k.suf}</b></div><span class="m-delta ${k.dl.cls}">${k.dl.txt}</span>${sparkArea(k.sp, k.tn, i)}</div>`).join('')}
+    ${kp.map((k, i) => `<div class="m-tile m-kpi m-t-${k.tn}"><div class="m-kpi-l">${k.l}</div><div class="m-kpi-v c-${k.tn}"><b ${k.v === null ? '' : countAttr(k.v, k.dec, k.suf)}>${k.v === null ? '–' : k.v + k.suf}</b></div><span class="m-delta ${k.dl.cls}">${k.v === null ? 'not run yet' : k.dl.txt}</span>${sparkArea(k.sp, k.tn, i)}</div>`).join('')}
     ${heroChecks(c)}
   </section>`;
 }
 function heroSpot(c) {
-  const { verdict, vt, brief, full, latest, score, sc, reg } = c, kp = heroKpis(c), target = POLICY.regression.pass;
-  const stats = [['Health score', score, 0, '', sc], ...kp.slice(1).map((k) => [k.l, k.v, k.dec, k.suf, k.tn])];
+  const { verdict, vt, brief, full, latest, score, prevScore, sc, fullKnown, basis, bigLabel, bigSuf } = c, kp = heroKpis(c), target = POLICY.regression.pass;
+  const delta = !fullKnown || prevScore === null ? '' : score === prevScore ? '<span class="m-delta flat">no change</span>' : `<span class="m-delta ${score > prevScore ? 'up' : 'dn'}">${score > prevScore ? '▲' : '▼'} ${Math.abs(score - prevScore)} vs previous full run</span>`;
+  // The big number is the health score; the regression pass rate (against its target) leads the stat strip.
+  const stats = kp.map((k, i) => (i === 0 && !fullKnown ? [k.l, null, 0, '', 'mute', 'not run yet'] : [k.l, k.v, k.dec, k.suf, k.tn, i === 0 ? `target ${target}%` : '']));
   return `<section class="m-spot m-${verdict}" data-print>
-    <div class="m-spot-top"><span class="m-pill"><i></i>${vt[1]}</span><span class="m-meta">Release readiness · Run #${esc(latest.runNumber)}${latest.environment && latest.environment !== 'Default' ? ' · ' + esc(latest.environment) : ''}</span></div>
+    <div class="m-spot-top"><span class="m-pill"><i></i>${vt[1]}</span><span class="m-meta">Release readiness · Run #${esc(latest.runNumber)}${latest.environment && latest.environment !== 'Default' ? ' · ' + esc(latest.environment) : ''}${basis ? ' · ' + esc(basis) : ''}</span></div>
     <div class="m-spot-main">
-      <div class="m-spot-num"><div class="m-big ${'c-' + (kp[0].tn)}"><b ${countAttr(reg, 1, '%')}>${pct(reg)}</b></div>
-        <div class="m-spot-cap">of ${ran(full)} checks pass <span>· target ${target}%</span></div>
-        <div class="m-gauge" role="img" aria-label="Pass rate ${pct(reg)}, target ${target}%"><i style="width:${Math.min(100, reg ?? 0)}%"></i><u style="left:${target}%"><em>Target ${target}%</em></u></div></div>
+      <div class="m-spot-num"><div class="m-big c-${sc}"><b ${countAttr(score, 0, bigSuf)}>${score}${bigSuf}</b></div>
+        <div class="m-spot-cap">${bigLabel} ${delta}</div>
+        <div class="m-gauge" role="img" aria-label="${bigLabel} ${score} out of 100"><i style="width:${Math.min(100, score)}%"></i></div>
+        <div class="m-spot-cap" style="margin:-14px 0 0;font-size:12.5px"><span>${fullKnown ? 'Pass rate 50% · smoke 25% · stability 25%' : 'No full regression has run in this view, so there is no health score or release verdict yet.'}</span></div></div>
       <div class="m-spot-msg"><h2>${vt[2]}</h2><p>${esc(reasonFor(verdict, full, c.gates))}</p>
         <div class="m-next"><span class="m-next-k">Next</span>${esc(brief.next)}</div><div class="m-actions">${heroCta(c)}</div></div>
     </div>
-    <div class="m-strip">${stats.map(([l, v, dec, suf, t]) => `<div><span>${l}</span><b class="c-${t}" ${countAttr(v, dec, suf)}>${v === null ? '–' : v + suf}</b></div>`).join('')}</div>
+    <div class="m-strip">${stats.map(([l, v, dec, suf, t, sub]) => `<div><span>${l}</span><b class="c-${t}" ${v === null ? '' : countAttr(v, dec, suf)}>${v === null ? '–' : v + suf}</b>${sub ? `<small>${sub}</small>` : ''}</div>`).join('')}</div>
     ${heroChecks(c)}
   </section>`;
 }
@@ -1560,9 +1581,12 @@ function render(runs) {
     return;
   }
   VIEW_RUNS = runs; buildIdx(runs);
-  const { gates, verdict, latest, full, prevFull } = readiness(runs);
-  const score = healthScore(latest, full), prevScore = prevFull ? healthScore(prevFull, prevFull) : null;
-  const vt = { good: ['✓', 'GO', 'Ready to release', 'All quality gates are green. Critical journeys work and the regression suite is within target.'],
+  const { gates, verdict, latest, full, prevFull, fullKnown } = readiness(runs);
+  // With smoke runs only, the headline number is the smoke pass rate: there is no health score or release verdict to show.
+  const score = fullKnown ? healthScore(latest, full) : Math.round(rate(smokeOf(latest)) ?? 0), prevScore = fullKnown && prevFull ? healthScore(prevFull, prevFull) : null;
+  const bigLabel = fullKnown ? 'Site health score' : 'Smoke pass rate', bigSuf = fullKnown ? '' : '%';
+  const basis = !fullKnown ? 'No full regression in this view' : full !== latest ? `Verdict from full regression #${full.runNumber} · ${ago(full.date)}` : '';
+  const vt = !fullKnown ? (verdict === 'bad' ? ['✕', 'NO-GO', 'Smoke tests are failing', ''] : ['✓', 'SMOKE PASSED', 'Smoke passed, full regression not run', '']) : { good: ['✓', 'GO', 'Ready to release', 'All quality gates are green. Critical journeys work and the regression suite is within target.'],
     warn: ['!', 'CONDITIONAL', 'Release with caution', ''],
     bad: ['✕', 'NO-GO', 'Not ready to release', ''] }[verdict];
   const brief = briefFor(verdict, gates, latest, full);
@@ -1581,7 +1605,7 @@ function render(runs) {
   <div class="print-only" data-print><h1>Release brief · ${esc(vt[1])}</h1><p>${esc(brief.summary)}</p><p class="muted-sm">${esc(filterLabel())} · Run #${esc(latest.runNumber)} · ${esc(when(latest.date))} · ${esc(latest.branch)}${latest.sha ? ' @ ' + esc(latest.sha) : ''} · generated ${esc(new Date().toLocaleString())}</p></div>
   ${barHtml(latest, runs)}
 
-  ${heroHtml({ verdict, vt, brief, gates, gateCounts, full, latest, prevFull, score, prevScore, sc, R, C, reg, sm, fl, fullHist })}
+  ${heroHtml({ verdict, vt, brief, gates, gateCounts, full, latest, prevFull, score, prevScore, sc, R, C, reg: fullKnown ? reg : null, sm, fl, fullHist, fullKnown, basis, bigLabel, bigSuf })}
 
   <nav class="tabs" role="tablist" aria-label="Dashboard sections" data-print>
     <button class="tab" role="tab" data-tab="overview" aria-selected="${TAB === 'overview'}">Overview</button>
