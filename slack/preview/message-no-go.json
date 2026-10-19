@@ -25,7 +25,7 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*Not ready to release — critical checks failing, a browser is below 90%.*\n🟥🟥🟥🟥🟥🟥🟥🟥🟥⬜  *94.6%* pass rate"
+            "text": "*Not ready to release — a critical journey is failing and critical-severity checks are failing.*\n🟥🟥🟥🟥🟥🟥🟥🟥🟥⬜  *94.6%* pass rate"
           }
         },
         {

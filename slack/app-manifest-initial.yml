@@ -17,7 +17,7 @@ features:
     - command: /qa-run
       url: https://qa-run-slack-relay.ct-automation-gs.workers.dev/command
       description: Run the QA tests
-      usage_hint: "[smoke | full | tag @critical]"
+      usage_hint: "[smoke | full | checkout | cart | login ...]"
       should_escape: false
   shortcuts:
     - name: Run QA tests              # the ⚡ menu in any channel

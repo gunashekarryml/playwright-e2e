@@ -10,3 +10,7 @@ allure-report/
 .env
 .DS_Store
 .claude/settings.local.json
+.wrangler/
+dashboard-input/
+site/
+run.json

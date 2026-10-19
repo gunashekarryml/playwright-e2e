@@ -12,7 +12,7 @@ on:
       environment:
         description: 'Environment to test (URLs come from repo variables QA_URL, DEV_URL, STAGING_URL, PROD_URL)'
         required: true
-        default: QA
+        default: PROD
         type: choice
         options:
           - QA
@@ -20,19 +20,28 @@ on:
           - STAGING
           - PROD
       suite:
-        description: 'Which suite to run (ignored when "grep" is set)'
+        description: 'Smoke, Full Regression, or one feature area'
         required: true
-        default: Full Regression
+        default: Smoke
         type: choice
         options:
           - Smoke
           - Full Regression
+          - Login
+          - Product Listing
+          - Product Details
+          - Cart
+          - Checkout
+          - Menu & Navigation
+          - Dynamic Catalog
+          - Accessibility
+          - User Profiles
       base_url:
         description: 'Advanced: override the environment URL for this run'
         required: false
         default: ''
       grep:
-        description: 'Only run tests whose title matches this pattern (overrides "suite" below)'
+        description: 'Optional: only tests carrying this tag (e.g. @critical), combined with the suite above'
         required: false
         default: ''
       requested_by:
@@ -59,6 +68,9 @@ env:
     || (github.event.inputs.environment == 'PROD' && vars.PROD_URL)
     || vars.BASE_URL || 'https://www.saucedemo.com' }}
   TEST_ENV: ${{ github.event.inputs.environment || 'Default' }}
+  TEST_SUITE: ${{ github.event.inputs.suite || 'Full Regression' }}
+  TEST_FILTER: ${{ github.event.inputs.grep }}
+  DEMO_FAILURES: ${{ vars.DEMO_FAILURES }}  # set the repo variable to "off" to drop the intentional demo failures
 
 jobs:
   lint:
@@ -110,15 +122,26 @@ jobs:
           INPUT_GREP: ${{ github.event.inputs.grep }}
           INPUT_SUITE: ${{ github.event.inputs.suite }}
         run: |
-          if [ "$EVENT" = "pull_request" ]; then
-            echo "grep=@smoke" >> "$GITHUB_OUTPUT"
-          elif [ -n "$INPUT_GREP" ]; then
-            echo "grep=$INPUT_GREP" >> "$GITHUB_OUTPUT"
-          elif [ "$INPUT_SUITE" = "Smoke" ]; then
-            echo "grep=@smoke" >> "$GITHUB_OUTPUT"
-          else
-            echo "grep=" >> "$GITHUB_OUTPUT"
-          fi
+          # Map the chosen suite to the feature tag the specs carry.
+          case "$INPUT_SUITE" in
+            "Smoke") SUITE_TAG="@smoke" ;;
+            "Login") SUITE_TAG="@login" ;;
+            "Product Listing") SUITE_TAG="@inventory" ;;
+            "Product Details") SUITE_TAG="@product" ;;
+            "Cart") SUITE_TAG="@cart" ;;
+            "Checkout") SUITE_TAG="@checkout" ;;
+            "Menu & Navigation") SUITE_TAG="@menu" ;;
+            "Dynamic Catalog") SUITE_TAG="@catalog" ;;
+            "Accessibility") SUITE_TAG="@a11y" ;;
+            "User Profiles") SUITE_TAG="@users" ;;
+            *) SUITE_TAG="" ;;   # Full Regression, push and nightly runs
+          esac
+          [ "$EVENT" = "pull_request" ] && SUITE_TAG="@smoke"
+          # Both filters must match, so chain them as regex look-aheads.
+          GREP=""
+          [ -n "$SUITE_TAG" ] && GREP="(?=.*$SUITE_TAG)"
+          [ -n "$INPUT_GREP" ] && GREP="$GREP(?=.*$INPUT_GREP)"
+          echo "grep=$GREP" >> "$GITHUB_OUTPUT"
 
       - name: Run Playwright tests
         env:

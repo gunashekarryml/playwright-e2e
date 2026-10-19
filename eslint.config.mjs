@@ -12,6 +12,11 @@ export default tseslint.config(
       'test-results/**',
       'blob-report/**',
       'playwright/.auth/**',
+      // generated or third-party output, never hand-written source
+      '**/.wrangler/**',
+      'dashboard-input/**',
+      'site/**',
+      'run.json',
     ],
   },
   js.configs.recommended,

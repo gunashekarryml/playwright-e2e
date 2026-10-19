@@ -25,7 +25,7 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*Release with caution — 1 failing check, high-severity failures.*\n🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨  *98.2%* pass rate"
+            "text": "*Release with caution — high-severity cases are failing (95% pass).*\n🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨  *98.2%* pass rate"
           }
         },
         {

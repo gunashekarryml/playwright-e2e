@@ -13,14 +13,34 @@
 
 // Must match the workflow_dispatch choice options in .github/workflows/playwright.yml
 const ENVIRONMENTS = ['QA', 'DEV', 'STAGING', 'PROD'];
-const SUITES = ['Smoke', 'Full Regression'];
+const DEFAULT_ENV = 'PROD';
+const RUN_TYPES = ['Smoke', 'Full Regression'];
+// Feature suites -> words people may type after /qa-run or in a mention (first match wins, so list specific names first)
+const FEATURES = {
+  'Product Details': ['product details', 'details'],
+  'Product Listing': ['listing', 'inventory', 'products'],
+  Login: ['login'],
+  Cart: ['cart'],
+  Checkout: ['checkout'],
+  'Menu & Navigation': ['menu', 'navigation'],
+  'Dynamic Catalog': ['catalog', 'dynamic'],
+  Accessibility: ['accessibility', 'a11y'],
+  'User Profiles': ['users', 'profiles'],
+};
+const SUITES = [...RUN_TYPES, ...Object.keys(FEATURES)];
 const TAGS = ['@smoke', '@critical', '@high', '@medium', '@low'];
+const suiteFromText = (t) => {
+  if (/\bsmoke\b/.test(t)) return 'Smoke';
+  for (const [suite, words] of Object.entries(FEATURES)) if (words.some((w) => new RegExp(`\\b${w}\\b`).test(t))) return suite;
+  if (/\b(full|regression)\b/.test(t)) return 'Full Regression';
+  return null;
+};
 
 const HELP = [
   '*Usage*',
   '`/qa-run`  – open the form (environment, suite, tag)',
-  '`/qa-run smoke`  /  `/qa-run full`  – quick start on QA',
-  '`/qa-run tag @critical`  – only tests with that tag',
+  '`/qa-run smoke`  /  `full`  /  `checkout`  /  `cart`  /  `login` …  – quick start on PROD',
+  '`/qa-run checkout tag @critical`  – a suite, only tests with that tag',
 ].join('\n');
 
 const json = (body) => new Response(JSON.stringify(body), { headers: { 'Content-Type': 'application/json' } });
@@ -61,6 +81,8 @@ async function slackApi(env, method, body) {
 
 const opt = (v) => ({ text: { type: 'plain_text', text: v }, value: v });
 
+const suiteOption = (v) => ({ ...opt(v), description: { type: 'plain_text', text: v === 'Smoke' ? 'Critical journeys only, fastest' : v === 'Full Regression' ? 'Every test' : `${v} tests only` } });
+
 function formView(channel) {
   return {
     type: 'modal',
@@ -70,9 +92,12 @@ function formView(channel) {
     submit: { type: 'plain_text', text: '🚀 Start run' },
     close: { type: 'plain_text', text: 'Cancel' },
     blocks: [
-      { type: 'input', block_id: 'env_b', label: { type: 'plain_text', text: 'Environment' }, element: { type: 'static_select', action_id: 'env', initial_option: opt('QA'), options: ENVIRONMENTS.map(opt) } },
-      { type: 'input', block_id: 'suite_b', label: { type: 'plain_text', text: 'Suite' }, element: { type: 'radio_buttons', action_id: 'suite', initial_option: { ...opt('Full Regression'), description: { type: 'plain_text', text: 'Every test, all browsers' } }, options: [{ ...opt('Smoke'), description: { type: 'plain_text', text: 'Critical journeys only — fastest' } }, { ...opt('Full Regression'), description: { type: 'plain_text', text: 'Every test, all browsers' } }] } },
-      { type: 'input', block_id: 'tag_b', optional: true, label: { type: 'plain_text', text: 'Only tests tagged (optional)' }, hint: { type: 'plain_text', text: 'Overrides the suite when set.' }, element: { type: 'static_select', action_id: 'tag', placeholder: { type: 'plain_text', text: 'No tag filter' }, options: TAGS.map(opt) } },
+      { type: 'input', block_id: 'env_b', label: { type: 'plain_text', text: 'Environment' }, element: { type: 'static_select', action_id: 'env', initial_option: opt(DEFAULT_ENV), options: ENVIRONMENTS.map(opt) } },
+      { type: 'input', block_id: 'suite_b', label: { type: 'plain_text', text: 'Suite' }, element: { type: 'static_select', action_id: 'suite', initial_option: suiteOption('Smoke'), option_groups: [
+        { label: { type: 'plain_text', text: 'Run type' }, options: RUN_TYPES.map(suiteOption) },
+        { label: { type: 'plain_text', text: 'Specific feature' }, options: Object.keys(FEATURES).map(suiteOption) },
+      ] } },
+      { type: 'input', block_id: 'tag_b', optional: true, label: { type: 'plain_text', text: 'Only tests tagged (optional)' }, hint: { type: 'plain_text', text: 'Narrows the suite above, e.g. Checkout + @critical.' }, element: { type: 'static_select', action_id: 'tag', placeholder: { type: 'plain_text', text: 'No tag filter' }, options: TAGS.map(opt) } },
       { type: 'context', elements: [{ type: 'mrkdwn', text: '⚠️ *PROD* runs real checkouts against production. Results are posted back to this channel.' }] },
     ],
   };
@@ -88,7 +113,7 @@ async function dispatch(env, inputs) {
   return res.status === 204;
 }
 
-const describe = (i) => `*${i.grep ? `tests tagged ${i.grep}` : i.suite}* on *${i.environment}*`;
+const describe = (i) => `*${i.suite}${i.grep ? ` · ${i.grep}` : ''}* on *${i.environment}*`;
 const actionsUrl = (env) => `https://github.com/${env.GITHUB_REPO}/actions/workflows/${env.WORKFLOW_FILE}`;
 
 async function handleCommand(form, env) {
@@ -101,11 +126,13 @@ async function handleCommand(form, env) {
     const r = await slackApi(env, 'views.open', { trigger_id: form.get('trigger_id'), view: formView(channelId) });
     return r.ok ? new Response('') : ephemeral(':x: Could not open the form. Check the relay logs (is SLACK_BOT_TOKEN set?).');
   }
-  const inputs = { environment: 'QA', requested_by: `@${userName}` };
-  if (cmd === 'smoke') inputs.suite = 'Smoke';
-  else if (cmd === 'full') inputs.suite = 'Full Regression';
-  else if (cmd === 'tag' && rest.length === 1 && TAGS.includes(rest[0])) { inputs.suite = 'Full Regression'; inputs.grep = rest[0]; }
-  else return ephemeral(HELP);
+  const inputs = { environment: DEFAULT_ENV, requested_by: `@${userName}` };
+  const words = [cmd, ...rest].join(' ').toLowerCase();
+  const tag = TAGS.find((t) => words.includes(t));
+  const suite = suiteFromText(words.replace(/\btag\b/, ''));
+  if (!suite && !tag) return ephemeral(HELP);
+  inputs.suite = suite ?? 'Full Regression';
+  if (tag) inputs.grep = tag;
 
   if (!(await dispatch(env, inputs))) return ephemeral(':x: Could not start the run. Check the relay logs / token permissions.');
   return json({ response_type: 'in_channel', text: `🚀 <@${userId}> started ${describe(inputs)}. Results will be posted here when it finishes.` });
@@ -153,9 +180,9 @@ async function handleInteractivity(payload, env, ctx) {
 // ---- @QA Bot mentions: "run smoke on qa", "full on staging", "tag @critical on dev" ----
 function parseMention(text) {
   const t = text.replace(/<@[A-Z0-9]+>/g, '').toLowerCase();
-  const environment = ENVIRONMENTS.find((e) => new RegExp(`\\b${e.toLowerCase()}\\b`).test(t)) ?? 'QA';
+  const environment = ENVIRONMENTS.find((e) => new RegExp(`\\b${e.toLowerCase()}\\b`).test(t)) ?? DEFAULT_ENV;
   const tag = TAGS.find((x) => t.includes(x));
-  const suite = /\bsmoke\b/.test(t) ? 'Smoke' : /\b(full|regression)\b/.test(t) ? 'Full Regression' : null;
+  const suite = suiteFromText(t);
   if (!suite && !tag) return null;
   const inputs = { environment, suite: suite ?? 'Full Regression' };
   if (tag) inputs.grep = tag;
@@ -167,7 +194,7 @@ async function handleMention(event, env) {
   const denied = allowed(env, event.user, event.channel);
   if (denied) return post(denied);
   const inputs = parseMention(event.text ?? '');
-  if (!inputs) return post('Try: `@QA Bot run smoke on QA`, `@QA Bot full on STAGING`, or `@QA Bot tag @critical on DEV`. Or use `/qa-run` for the form.');
+  if (!inputs) return post('Try: `@QA Bot run smoke on PROD`, `@QA Bot checkout on QA`, or `@QA Bot full on STAGING @critical`. Or use `/qa-run` for the form.');
   inputs.requested_by = `<@${event.user}>`;
   if (!(await dispatch(env, inputs))) return post(':x: Could not start the run. Check the relay logs / token permissions.');
   return post(`🚀 Started ${describe(inputs)}. I'll post the result in the channel when it finishes.`);

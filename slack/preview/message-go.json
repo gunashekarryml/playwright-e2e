@@ -25,7 +25,7 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*Safe to release — all quality gates are green.*\n🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩  *100%* pass rate"
+            "text": "*Safe to release — critical journeys work and critical and high-severity cases pass.*\n🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩  *100%* pass rate"
           }
         },
         {

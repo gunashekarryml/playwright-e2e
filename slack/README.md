@@ -121,6 +121,15 @@ Only QA or default runs on `main` update the published Allure report and dashboa
 
 ## 8. Using it
 
+### The run form
+| Field | Options | Default | Required |
+|---|---|---|---|
+| Environment | QA, DEV, STAGING, PROD | PROD | Yes |
+| Suite | **Run type:** Smoke, Full Regression. **Specific feature:** Login, Product Listing, Product Details, Cart, Checkout, Menu & Navigation, Dynamic Catalog, Accessibility, User Profiles | Smoke | Yes |
+| Only tests tagged | @smoke, @critical, @high, @medium, @low | none | No |
+
+A tag narrows the suite: *Checkout* + *@critical* runs only the critical checkout tests. Feature runs are labelled *partial* in Slack and the dashboard and are excluded from the release verdict, which always uses the latest full regression.
+
 ### Ways to start a run
 | How | What happens |
 |---|---|
