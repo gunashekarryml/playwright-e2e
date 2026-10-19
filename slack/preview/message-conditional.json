@@ -1,5 +1,5 @@
 {
-  "text": "CONDITIONAL: Run #42 · 98.2% pass rate",
+  "text": "CONDITIONAL: Run #42 — 98.2% pass rate",
   "attachments": [
     {
       "color": "#ecb22e",
@@ -8,7 +8,7 @@
           "type": "header",
           "text": {
             "type": "plain_text",
-            "text": "🟡  Release with caution  ·  Run #42",
+            "text": "🟡  CONDITIONAL · Run #42",
             "emoji": true
           }
         },
@@ -17,7 +17,7 @@
           "elements": [
             {
               "type": "mrkdwn",
-              "text": "*CONDITIONAL*   ·   🌐 *QA*   ·   🧪 Full regression   ·   👤 nightly schedule   ·   ⏱ 4m 12s"
+              "text": "*Full regression*  ·  Env *QA*  ·  nightly schedule"
             }
           ]
         },
@@ -25,15 +25,17 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*98.2%*  pass rate  ▼ 1.8 pts vs previous\n🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩   _target 95%_\n`████▇██▁`  _last 8 runs_"
+            "text": "*Release with caution — high-severity cases are failing (95% pass).*\n🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨  *98.2%* pass rate"
           }
         },
         {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "> The high-severity pass rate is 95% (needs 100%). Nothing blocks the release, but agree these known issues with the owners first."
-          }
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "✅ *55* passed    🔴 *1* failed    🟡 *2* flaky    ⏭ *0* skipped    ⏱ *4m 12s*"
+            }
+          ]
         },
         {
           "type": "divider"
@@ -42,7 +44,7 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*Release checks*  ·  *7 of 8* passed  ·  🟡 1 need attention"
+            "text": "*Severity breakdown*\n```Severity  Total   Pass   Fail   Skip\nCritical     12     12      0      0\nHigh         20     19      1      0  ◀\nMedium       16     16      0      0\nLow           8      8      0      0```"
           }
         },
         {
@@ -50,16 +52,11 @@
           "fields": [
             {
               "type": "mrkdwn",
-              "text": "🟡 *Critical &amp; high-severity pass*\n      _High severity 95% pass_"
-            }
-          ]
-        },
-        {
-          "type": "context",
-          "elements": [
+              "text": "*Features*\n🟢 Checkout *91.7%*\n🟢 Login & Auth *100%*\n🟢 Shopping Cart *100%*\n🟢 Accessibility *100%*"
+            },
             {
               "type": "mrkdwn",
-              "text": "✅ Critical journeys work  ·  Overall pass rate  ·  Medium &amp; low within limits  ·  Tests are stable  ·  Every feature healthy  ·  Works on every browser  ·  Quality not dropping"
+              "text": "*Browsers*\n🟢 Chrome 100%\n🟢 Firefox 100%\n🟢 Safari 100%\n🟢 Android 100%"
             }
           ]
         },
@@ -67,31 +64,7 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*By severity*\n```Critical ██████████  100%  ✓\nHigh     ██████████   95%  1 failed\nMedium   ██████████  100%  ✓\nLow      ██████████  100%  ✓```"
-          }
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "*By feature*  _weakest first_\n```Checkout          ███████░   92%\nLogin & Auth      ████████  100%\nShopping Cart     ████████  100%\nAccessibility     ████████  100%```\n🟢 Chrome 100%   🟢 Firefox 100%   🟢 Safari 100%   🟢 Android 100%"
-          }
-        },
-        {
-          "type": "divider"
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "*Needs attention*  ·  1 issue  ·  1 unstable\n\n🟠 *Checkout* · blocks checkout when required fields are missing\n      Expected “First Name is required” but the page showed “”.\n      _Firefox, Safari · Product behaves differently than expected_"
-          }
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "> *Next:* Get the owners to sign off the 1 known issue, then release."
+            "text": "*Needs attention*\n🟠 *Checkout* — blocks checkout when required fields are missing  _(Firefox)_"
           }
         },
         {
@@ -141,7 +114,7 @@
           "elements": [
             {
               "type": "mrkdwn",
-              "text": "`main @ 1f4ffce`   ·   Thu, 15 Oct 2026 09:24:00 UTC   ·   compared with run #40"
+              "text": "main @ `1f4ffce`  ·  Thu, 15 Oct 2026 09:24:00 UTC"
             }
           ]
         }

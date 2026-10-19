@@ -276,11 +276,11 @@ The dashboard and the Slack message judge the latest **full regression** with th
 Edit the numbers in `POLICY` at the top of the script in `dashboard/index.html` and in `scripts/notify-slack.js` (the Slack copy has no trend check).
 
 ### When only a smoke or feature run exists
-A smoke or feature run can never approve a release, so the dashboard and the Slack message never show **GO** for one:
+A smoke or feature run can never approve a release, so the dashboard never shows **GO** for one:
 - **No full regression in the current view** → the verdict is **SMOKE PASSED · full regression not run** (blue), or **NO-GO** if the smoke tests fail. The big number is the smoke pass rate, and the regression tile reads "not run yet".
 - **Full regression exists but is older than the latest run** → the verdict comes from that full run, and the header says which one ("Verdict from full regression #59 · 20h ago").
 - **Full regression older than 48 h** → an extra amber check, "Full regression is recent" (`POLICY.staleHours`).
-- In Slack, a smoke or feature run reads "Smoke passed" / "Checkout: some checks failed", says "Release verdict: not assessed by this run", and its button opens **this run's** report.
+- The **Slack message** uses its earlier format: it judges every run on its own numbers, so a smoke-only run can still read GO there. (The dashboard is the place to read the release verdict.)
 
 ## How results are published and kept
 
