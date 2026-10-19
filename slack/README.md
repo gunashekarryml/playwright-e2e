@@ -143,14 +143,15 @@ A tag narrows the suite: *Checkout* + *@critical* runs only the critical checkou
 PROD runs complete real checkouts. Only run PROD with tests that are safe for production.
 
 ### Reading the result message
-- **Side bar colour and header:** green GO, amber CONDITIONAL, red NO-GO. The rules mirror the dashboard's release gates.
-- **Meter and stats:** pass rate, passed, failed, flaky, skipped, runtime.
-- **Severity breakdown:** counts per `@critical`, `@high`, `@medium`, `@low`. A ◀ marks rows with failures.
-- **Features and browsers:** worst first.
-- **Needs attention:** the top failing checks with severity and browser.
-- **Buttons:** Dashboard, Allure report, CI run, and **Run again** (or **Configure & run** when `SLACK_RUN_FORM=true`).
+- **Header and context line:** a coloured status dot, the headline ("Release with caution") and the run number; below it the verdict, environment, suite, who started it and the runtime.
+- **Pass rate:** a big number with the change since the previous run (▲/▼ pts), a coloured meter against the target, and a sparkline of the last 8 runs. The trend comes from the dashboard's `data/runs.json`; if it can't be read, the message still posts without it.
+- **Reason:** one plain sentence on why the verdict is what it is.
+- **Release checks:** "7 of 8 passed". Only the checks that need attention get a tile; the passing ones fold into a single line.
+- **By severity / By feature:** terminal-style bars (weakest feature first), plus the four browsers.
+- **Needs attention:** the 3 most serious distinct issues with a plain-language cause. With a bot token, the **full list** of issues and unstable checks, with expected vs actual, owner and next step, is posted as a **thread reply** so the channel stays short.
+- **Next step** and **buttons:** Dashboard, Allure report, CI run, and Run again (or Configure & run).
 
-To preview message layouts without posting: `node slack/preview/render.js` writes PNGs to `slack/preview/`.
+To preview layouts without posting: `node slack/preview/render.js` writes PNGs to `slack/preview/`.
 
 ## 9. Verification checklist
 

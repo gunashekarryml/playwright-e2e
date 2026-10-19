@@ -1,0 +1,133 @@
+{
+  "text": "CHECKOUT HAS FAILURES: Run #45 · 75% pass rate",
+  "attachments": [
+    {
+      "color": "#ecb22e",
+      "blocks": [
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "🟡  Checkout: some checks failed  ·  Run #45",
+            "emoji": true
+          }
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "*CHECKOUT HAS FAILURES*   ·   🌐 *QA*   ·   🧪 Checkout (partial)   ·   👤 started by guna   ·   ⏱ 31s"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*75%*  pass rate  ▼ 18 pts vs previous\n🟥🟥🟥🟥🟥🟥🟥🟥⬜⬜\n`▆█▆▁`  _last 4 runs_"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "> 4 of 16 checks failed. A checkout run cannot approve a release."
+          }
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Release verdict:* not assessed by this run"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*By severity*\n```High     █████░░░░░   50%  4 failed\nMedium   ██████████  100%  ✓```"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*By feature*  _weakest first_\n```Checkout          ██████░░   75%```\n🔴 Chrome 75%   🔴 Firefox 75%   🔴 Safari 75%   🔴 Android 75%"
+          }
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Needs attention*  ·  1 issue\n\n🟠 *Checkout* · a promo code can be applied before paying\n      Could not find a field with the placeholder “Promo code” on the page.\n      _all browsers · Screen element missing or changed_"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "> *Next:* Fix the failing checks, then re-run."
+          }
+        },
+        {
+          "type": "actions",
+          "elements": [
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "📊 Dashboard",
+                "emoji": true
+              },
+              "url": "https://x/dashboard/",
+              "style": "primary"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "📑 This run's report",
+                "emoji": true
+              },
+              "url": "https://x/latest-run/"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "⚙️ CI run",
+                "emoji": true
+              },
+              "url": "https://github.com/o/r/actions/runs/1"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "▶️ Run again",
+                "emoji": true
+              },
+              "url": "https://x/run"
+            }
+          ]
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "`main @ 1f4ffce`   ·   Thu, 15 Oct 2026 09:24:00 UTC   ·   compared with run #40"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

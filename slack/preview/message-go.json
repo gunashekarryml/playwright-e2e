@@ -1,5 +1,5 @@
 {
-  "text": "GO: Run #41 — 100% pass rate",
+  "text": "GO: Run #41 · 100% pass rate",
   "attachments": [
     {
       "color": "#2eb67d",
@@ -8,7 +8,7 @@
           "type": "header",
           "text": {
             "type": "plain_text",
-            "text": "🟢  GO · Run #41",
+            "text": "🟢  Ready to release  ·  Run #41",
             "emoji": true
           }
         },
@@ -17,7 +17,7 @@
           "elements": [
             {
               "type": "mrkdwn",
-              "text": "*Full regression*  ·  Env *QA*  ·  merge to main"
+              "text": "*GO*   ·   🌐 *QA*   ·   🧪 Full regression   ·   👤 merge to main   ·   ⏱ 4m 12s"
             }
           ]
         },
@@ -25,17 +25,15 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*Safe to release — critical journeys work and critical and high-severity cases pass.*\n🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩  *100%* pass rate"
+            "text": "*100%*  pass rate  ▲ 0.3 pts vs previous\n🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩   _target 95%_\n`██▁███▁█`  _last 8 runs_"
           }
         },
         {
-          "type": "context",
-          "elements": [
-            {
-              "type": "mrkdwn",
-              "text": "✅ *56* passed    ▫️ *0* failed    ▫️ *0* flaky    ⏭ *0* skipped    ⏱ *4m 12s*"
-            }
-          ]
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "> All release criteria are met: critical journeys work, critical and high-severity cases pass, and quality is on target."
+          }
         },
         {
           "type": "divider"
@@ -44,21 +42,38 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*Severity breakdown*\n```Severity  Total   Pass   Fail   Skip\nCritical     12     12      0      0\nHigh         20     20      0      0\nMedium       16     16      0      0\nLow           8      8      0      0```"
+            "text": "*Release checks*  ·  *8 of 8* passed"
+          }
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "✅ Critical journeys work  ·  Critical &amp; high-severity pass  ·  Overall pass rate  ·  Medium &amp; low within limits  ·  Tests are stable  ·  Every feature healthy  ·  Works on every browser  ·  Quality not dropping"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*By severity*\n```Critical ██████████  100%  ✓\nHigh     ██████████  100%  ✓\nMedium   ██████████  100%  ✓\nLow      ██████████  100%  ✓```"
           }
         },
         {
           "type": "section",
-          "fields": [
-            {
-              "type": "mrkdwn",
-              "text": "*Features*\n🟢 Login & Auth *100%*\n🟢 Shopping Cart *100%*\n🟢 Checkout *100%*\n🟢 Accessibility *100%*"
-            },
-            {
-              "type": "mrkdwn",
-              "text": "*Browsers*\n🟢 Chrome 100%\n🟢 Firefox 100%\n🟢 Safari 100%\n🟢 Android 100%"
-            }
-          ]
+          "text": {
+            "type": "mrkdwn",
+            "text": "*By feature*  _weakest first_\n```Login & Auth      ████████  100%\nShopping Cart     ████████  100%\nCheckout          ████████  100%\nAccessibility     ████████  100%```\n🟢 Chrome 100%   🟢 Firefox 100%   🟢 Safari 100%   🟢 Android 100%"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "> *Next:* No action needed. Proceed with the release."
+          }
         },
         {
           "type": "actions",
@@ -107,7 +122,7 @@
           "elements": [
             {
               "type": "mrkdwn",
-              "text": "main @ `1f4ffce`  ·  Thu, 15 Oct 2026 09:24:00 UTC"
+              "text": "`main @ 1f4ffce`   ·   Thu, 15 Oct 2026 09:24:00 UTC   ·   compared with run #40"
             }
           ]
         }

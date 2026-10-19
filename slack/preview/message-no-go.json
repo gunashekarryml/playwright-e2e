@@ -1,5 +1,5 @@
 {
-  "text": "NO-GO: Run #43 — 94.6% pass rate",
+  "text": "NO-GO: Run #43 · 94.6% pass rate",
   "attachments": [
     {
       "color": "#e01e5a",
@@ -8,7 +8,7 @@
           "type": "header",
           "text": {
             "type": "plain_text",
-            "text": "🔴  NO-GO · Run #43",
+            "text": "🔴  Not ready to release  ·  Run #43",
             "emoji": true
           }
         },
@@ -17,7 +17,7 @@
           "elements": [
             {
               "type": "mrkdwn",
-              "text": "*Full regression*  ·  Env *STAGING*  ·  requested by @guna from Slack"
+              "text": "*NO-GO*   ·   🌐 *STAGING*   ·   🧪 Full regression   ·   👤 requested by @guna   ·   ⏱ 4m 12s"
             }
           ]
         },
@@ -25,17 +25,15 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*Not ready to release — a critical journey is failing and critical-severity checks are failing.*\n🟥🟥🟥🟥🟥🟥🟥🟥🟥⬜  *94.6%* pass rate"
+            "text": "*94.6%*  pass rate  ▼ 3.6 pts vs previous\n🟨🟨🟨🟨🟨🟨🟨🟨🟨⬜   _target 95%_\n`▇▆▇▆▇▅▆▁`  _last 8 runs_"
           }
         },
         {
-          "type": "context",
-          "elements": [
-            {
-              "type": "mrkdwn",
-              "text": "✅ *53* passed    🔴 *3* failed    🟡 *1* flaky    ⏭ *0* skipped    ⏱ *4m 12s*"
-            }
-          ]
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "> A critical journey is failing and 1 critical-severity check is failing. Fix before releasing."
+          }
         },
         {
           "type": "divider"
@@ -44,7 +42,7 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*Severity breakdown*\n```Severity  Total   Pass   Fail   Skip\nCritical     12     11      1      0  ◀\nHigh         20     18      2      0  ◀\nMedium       16     16      0      0\nLow           8      8      0      0```"
+            "text": "*Release checks*  ·  *3 of 8* passed  ·  🟡 2 need attention  ·  🔴 3 failed"
           }
         },
         {
@@ -52,11 +50,32 @@
           "fields": [
             {
               "type": "mrkdwn",
-              "text": "*Features*\n🟡 Checkout *75%*\n🟢 Login & Auth *93.8%*\n🟢 Shopping Cart *100%*\n🟢 Accessibility *100%*"
+              "text": "🔴 *Critical journeys work*\n      _1 of 12 failing_"
             },
             {
               "type": "mrkdwn",
-              "text": "*Browsers*\n🟢 Chrome 100%\n🔴 Firefox 71.4%\n🟢 Safari 100%\n🟢 Android 100%"
+              "text": "🔴 *Critical &amp; high-severity pass*\n      _1 critical failing_"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "🔴 *Works on every browser*\n      _Firefox 71.4%_"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "🟡 *Overall pass rate*\n      _94.6% (target 95%)_"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "🟡 *Every feature healthy*\n      _Checkout 75%_"
+            }
+          ]
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "✅ Medium &amp; low within limits  ·  Tests are stable  ·  Quality not dropping"
             }
           ]
         },
@@ -64,7 +83,31 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*Needs attention*\n🔴 *Checkout* — completes an order end-to-end with valid details  _(Firefox)_\n🟠 *Checkout* — blocks checkout when required fields are missing  _(Safari)_\n🟠 *Login &amp; Auth* — locked out user sees an error  _(Firefox)_"
+            "text": "*By severity*\n```Critical █████████░   92%  1 failed\nHigh     █████████░   90%  2 failed\nMedium   ██████████  100%  ✓\nLow      ██████████  100%  ✓```"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*By feature*  _weakest first_\n```Checkout          ██████░░   75%\nLogin & Auth      ████████   94%\nShopping Cart     ████████  100%\nAccessibility     ████████  100%```\n🟢 Chrome 100%   🔴 Firefox 71.4%   🟢 Safari 100%   🟢 Android 100%"
+          }
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Needs attention*  ·  3 issues\n\n🔴 *Checkout* · completes an order end-to-end with valid details\n      Could not find a “Finish” button on the page.\n      _Firefox · Screen element missing or changed_\n\n🔴 *Checkout* · the item total equals the sum of the item prices\n      Expected “79.98” but the page showed “49.99”.\n      _Safari · Product behaves differently than expected_\n\n🟠 *Login &amp; Auth* · locked out user sees an error\n      Expected “locked out” but the page showed “”.\n      _Firefox · Product behaves differently than expected_"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "> *Next:* Fix the 3 blocking issues before releasing."
           }
         },
         {
@@ -114,7 +157,7 @@
           "elements": [
             {
               "type": "mrkdwn",
-              "text": "main @ `1f4ffce`  ·  Thu, 15 Oct 2026 09:24:00 UTC"
+              "text": "`main @ 1f4ffce`   ·   Thu, 15 Oct 2026 09:24:00 UTC   ·   compared with run #40"
             }
           ]
         }
