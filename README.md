@@ -239,3 +239,38 @@ Results are posted to Slack after every run, and `/qa-run` opens a Slack form (e
 - **environment**: QA / DEV / STAGING / PROD. The URL for each comes from a repo variable (Settings → Secrets and variables → Actions → Variables): `QA_URL`, `DEV_URL`, `STAGING_URL`, `PROD_URL`. If a variable is missing it falls back to `BASE_URL`, then https://www.saucedemo.com.
 - **suite**: Smoke or Full Regression (or give a `grep` tag, which wins).
 - Only QA/default runs on `main` update the published Allure report and dashboard history.
+
+## Intentional demo failures
+
+Six tests titled `[Demo] …` and tagged `@demo-failure` fail on purpose, to show how failures are analysed on the dashboard:
+
+| Test | Fails because | Root cause shown |
+|---|---|---|
+| Checkout: tax is 10% | The shop charges 8% | Product behaves differently than expected |
+| Checkout: promo code field | The shop has no promo field | Screen element missing or changed |
+| Login: agreed error wording | The site words the error differently | Product behaves differently than expected |
+| Dynamic Catalog: 50 ms load budget | The page takes longer | Page too slow or not responding |
+| Menu: status page reachable | Nothing listens on that address | Environment problem |
+| Cart: item count (intermittent) | Fails on the first attempt, passes on retry | Shown as an unstable (flaky) check |
+
+They run with Full Regression and with the feature suites that contain them (Smoke is unaffected), so Full Regression shows a *Conditional* verdict.
+**To switch them off:** set the GitHub repo variable `DEMO_FAILURES` to `off` (Settings → Secrets and variables → Actions → Variables), or run locally with `DEMO_FAILURES=off npx playwright test`. They are then excluded entirely.
+To demonstrate a *No-Go* verdict, change one demo test's tag from `@high` to `@critical`.
+
+## Release criteria (Go / Conditional / No-Go)
+
+The dashboard and the Slack message judge the latest **full regression** with the same rules. Severity decides the release; raw failure counts do not.
+
+| Check | Green | Amber (Conditional) | Red (No-Go) |
+|---|---|---|---|
+| Critical journeys (smoke) | all pass | no smoke tests ran | any failure |
+| Critical & high-severity cases | all pass | any high-severity failure (pass rate ≥ 90%) | any critical failure, or high-severity pass rate < 90% |
+| Overall pass rate | ≥ 95% | 85–95% | < 85% |
+| Medium & low issues | medium ≥ 90% and low ≥ 80% | below those limits | never red (known issues) |
+| Test stability (flaky) | ≤ 5% | 5–10% | > 10% |
+| Every feature | lowest ≥ 85% | 70–85% | < 70% |
+| Every browser | lowest ≥ 90% | 80–90% | < 80% |
+| Quality trend | drop ≤ 5 pts | drop > 5 pts | never red |
+
+**Verdict:** any red check = **No-Go**; no red but any amber = **Conditional** (release only with owner sign-off on the known issues); all green = **Go**.
+Edit the numbers in `POLICY` at the top of the script in `dashboard/index.html` and in `scripts/notify-slack.js` (the Slack copy has no trend check).
