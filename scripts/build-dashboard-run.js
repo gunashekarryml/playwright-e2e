@@ -5,7 +5,7 @@
 // Run metadata comes from the GitHub Actions environment when present.
 const fs = require('fs');
 const path = require('path');
-const { classify } = require('./lib/classify-failure');
+const { classify, causeInfo } = require('./lib/classify-failure');
 
 const [dir = 'dashboard-input', out = 'run.json'] = process.argv.slice(2);
 
@@ -69,13 +69,13 @@ for (const file of findJson(dir)) {
       if (status === 'flaky') {
         const first = t.results.find((r) => r.status !== 'passed' && r.status !== 'skipped');
         const err = (first?.error?.message ?? '').replace(ANSI, '');
-        const { category, hint } = classify(err);
-        flakyTests.push({ ...entry, retries: t.results.length - 1, error: err.split('\n')[0].slice(0, 240), category, hint });
+        const { category, hint, what, expected, received } = classify(err);
+        flakyTests.push({ ...entry, retries: t.results.length - 1, error: err.split('\n')[0].slice(0, 240), category, hint, what, expected, received });
       }
       if (status === 'unexpected') {
         const err = (t.results.at(-1)?.error?.message ?? '').replace(ANSI, '');
-        const { category, cause, hint } = classify(err);
-        failedTests.push({ ...entry, error: err.split('\n')[0].slice(0, 240), category, cause, hint });
+        const { category, cause, hint, what, expected, received } = classify(err);
+        failedTests.push({ ...entry, error: err.split('\n')[0].slice(0, 240), category, cause, hint, what, expected, received });
       }
     }
   }
@@ -83,6 +83,10 @@ for (const file of findJson(dir)) {
 
 const executed = totals.total - totals.skipped;
 const env = process.env;
+// smoke: only @smoke tests ran · partial: one feature suite and/or a tag filter · full: everything
+const suiteName = env.TEST_SUITE ?? '';
+const scope = smoke.total === totals.total ? 'smoke'
+  : (suiteName && suiteName !== 'Full Regression') || env.TEST_FILTER ? 'partial' : 'full';
 const run = {
   id: env.GITHUB_RUN_ID ?? String(Date.now()),
   runNumber: Number(env.GITHUB_RUN_NUMBER ?? 0),
@@ -93,7 +97,9 @@ const run = {
   runUrl: env.GITHUB_SERVER_URL ? `${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}` : '',
   baseUrl: env.BASE_URL ?? '',
   environment: env.TEST_ENV ?? '',
-  scope: smoke.total === totals.total ? 'smoke' : 'full',
+  scope,
+  suite: env.TEST_SUITE ?? '',
+  filter: env.TEST_FILTER ?? '',
   ...totals,
   smoke,
   severity,
@@ -103,6 +109,8 @@ const run = {
   projects,
   flakyTests,
   failedTests,
+  // Plain-language text for each root-cause category seen in this run (stored once, not per failure)
+  causes: Object.fromEntries([...new Set([...failedTests, ...flakyTests].map((f) => f.category))].map((c) => [c, causeInfo(c)])),
   tests: Object.values(testMap),
 };
 

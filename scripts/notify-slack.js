@@ -8,14 +8,16 @@
 /* global fetch */
 const fs = require('fs');
 
-const FEATURES = { login: 'Login & Auth', cart: 'Shopping Cart', checkout: 'Checkout', accessibility: 'Accessibility' };
+const FEATURES = { login: 'Login & Auth', cart: 'Shopping Cart', checkout: 'Checkout', accessibility: 'Accessibility', inventory: 'Product Listing', 'product-details': 'Product Details', 'menu-navigation': 'Menu & Navigation', 'dynamic-catalog': 'Dynamic Catalog', 'user-profiles': 'User Profiles' };
 const BROWSERS = { chromium: 'Chrome', firefox: 'Firefox', webkit: 'Safari', 'mobile-chrome': 'Android' };
 const SEVERITIES = ['critical', 'high', 'medium', 'low'];
 const SEV_DOT = { critical: '🔴', high: '🟠', medium: '🟡', low: '⚪' };
 const COLOR = { good: '#2eb67d', warn: '#ecb22e', bad: '#e01e5a' };
 
-// Mirrors the release gates in dashboard/index.html (POLICY). Keep the two in sync.
-const POLICY = { regression: [98, 90], flake: [2, 5], feature: [90, 75], browser: [95, 90], maxFailures: 3 };
+// Mirrors the release criteria in dashboard/index.html (POLICY). Keep the two in sync.
+// Blockers: smoke failure, any critical failure, high-severity pass rate below `highBlock`, overall below regression[1],
+// flaky above flake[1], a feature below feature[1], a browser below browser[1]. Everything else below target is a caution.
+const POLICY = { highBlock: 90, regression: [95, 85], minor: { medium: 90, low: 80 }, flake: [5, 10], feature: [85, 70], browser: [90, 80] };
 
 const esc = (t) => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const nice = (m, k) => m[k] ?? k.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
@@ -33,34 +35,39 @@ function verdictOf(run) {
   const sev = run.severity ?? {};
   const flake = ran(run) ? (run.flaky / ran(run)) * 100 : 0;
   const reg = run.passRate;
+  const hr = sev.high ? rate(sev.high) : null, mr = sev.medium ? rate(sev.medium) : null, lr = sev.low ? rate(sev.low) : null;
   const lowFeature = Math.min(...Object.values(run.features ?? {}).map((b) => rate(b) ?? 100), 100);
   const lowBrowser = Math.min(...Object.values(run.projects ?? {}).map((b) => rate(b) ?? 100), 100);
   const blockers = [];
   const cautions = [];
-  if (run.smoke?.failed || sev.critical?.failed) blockers.push('critical checks failing');
-  if (reg < POLICY.regression[1]) blockers.push(`pass rate ${reg}%`);
-  if (run.failed > POLICY.maxFailures) blockers.push(`${run.failed} failing checks`);
-  if (flake > POLICY.flake[1]) blockers.push('unstable tests');
-  if (lowFeature < POLICY.feature[1]) blockers.push('a feature is below 75%');
-  if (lowBrowser < POLICY.browser[1]) blockers.push('a browser is below 90%');
+  if (run.smoke?.failed) blockers.push('a critical journey is failing');
+  if (sev.critical?.failed) blockers.push('critical-severity checks are failing');
+  if (hr !== null && hr < POLICY.highBlock) blockers.push(`the high-severity pass rate is ${hr}%`);
+  if (reg < POLICY.regression[1]) blockers.push(`overall quality is ${reg}%`);
+  if (flake > POLICY.flake[1]) blockers.push('too many flaky tests');
+  if (lowFeature < POLICY.feature[1]) blockers.push(`a feature is at ${lowFeature}%`);
+  if (lowBrowser < POLICY.browser[1]) blockers.push(`a browser is at ${lowBrowser}%`);
   if (!blockers.length) {
-    if (reg < POLICY.regression[0]) cautions.push(`pass rate ${reg}%`);
-    if (run.failed) cautions.push(`${run.failed} failing check${run.failed > 1 ? 's' : ''}`);
-    if (sev.high?.failed) cautions.push('high-severity failures');
-    if (flake > POLICY.flake[0]) cautions.push('flaky tests');
-    if (lowFeature < POLICY.feature[0]) cautions.push('a feature is below 90%');
-    if (lowBrowser < POLICY.browser[0]) cautions.push('a browser is below 95%');
+    if (sev.high?.failed) cautions.push(`high-severity cases are failing (${hr}% pass)`);
+    if (reg < POLICY.regression[0]) cautions.push(`overall quality is ${reg}% (target ${POLICY.regression[0]}%)`);
+    if ((mr !== null && mr < POLICY.minor.medium) || (lr !== null && lr < POLICY.minor.low)) cautions.push('medium or low issues are above the limit');
+    if (flake > POLICY.flake[0]) cautions.push('some tests are flaky');
+    if (lowFeature < POLICY.feature[0]) cautions.push(`a feature is at ${lowFeature}%`);
+    if (lowBrowser < POLICY.browser[0]) cautions.push(`a browser is at ${lowBrowser}%`);
   }
-  if (blockers.length) return { tone: 'bad', icon: '🔴', label: 'NO-GO', line: `Not ready to release — ${blockers.slice(0, 2).join(', ')}.` };
-  if (cautions.length) return { tone: 'warn', icon: '🟡', label: 'CONDITIONAL', line: `Release with caution — ${cautions.slice(0, 2).join(', ')}.` };
-  return { tone: 'good', icon: '🟢', label: 'GO', line: 'Safe to release — all quality gates are green.' };
+  const say = (l) => { const t = l.slice(0, 2).join(' and '); return t[0].toUpperCase() + t.slice(1); };
+  if (blockers.length) return { tone: 'bad', icon: '🔴', label: 'NO-GO', line: `Not ready to release — ${say(blockers).toLowerCase()}.` };
+  if (cautions.length) return { tone: 'warn', icon: '🟡', label: 'CONDITIONAL', line: `Release with caution — ${say(cautions).toLowerCase()}.` };
+  return { tone: 'good', icon: '🟢', label: 'GO', line: 'Safe to release — critical journeys work and critical and high-severity cases pass.' };
 }
 
 function buildMessage(run, env = {}) {
   const { DASHBOARD_URL, ALLURE_URL, WORKFLOW_URL, REQUESTED_BY, ACTOR, WORKFLOW_RESULT, SLACK_RUN_FORM } = env;
   const v = verdictOf(run);
   const sev = run.severity;
-  const scope = run.scope === 'smoke' ? 'Smoke' : 'Full regression';
+  const scope = run.scope === 'smoke' ? 'Smoke'
+    : run.scope === 'partial' ? `${[run.suite && run.suite !== 'Full Regression' && run.suite, run.filter].filter(Boolean).join(' · ')} (partial run)`
+    : 'Full regression';
   const envName = run.environment && run.environment !== 'Default' ? run.environment : null;
   const who = REQUESTED_BY ? `requested by ${esc(REQUESTED_BY)} from Slack`
     : run.event === 'workflow_dispatch' ? `started by ${esc(ACTOR ?? 'someone')}`
