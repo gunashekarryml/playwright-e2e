@@ -1,5 +1,5 @@
 {
-  "name": "playwright-e2e-sample",
+  "name": "playwright-e2e",
   "version": "1.0.0",
   "description": "Sample end-to-end automation suite built with Playwright + TypeScript, structured for use with Claude Code.",
   "private": true,

@@ -16,7 +16,7 @@ using TypeScript and the Page Object Model.
 ## 2. Project layout
 
 ```
-playwright-e2e-sample/
+playwright-e2e/
 ├── CLAUDE.md                 # context Claude Code reads automatically
 ├── playwright.config.ts      # browsers, retries, reporters, base URL
 ├── eslint.config.mjs         # flat config: typescript-eslint + Playwright rules
@@ -62,7 +62,7 @@ skip the wizard and just run the install step below.
 ## 4. Install and run this sample
 
 ```bash
-cd playwright-e2e-sample
+cd playwright-e2e
 npm install
 npx playwright install --with-deps   # downloads Chromium/Firefox/WebKit
 
