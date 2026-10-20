@@ -7,7 +7,9 @@ PROJECT="${1:?usage: test.sh <project>}"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 
 npm ci
-npx playwright install --with-deps "$([ "$PROJECT" = mobile-chrome ] && echo chromium || echo "$PROJECT")"
+# global-setup.ts always logs in through Chromium, so it is needed for every project, plus the project's own browser.
+BROWSER="$PROJECT"; [ "$PROJECT" = mobile-chrome ] && BROWSER=chromium
+npx playwright install --with-deps chromium $([ "$BROWSER" != chromium ] && echo "$BROWSER")
 
 export BASE_URL="$("$HERE/resolve-url.sh")"
 GREP="$("$HERE/scope.sh")"
