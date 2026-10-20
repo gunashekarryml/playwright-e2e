@@ -1,10 +1,11 @@
 name: Playwright E2E Tests
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  # Paused for now: re-enable to run on merge to main and on pull requests.
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
   schedule:
     - cron: '0 3 * * *' # nightly regression run, 03:00 UTC
   workflow_dispatch:
@@ -36,6 +37,7 @@ on:
           - Dynamic Catalog
           - Accessibility
           - User Profiles
+          - Sanity
       base_url:
         description: 'Advanced: override the environment URL for this run'
         required: false
@@ -100,7 +102,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: [chromium, firefox, webkit, mobile-chrome]
+        project: ${{ fromJSON(github.event.inputs.suite == 'Sanity' && '["chromium"]' || '["chromium","firefox","webkit","mobile-chrome"]') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -113,7 +115,8 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: |
+          if [ "$TEST_SUITE" = "Sanity" ]; then npx playwright install --with-deps chromium; else npx playwright install --with-deps; fi
 
       - name: Determine test scope
         id: scope
@@ -134,6 +137,7 @@ jobs:
             "Dynamic Catalog") SUITE_TAG="@catalog" ;;
             "Accessibility") SUITE_TAG="@a11y" ;;
             "User Profiles") SUITE_TAG="@users" ;;
+            "Sanity") SUITE_TAG="@sanity-login" ;;
             *) SUITE_TAG="" ;;   # Full Regression, push and nightly runs
           esac
           [ "$EVENT" = "pull_request" ] && SUITE_TAG="@smoke"

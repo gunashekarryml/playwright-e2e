@@ -26,9 +26,10 @@ const FEATURES = {
   'Dynamic Catalog': ['catalog', 'dynamic'],
   Accessibility: ['accessibility', 'a11y'],
   'User Profiles': ['users', 'profiles'],
+  Sanity: ['sanity'],
 };
 const SUITES = [...RUN_TYPES, ...Object.keys(FEATURES)];
-const TAGS = ['@smoke', '@critical', '@high', '@medium', '@low'];
+const TAGS = ['@smoke', '@sanity-login', '@critical', '@high', '@medium', '@low'];
 const suiteFromText = (t) => {
   if (/\bsmoke\b/.test(t)) return 'Smoke';
   for (const [suite, words] of Object.entries(FEATURES)) if (words.some((w) => new RegExp(`\\b${w}\\b`).test(t))) return suite;
