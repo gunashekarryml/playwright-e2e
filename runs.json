@@ -1,5 +1,153 @@
 [
   {
+    "id": "39471490539",
+    "runNumber": 63,
+    "date": "2026-10-20T18:04:34.611Z",
+    "event": "workflow_dispatch",
+    "branch": "main",
+    "sha": "a2c6a2a",
+    "runUrl": "https://github.com/gunashekarryml/playwright-e2e/actions/runs/39471490539",
+    "baseUrl": "https://www.saucedemo.com",
+    "environment": "PROD",
+    "scope": "partial",
+    "suite": "Sanity",
+    "filter": "",
+    "total": 3,
+    "passed": 1,
+    "failed": 1,
+    "flaky": 0,
+    "skipped": 1,
+    "smoke": {
+      "total": 0,
+      "passed": 0,
+      "failed": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "severity": {
+      "critical": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "high": {
+        "total": 1,
+        "passed": 0,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "medium": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "low": {
+        "total": 1,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 1
+      }
+    },
+    "durationMs": 8450.803,
+    "passRate": 50,
+    "features": {
+      "sanity": {
+        "total": 3,
+        "passed": 1,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 1,
+        "smoke": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      }
+    },
+    "projects": {
+      "chromium": {
+        "total": 3,
+        "passed": 1,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 1
+      }
+    },
+    "flakyTests": [],
+    "failedTests": [
+      {
+        "title": "wrong password shows the agreed error wording",
+        "file": "sanity.spec.ts",
+        "project": "chromium",
+        "feature": "sanity",
+        "severity": "high",
+        "error": "Error: expect(locator).toContainText(expected) failed",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “Invalid username or password” but the page showed “Epic sadface: Username and password do not match any user in this service”.",
+        "expected": "Invalid username or password",
+        "received": "Epic sadface: Username and password do not match any user in this service"
+      }
+    ],
+    "causes": {
+      "Assertion failure": {
+        "cause": "product",
+        "label": "Product behaves differently than expected",
+        "meaning": "The site showed or did something other than what the requirement says. Either the product has a defect, or the requirement changed and the test is out of date.",
+        "action": "Compare expected and actual. If the site is wrong, raise a defect; if the requirement changed, update the test.",
+        "owner": "Product / Dev",
+        "confidence": "Medium"
+      }
+    },
+    "tests": [
+      {
+        "title": "standard user can log in successfully",
+        "feature": "sanity",
+        "smoke": false,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            1161
+          ]
+        }
+      },
+      {
+        "title": "wrong password shows the agreed error wording",
+        "feature": "sanity",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "unexpected",
+            6397
+          ]
+        }
+      },
+      {
+        "title": "SSO login is available",
+        "feature": "sanity",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "skipped",
+            0
+          ]
+        }
+      }
+    ]
+  },
+  {
     "id": "39468633678",
     "runNumber": 62,
     "date": "2026-10-20T17:44:32.912Z",
@@ -527,225 +675,7 @@
         "owner": "QA",
         "confidence": "Low"
       }
-    },
-    "tests": [
-      {
-        "title": "the menu lists every navigation option",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            1125
-          ],
-          "firefox": [
-            "expected",
-            2469
-          ],
-          "mobile-chrome": [
-            "expected",
-            722
-          ],
-          "webkit": [
-            "expected",
-            7022
-          ]
-        }
-      },
-      {
-        "title": "logging out returns to the login page",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            1766
-          ],
-          "firefox": [
-            "expected",
-            3492
-          ],
-          "mobile-chrome": [
-            "expected",
-            1613
-          ],
-          "webkit": [
-            "expected",
-            7154
-          ]
-        }
-      },
-      {
-        "title": "a logged-out user cannot return to the product list",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            1498
-          ],
-          "firefox": [
-            "expected",
-            2873
-          ],
-          "mobile-chrome": [
-            "expected",
-            1476
-          ],
-          "webkit": [
-            "expected",
-            3098
-          ]
-        }
-      },
-      {
-        "title": "Reset App State empties the cart",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            1514
-          ],
-          "firefox": [
-            "expected",
-            2330
-          ],
-          "mobile-chrome": [
-            "expected",
-            1436
-          ],
-          "webkit": [
-            "expected",
-            2248
-          ]
-        }
-      },
-      {
-        "title": "All Items goes back to the product list",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            1538
-          ],
-          "firefox": [
-            "expected",
-            2276
-          ],
-          "mobile-chrome": [
-            "expected",
-            2223
-          ],
-          "webkit": [
-            "expected",
-            2490
-          ]
-        }
-      },
-      {
-        "title": "About links to saucelabs.com",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            708
-          ],
-          "firefox": [
-            "expected",
-            1226
-          ],
-          "mobile-chrome": [
-            "expected",
-            533
-          ],
-          "webkit": [
-            "expected",
-            1889
-          ]
-        }
-      },
-      {
-        "title": "the menu can be closed",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            2364
-          ],
-          "firefox": [
-            "expected",
-            3114
-          ],
-          "mobile-chrome": [
-            "expected",
-            2255
-          ],
-          "webkit": [
-            "expected",
-            3297
-          ]
-        }
-      },
-      {
-        "title": "the menu is available from the cart page",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            756
-          ],
-          "firefox": [
-            "expected",
-            1219
-          ],
-          "mobile-chrome": [
-            "expected",
-            618
-          ],
-          "webkit": [
-            "expected",
-            1934
-          ]
-        }
-      },
-      {
-        "title": "[Demo] the Sauce Labs status page is reachable",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "unexpected",
-            1674
-          ],
-          "firefox": [
-            "unexpected",
-            11483
-          ],
-          "mobile-chrome": [
-            "unexpected",
-            1508
-          ],
-          "webkit": [
-            "unexpected",
-            4451
-          ]
-        }
-      }
-    ]
+    }
   },
   {
     "id": "39390244220",
