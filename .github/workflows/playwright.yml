@@ -46,6 +46,14 @@ on:
         description: 'Optional: only tests carrying this tag (e.g. @critical), combined with the suite above'
         required: false
         default: ''
+      browsers:
+        description: 'Browsers to run, as a JSON list (default: all four; Sanity: chromium only)'
+        required: false
+        default: ''
+      retries:
+        description: 'Optional: retries for failing tests (0, 1 or 2). Default: 2 on CI, 0 for Sanity'
+        required: false
+        default: ''
       requested_by:
         description: 'Who asked for this run (set automatically by the Slack /qa-run command)'
         required: false
@@ -72,6 +80,7 @@ env:
   TEST_ENV: ${{ github.event.inputs.environment || 'Default' }}
   TEST_SUITE: ${{ github.event.inputs.suite || 'Full Regression' }}
   TEST_FILTER: ${{ github.event.inputs.grep }}
+  TEST_RETRIES: ${{ github.event.inputs.retries }}
   DEMO_FAILURES: ${{ vars.DEMO_FAILURES }}  # set the repo variable to "off" to drop the intentional demo failures
 
 jobs:
@@ -102,7 +111,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: ${{ fromJSON(github.event.inputs.suite == 'Sanity' && '["chromium"]' || '["chromium","firefox","webkit","mobile-chrome"]') }}
+        project: ${{ fromJSON(github.event.inputs.browsers || (github.event.inputs.suite == 'Sanity' && '["chromium"]' || '["chromium","firefox","webkit","mobile-chrome"]')) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -115,8 +124,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: |
-          if [ "$TEST_SUITE" = "Sanity" ]; then npx playwright install --with-deps chromium; else npx playwright install --with-deps; fi
+        run: npx playwright install --with-deps chromium ${{ matrix.project != 'mobile-chrome' && matrix.project || '' }}
 
       - name: Determine test scope
         id: scope
@@ -141,10 +149,11 @@ jobs:
             *) SUITE_TAG="" ;;   # Full Regression, push and nightly runs
           esac
           [ "$EVENT" = "pull_request" ] && SUITE_TAG="@smoke"
-          # Both filters must match, so chain them as regex look-aheads.
+          # Every filter must match, so chain them as regex look-aheads.
+          # The grep input is space-separated groups (AND); inside a group, commas mean OR: "@login,@cart @critical".
           GREP=""
           [ -n "$SUITE_TAG" ] && GREP="(?=.*$SUITE_TAG)"
-          [ -n "$INPUT_GREP" ] && GREP="$GREP(?=.*$INPUT_GREP)"
+          for group in $INPUT_GREP; do GREP="$GREP(?=.*(?:${group//,/|}))"; done
           echo "grep=$GREP" >> "$GITHUB_OUTPUT"
 
       - name: Run Playwright tests

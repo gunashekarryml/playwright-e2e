@@ -870,13 +870,17 @@ function readiness(runs) {
   const sev = full.severity;
 
   const sm = smokeOf(latest), smr = rate(sm);
-  if (smr === null) g('Critical journeys work', 'wn', 'No smoke tests in the latest run', 'no smoke tests ran');
+  const noSmoke = smr === null && !fullKnown; // a feature / tag run with no @smoke tests: judge it on its own checks
+  if (noSmoke) {
+    if (latest.failed) g('Latest run passes', 'no', `${latest.failed} of ${ran(latest)} checks failing`, 'checks are failing');
+    else g('Latest run passes', 'ok', `All ${ran(latest)} checks pass`);
+  } else if (smr === null) g('Critical journeys work', 'wn', 'No smoke tests in the latest run', 'no smoke tests ran');
   else if (sm.failed) g('Critical journeys work', 'no', `${sm.failed} of ${ran(sm)} critical-journey checks failing`, 'a critical journey is failing');
   else g('Critical journeys work', 'ok', `All ${ran(sm)} critical-journey checks pass`);
 
   if (!fullKnown) { // nothing to judge a release on yet: smoke alone is not a release verdict
     g('Full regression has run', 'wn', 'No full regression in this view yet', 'no full regression has run yet');
-    return { gates, verdict: gates[0].status === 'no' ? 'bad' : 'info', latest, full, prevFull, fullKnown };
+    return { gates, verdict: gates[0].status === 'no' ? 'bad' : 'info', latest, full, prevFull, fullKnown, noSmoke };
   }
 
   if (sev) {
@@ -1581,12 +1585,12 @@ function render(runs) {
     return;
   }
   VIEW_RUNS = runs; buildIdx(runs);
-  const { gates, verdict, latest, full, prevFull, fullKnown } = readiness(runs);
+  const { gates, verdict, latest, full, prevFull, fullKnown, noSmoke } = readiness(runs);
   // With smoke runs only, the headline number is the smoke pass rate: there is no health score or release verdict to show.
-  const score = fullKnown ? healthScore(latest, full) : Math.round(rate(smokeOf(latest)) ?? 0), prevScore = fullKnown && prevFull ? healthScore(prevFull, prevFull) : null;
-  const bigLabel = fullKnown ? 'Site health score' : 'Smoke pass rate', bigSuf = fullKnown ? '' : '%';
+  const score = fullKnown ? healthScore(latest, full) : Math.round((noSmoke ? rate(latest) : rate(smokeOf(latest))) ?? 0), prevScore = fullKnown && prevFull ? healthScore(prevFull, prevFull) : null;
+  const bigLabel = fullKnown ? 'Site health score' : noSmoke ? 'Pass rate' : 'Smoke pass rate', bigSuf = fullKnown ? '' : '%';
   const basis = !fullKnown ? 'No full regression in this view' : full !== latest ? `Verdict from full regression #${full.runNumber} · ${ago(full.date)}` : '';
-  const vt = !fullKnown ? (verdict === 'bad' ? ['✕', 'NO-GO', 'Smoke tests are failing', ''] : ['✓', 'SMOKE PASSED', 'Smoke passed, full regression not run', '']) : { good: ['✓', 'GO', 'Ready to release', 'All quality gates are green. Critical journeys work and the regression suite is within target.'],
+  const vt = !fullKnown ? (verdict === 'bad' ? ['✕', 'NO-GO', noSmoke ? 'Checks are failing' : 'Smoke tests are failing', ''] : noSmoke ? ['✓', 'CHECKS PASSED', 'Checks passed, full regression not run', ''] : ['✓', 'SMOKE PASSED', 'Smoke passed, full regression not run', '']) : { good: ['✓', 'GO', 'Ready to release', 'All quality gates are green. Critical journeys work and the regression suite is within target.'],
     warn: ['!', 'CONDITIONAL', 'Release with caution', ''],
     bad: ['✕', 'NO-GO', 'Not ready to release', ''] }[verdict];
   const brief = briefFor(verdict, gates, latest, full);

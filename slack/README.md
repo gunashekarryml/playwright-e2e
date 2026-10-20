@@ -124,9 +124,14 @@ Only QA or default runs on `main` update the published Allure report and dashboa
 ### The run form
 | Field | Options | Default | Required |
 |---|---|---|---|
-| Environment | QA, DEV, STAGING, PROD | PROD | Yes |
-| Suite | **Run type:** Smoke, Full Regression. **Specific feature:** Login, Product Listing, Product Details, Cart, Checkout, Menu & Navigation, Dynamic Catalog, Accessibility, User Profiles | Smoke | Yes |
-| Only tests tagged | @smoke, @critical, @high, @medium, @low | none | No |
+| Environment | QA, DEV, STAGING, PROD (PROD asks for a confirmation) | QA | Yes |
+| Run type | Smoke, Sanity, Regression | Smoke | Yes |
+| Features | any of: Login, Product Listing, Product Details, Cart, Checkout, Menu & Navigation, Dynamic Catalog, Accessibility, User Profiles | all | No |
+| Severity | any of: Critical, High, Medium, Low | all | No |
+| Browsers | Chromium, Firefox, WebKit, Mobile Chrome (Sanity defaults to Chromium) | by run type | Yes |
+| Advanced | Environment URL override (https), Retries (0, 1, 2), Extra tag filter | none | No |
+
+The form shows a live "Will run" summary with the test count, and blocks a selection that matches no tests. Run type, Features and Severity are combined with AND (within Features or Severity, "any of"). The test counts come from `slack/worker/test-map.json`; regenerate it with `node scripts/gen-test-map.js` after adding or retagging tests.
 
 A tag narrows the suite: *Checkout* + *@critical* runs only the critical checkout tests. Feature runs are labelled *partial* in Slack and the dashboard and are excluded from the release verdict, which always uses the latest full regression.
 

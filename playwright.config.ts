@@ -21,7 +21,7 @@ export default defineConfig({
   grepInvert: process.env.DEMO_FAILURES === 'off' ? /@demo-failure/ : undefined,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI && process.env.TEST_SUITE !== 'Sanity' ? 2 : 0,
+  retries: process.env.TEST_RETRIES ? Number(process.env.TEST_RETRIES) : process.env.CI && process.env.TEST_SUITE !== 'Sanity' ? 2 : 0,
   workers: process.env.CI ? 2 : undefined,
   reporter: process.env.CI
     ? [

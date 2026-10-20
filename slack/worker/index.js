@@ -11,10 +11,12 @@
 // Plain vars (wrangler.toml): GITHUB_REPO, GITHUB_REF, WORKFLOW_FILE, ALLOWED_CHANNEL_IDS, ALLOWED_USER_IDS,
 //   RESULT_CHANNEL_ID (where confirmations go when a run starts outside a channel: App Home / shortcut)
 
+import TEST_MAP from './test-map.json'; // tags of every test (node scripts/gen-test-map.js): counts + empty-selection check
+
 // Must match the workflow_dispatch choice options in .github/workflows/playwright.yml
 const ENVIRONMENTS = ['QA', 'DEV', 'STAGING', 'PROD'];
 const DEFAULT_ENV = 'PROD';
-const RUN_TYPES = ['Smoke', 'Full Regression'];
+const RUN_TYPES = ['Smoke', 'Sanity', 'Full Regression'];
 // Feature suites -> words people may type after /qa-run or in a mention (first match wins, so list specific names first)
 const FEATURES = {
   'Product Details': ['product details', 'details'],
@@ -26,12 +28,11 @@ const FEATURES = {
   'Dynamic Catalog': ['catalog', 'dynamic'],
   Accessibility: ['accessibility', 'a11y'],
   'User Profiles': ['users', 'profiles'],
-  Sanity: ['sanity'],
 };
-const SUITES = [...RUN_TYPES, ...Object.keys(FEATURES)];
 const TAGS = ['@smoke', '@sanity-login', '@critical', '@high', '@medium', '@low'];
 const suiteFromText = (t) => {
   if (/\bsmoke\b/.test(t)) return 'Smoke';
+  if (/\bsanity\b/.test(t)) return 'Sanity';
   for (const [suite, words] of Object.entries(FEATURES)) if (words.some((w) => new RegExp(`\\b${w}\\b`).test(t))) return suite;
   if (/\b(full|regression)\b/.test(t)) return 'Full Regression';
   return null;
@@ -39,7 +40,7 @@ const suiteFromText = (t) => {
 
 const HELP = [
   '*Usage*',
-  '`/qa-run`  – open the form (environment, suite, tag)',
+  '`/qa-run`  – open the form (environment, run type, features, severity, browsers)',
   '`/qa-run smoke`  /  `full`  /  `checkout`  /  `cart`  /  `login` …  – quick start on PROD',
   '`/qa-run checkout tag @critical`  – a suite, only tests with that tag',
 ].join('\n');
@@ -80,28 +81,93 @@ async function slackApi(env, method, body) {
   return data;
 }
 
-const opt = (v) => ({ text: { type: 'plain_text', text: v }, value: v });
 
-const suiteOption = (v) => ({ ...opt(v), description: { type: 'plain_text', text: v === 'Smoke' ? 'Critical journeys only, fastest' : v === 'Full Regression' ? 'Every test' : `${v} tests only` } });
+// ---- the run form: Environment, Run type, Features, Severity, Browsers (+ PROD confirmation, summary, Advanced) ----
+const RUN_INFO = {
+  Smoke: { label: 'Smoke', desc: 'critical journeys, fastest', tag: 'smoke' },
+  Sanity: { label: 'Sanity', desc: 'quick login check, 1 browser', tag: 'sanity-login' },
+  'Full Regression': { label: 'Regression', desc: 'every test, all browsers', tag: null },
+};
+const FEATURE_TAGS = { 'Product Details': 'product', 'Product Listing': 'inventory', Login: 'login', Cart: 'cart', Checkout: 'checkout', 'Menu & Navigation': 'menu', 'Dynamic Catalog': 'catalog', Accessibility: 'a11y', 'User Profiles': 'users' };
+const SEVERITIES = ['critical', 'high', 'medium', 'low'];
+const BROWSERS = { chromium: 'Chromium', firefox: 'Firefox', webkit: 'WebKit', 'mobile-chrome': 'Mobile Chrome' };
+const RETRIES = ['0', '1', '2'];
+const FORM_ACTIONS = ['env', 'run', 'feat', 'sev', 'brw']; // changing these refreshes the summary
+const FORM_DEFAULTS = { env: 'QA', runType: 'Smoke', features: [], severity: [], browsers: Object.keys(BROWSERS), retries: '', baseUrl: '', extra: '', confirm: false };
+const defaultBrowsers = (runType) => (runType === 'Sanity' ? ['chromium'] : Object.keys(BROWSERS));
 
-function formView(channel) {
+const plain = (text) => ({ type: 'plain_text', text });
+const sel = (v, text = v, description) => ({ text: plain(text), value: v, ...(description ? { description: plain(description) } : {}) });
+const picked = (values, all, mk) => { const o = all.filter((v) => values.includes(v)).map(mk); return o.length ? { initial_options: o } : {}; };
+
+// the form's current answers (Slack gives them back as view.state.values)
+function readState(values = {}) {
+  const one = (b, a) => values[b]?.[a]?.selected_option?.value;
+  const many = (b, a) => (values[b]?.[a]?.selected_options ?? []).map((o) => o.value);
+  return {
+    env: one('env_b', 'env') ?? FORM_DEFAULTS.env,
+    runType: one('run_b', 'run') ?? FORM_DEFAULTS.runType,
+    features: many('feat_b', 'feat'), severity: many('sev_b', 'sev'), browsers: many('brw_b', 'brw'),
+    retries: one('retry_b', 'retry') ?? '',
+    baseUrl: (values.url_b?.url?.value ?? '').trim(), extra: (values.tag_b?.tag?.value ?? '').trim(),
+    confirm: many('conf_b', 'conf').length > 0,
+  };
+}
+
+// every group must match; a test matches a group when it has any tag of it (Features and Severity are "any of", groups are "and")
+const tagGroups = (st) => [
+  [RUN_INFO[st.runType]?.tag].filter(Boolean),
+  st.features.map((f) => FEATURE_TAGS[f]).filter(Boolean),
+  st.severity,
+  st.extra ? st.extra.split(',').map((t) => t.replace(/^@/, '')) : [],
+].filter((g) => g.length);
+const matchCount = (st) => { const g = tagGroups(st); return TEST_MAP.filter((tags) => g.every((grp) => grp.some((t) => tags.includes(t)))).length; };
+// the run's own filter (the run type is sent as the suite): "@login,@cart @critical" = (login or cart) and critical
+const grepOf = (st) => tagGroups({ ...st, runType: 'Full Regression' }).map((g) => g.map((t) => `@${t}`).join(',')).join(' ');
+const browserNames = (b) => b.map((x) => BROWSERS[x]).join(', ');
+
+function summaryText(st) {
+  const n = matchCount(st);
+  return [
+    `*Will run:* ${RUN_INFO[st.runType].label} · ${st.features.join(', ') || 'all features'} · ${st.severity.join(', ') || 'all severities'} · on *${st.env}* · ${browserNames(st.browsers) || 'no browser'}`,
+    n ? `≈ ${n} test${n > 1 ? 's' : ''} per browser` : ':x: *0 tests match.* Remove a filter, e.g. clear Severity or Features.',
+  ].join('\n');
+}
+
+function formView(channel, st = FORM_DEFAULTS) {
+  const input = (block_id, label, element, extra = {}) => ({ type: 'input', block_id, label: plain(label), element, ...extra });
   return {
     type: 'modal',
     callback_id: 'qa_run',
     private_metadata: channel ?? '',
-    title: { type: 'plain_text', text: 'Run QA tests' },
-    submit: { type: 'plain_text', text: '🚀 Start run' },
-    close: { type: 'plain_text', text: 'Cancel' },
+    title: plain('Run QA tests'),
+    submit: plain('🚀 Start run'),
+    close: plain('Cancel'),
     blocks: [
-      { type: 'input', block_id: 'env_b', label: { type: 'plain_text', text: 'Environment' }, element: { type: 'static_select', action_id: 'env', initial_option: opt(DEFAULT_ENV), options: ENVIRONMENTS.map(opt) } },
-      { type: 'input', block_id: 'suite_b', label: { type: 'plain_text', text: 'Suite' }, element: { type: 'static_select', action_id: 'suite', initial_option: suiteOption('Smoke'), option_groups: [
-        { label: { type: 'plain_text', text: 'Run type' }, options: RUN_TYPES.map(suiteOption) },
-        { label: { type: 'plain_text', text: 'Specific feature' }, options: Object.keys(FEATURES).map(suiteOption) },
-      ] } },
-      { type: 'input', block_id: 'tag_b', optional: true, label: { type: 'plain_text', text: 'Only tests tagged (optional)' }, hint: { type: 'plain_text', text: 'Narrows the suite above, e.g. Checkout + @critical.' }, element: { type: 'static_select', action_id: 'tag', placeholder: { type: 'plain_text', text: 'No tag filter' }, options: TAGS.map(opt) } },
-      { type: 'context', elements: [{ type: 'mrkdwn', text: '⚠️ *PROD* runs real checkouts against production. Results are posted back to this channel.' }] },
+      input('env_b', 'Environment *', { type: 'radio_buttons', action_id: 'env', options: ENVIRONMENTS.map((e) => sel(e)), initial_option: sel(st.env) }, { dispatch_action: true }),
+      input('run_b', 'Run type *', { type: 'radio_buttons', action_id: 'run', options: RUN_TYPES.map((r) => sel(r, RUN_INFO[r].label, RUN_INFO[r].desc)), initial_option: sel(st.runType, RUN_INFO[st.runType].label, RUN_INFO[st.runType].desc) }, { dispatch_action: true }),
+      input('feat_b', 'Features (optional · none = all)', { type: 'multi_static_select', action_id: 'feat', placeholder: plain('All features'), options: Object.keys(FEATURE_TAGS).map((f) => sel(f)), ...picked(st.features, Object.keys(FEATURE_TAGS), (f) => sel(f)) }, { optional: true, dispatch_action: true }),
+      input('sev_b', 'Severity (optional · none = all)', { type: 'checkboxes', action_id: 'sev', options: SEVERITIES.map((v) => sel(v, v[0].toUpperCase() + v.slice(1))), ...picked(st.severity, SEVERITIES, (v) => sel(v, v[0].toUpperCase() + v.slice(1))) }, { optional: true, dispatch_action: true }),
+      input('brw_b', 'Browsers *', { type: 'checkboxes', action_id: 'brw', options: Object.entries(BROWSERS).map(([v, t]) => sel(v, t)), ...picked(st.browsers, Object.keys(BROWSERS), (v) => sel(v, BROWSERS[v])) }, { dispatch_action: true, hint: plain('Sanity defaults to Chromium; Smoke and Regression to all four.') }),
+      ...(st.env === 'PROD' ? [
+        { type: 'context', elements: [{ type: 'mrkdwn', text: '⚠️ *PROD runs real checkouts against production.*' }] },
+        input('conf_b', 'Production *', { type: 'checkboxes', action_id: 'conf', options: [sel('yes', 'I understand, run against PROD')], ...(st.confirm ? { initial_options: [sel('yes', 'I understand, run against PROD')] } : {}) }),
+      ] : []),
+      { type: 'section', text: { type: 'mrkdwn', text: summaryText(st) } },
+      { type: 'divider' },
+      { type: 'context', elements: [{ type: 'mrkdwn', text: '*Advanced* (optional)' }] },
+      input('url_b', 'Environment URL override', { type: 'plain_text_input', action_id: 'url', placeholder: plain('https://… (default: the environment\'s own URL)'), ...(st.baseUrl ? { initial_value: st.baseUrl } : {}) }, { optional: true }),
+      input('retry_b', 'Retries', { type: 'static_select', action_id: 'retry', placeholder: plain('Default'), options: RETRIES.map((r) => sel(r)), ...(st.retries ? { initial_option: sel(st.retries) } : {}) }, { optional: true }),
+      input('tag_b', 'Extra tag filter', { type: 'plain_text_input', action_id: 'tag', placeholder: plain('@critical or @cart,@checkout'), ...(st.extra ? { initial_value: st.extra } : {}) }, { optional: true, hint: plain('Narrows the selection above. Commas mean "or".') }),
     ],
   };
+}
+
+// rebuilds the form from its current answers (live summary, PROD confirmation, per-run-type browser default)
+async function refreshForm(payload, env) {
+  const st = readState(payload.view.state.values);
+  if (payload.actions?.[0]?.action_id === 'run') st.browsers = defaultBrowsers(st.runType);
+  await slackApi(env, 'views.update', { view_id: payload.view.id, hash: payload.view.hash, view: formView(payload.view.private_metadata, st) });
 }
 
 async function dispatch(env, inputs) {
@@ -149,24 +215,35 @@ async function handleInteractivity(payload, env, ctx) {
     }
     return new Response('');
   }
-  if (payload.type === 'block_actions') return new Response('');
+  if (payload.type === 'block_actions') {
+    if (payload.view?.callback_id === 'qa_run' && FORM_ACTIONS.includes(payload.actions?.[0]?.action_id)) await refreshForm(payload, env);
+    return new Response('');
+  }
 
   if (payload.type === 'view_submission' && payload.view?.callback_id === 'qa_run') {
     const channel = payload.view.private_metadata || homeChannel(env);
     const denied = allowed(env, userId, channel);
     if (denied) return json({ response_action: 'errors', errors: { env_b: denied.replace(/:\w+: /, '') } });
 
-    const v = payload.view.state.values;
-    const environment = v.env_b?.env?.selected_option?.value;
-    const suite = v.suite_b?.suite?.selected_option?.value;
-    const tag = v.tag_b?.tag?.selected_option?.value;
-    if (!ENVIRONMENTS.includes(environment)) return json({ response_action: 'errors', errors: { env_b: 'Pick an environment.' } });
-    if (!SUITES.includes(suite)) return json({ response_action: 'errors', errors: { suite_b: 'Pick a suite.' } });
-    if (tag && !TAGS.includes(tag)) return json({ response_action: 'errors', errors: { tag_b: 'Unknown tag.' } });
+    const st = readState(payload.view.state.values);
+    const err = (block, msg) => json({ response_action: 'errors', errors: { [block]: msg } });
+    if (!ENVIRONMENTS.includes(st.env)) return err('env_b', 'Pick an environment.');
+    if (!RUN_TYPES.includes(st.runType)) return err('run_b', 'Pick a run type.');
+    if (st.features.some((f) => !FEATURE_TAGS[f])) return err('feat_b', 'Unknown feature.');
+    if (st.severity.some((x) => !SEVERITIES.includes(x))) return err('sev_b', 'Unknown severity.');
+    if (!st.browsers.length || st.browsers.some((x) => !BROWSERS[x])) return err('brw_b', 'Pick at least one browser.');
+    if (st.env === 'PROD' && !st.confirm) return err('conf_b', 'Confirm to run against production.');
+    if (st.baseUrl && !/^https:\/\/[^\s]+$/.test(st.baseUrl)) return err('url_b', 'Use a full https:// URL.');
+    if (st.retries && !RETRIES.includes(st.retries)) return err('retry_b', 'Pick 0, 1 or 2.');
+    if (st.extra && !/^@?[\w-]+(,@?[\w-]+)*$/.test(st.extra)) return err('tag_b', 'Use tags like @critical or @cart,@checkout.');
+    if (!matchCount(st)) return err('feat_b', 'No tests match this combination. Remove a filter.');
 
-    const inputs = { environment, suite, requested_by: `@${payload.user.username ?? payload.user.name ?? userId}` };
-    if (tag) inputs.grep = tag;
-    if (!(await dispatch(env, inputs))) return json({ response_action: 'errors', errors: { env_b: 'Could not start the run. Ask an admin to check the relay logs.' } });
+    const inputs = { environment: st.env, suite: st.runType, browsers: JSON.stringify(Object.keys(BROWSERS).filter((x) => st.browsers.includes(x))), requested_by: `@${payload.user.username ?? payload.user.name ?? userId}` };
+    const grep = grepOf(st);
+    if (grep) inputs.grep = grep;
+    if (st.baseUrl) inputs.base_url = st.baseUrl;
+    if (st.retries) inputs.retries = st.retries;
+    if (!(await dispatch(env, inputs))) return err('env_b', 'Could not start the run. Ask an admin to check the relay logs.');
 
     if (channel) {
       ctx.waitUntil(slackApi(env, 'chat.postMessage', { channel, text: `🚀 <@${userId}> started ${describe(inputs)}.`, blocks: [
