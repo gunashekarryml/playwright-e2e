@@ -1,5 +1,214 @@
 [
   {
+    "id": "39446889070",
+    "runNumber": 61,
+    "date": "2026-10-20T15:17:24.024Z",
+    "event": "workflow_dispatch",
+    "branch": "main",
+    "sha": "5d9c3bb",
+    "runUrl": "https://github.com/gunashekarryml/playwright-e2e/actions/runs/39446889070",
+    "baseUrl": "https://www.saucedemo.com",
+    "environment": "PROD",
+    "scope": "smoke",
+    "suite": "Smoke",
+    "filter": "",
+    "total": 12,
+    "passed": 12,
+    "failed": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "smoke": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "severity": {
+      "critical": {
+        "total": 12,
+        "passed": 12,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "high": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "medium": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "low": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      }
+    },
+    "durationMs": 13215.91,
+    "passRate": 100,
+    "features": {
+      "cart": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "checkout": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "login": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      }
+    },
+    "projects": {
+      "chromium": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "firefox": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "mobile-chrome": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "webkit": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      }
+    },
+    "flakyTests": [],
+    "failedTests": [],
+    "causes": {},
+    "tests": [
+      {
+        "title": "adding an item updates the cart badge",
+        "feature": "cart",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            751
+          ],
+          "firefox": [
+            "expected",
+            1949
+          ],
+          "mobile-chrome": [
+            "expected",
+            888
+          ],
+          "webkit": [
+            "expected",
+            8897
+          ]
+        }
+      },
+      {
+        "title": "completes an order end-to-end with valid details",
+        "feature": "checkout",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            1053
+          ],
+          "firefox": [
+            "expected",
+            2495
+          ],
+          "mobile-chrome": [
+            "expected",
+            1360
+          ],
+          "webkit": [
+            "expected",
+            9607
+          ]
+        }
+      },
+      {
+        "title": "standard user can log in successfully",
+        "feature": "login",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            505
+          ],
+          "firefox": [
+            "expected",
+            836
+          ],
+          "mobile-chrome": [
+            "expected",
+            566
+          ],
+          "webkit": [
+            "expected",
+            1377
+          ]
+        }
+      }
+    ]
+  },
+  {
     "id": "39418993527",
     "runNumber": 60,
     "date": "2026-10-20T12:01:25.155Z",
@@ -8834,273 +9043,7 @@
         "owner": "Product / Dev",
         "confidence": "Medium"
       }
-    },
-    "tests": [
-      {
-        "title": "standard user can log in successfully",
-        "feature": "login",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            895
-          ],
-          "firefox": [
-            "expected",
-            2543
-          ],
-          "mobile-chrome": [
-            "expected",
-            891
-          ],
-          "webkit": [
-            "expected",
-            2223
-          ]
-        }
-      },
-      {
-        "title": "locked out user sees an error",
-        "feature": "login",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            829
-          ],
-          "firefox": [
-            "expected",
-            2499
-          ],
-          "mobile-chrome": [
-            "expected",
-            798
-          ],
-          "webkit": [
-            "expected",
-            1961
-          ]
-        }
-      },
-      {
-        "title": "invalid credentials are rejected",
-        "feature": "login",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            616
-          ],
-          "firefox": [
-            "expected",
-            897
-          ],
-          "mobile-chrome": [
-            "expected",
-            2679
-          ],
-          "webkit": [
-            "expected",
-            1401
-          ]
-        }
-      },
-      {
-        "title": "a valid username with the wrong password is rejected",
-        "feature": "login",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            612
-          ],
-          "firefox": [
-            "expected",
-            909
-          ],
-          "mobile-chrome": [
-            "expected",
-            528
-          ],
-          "webkit": [
-            "expected",
-            1349
-          ]
-        }
-      },
-      {
-        "title": "empty submission is rejected",
-        "feature": "login",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            590
-          ],
-          "firefox": [
-            "expected",
-            860
-          ],
-          "mobile-chrome": [
-            "expected",
-            431
-          ],
-          "webkit": [
-            "expected",
-            1048
-          ]
-        }
-      },
-      {
-        "title": "a missing password is rejected",
-        "feature": "login",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            556
-          ],
-          "firefox": [
-            "expected",
-            918
-          ],
-          "mobile-chrome": [
-            "expected",
-            527
-          ],
-          "webkit": [
-            "expected",
-            2959
-          ]
-        }
-      },
-      {
-        "title": "the error message can be dismissed",
-        "feature": "login",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            550
-          ],
-          "firefox": [
-            "expected",
-            947
-          ],
-          "mobile-chrome": [
-            "expected",
-            491
-          ],
-          "webkit": [
-            "expected",
-            913
-          ]
-        }
-      },
-      {
-        "title": "the password field masks what is typed",
-        "feature": "login",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            489
-          ],
-          "firefox": [
-            "expected",
-            789
-          ],
-          "mobile-chrome": [
-            "expected",
-            644
-          ],
-          "webkit": [
-            "expected",
-            975
-          ]
-        }
-      },
-      {
-        "title": "a protected page redirects to login with a message when not logged in",
-        "feature": "login",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            573
-          ],
-          "firefox": [
-            "expected",
-            836
-          ],
-          "mobile-chrome": [
-            "expected",
-            574
-          ],
-          "webkit": [
-            "expected",
-            1126
-          ]
-        }
-      },
-      {
-        "title": "the user stays logged in after a page reload",
-        "feature": "login",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            909
-          ],
-          "firefox": [
-            "expected",
-            1270
-          ],
-          "mobile-chrome": [
-            "expected",
-            771
-          ],
-          "webkit": [
-            "expected",
-            1815
-          ]
-        }
-      },
-      {
-        "title": "[Demo] a wrong password shows the agreed error wording",
-        "feature": "login",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "unexpected",
-            17676
-          ],
-          "firefox": [
-            "unexpected",
-            19404
-          ],
-          "mobile-chrome": [
-            "unexpected",
-            17452
-          ],
-          "webkit": [
-            "unexpected",
-            19018
-          ]
-        }
-      }
-    ]
+    }
   },
   {
     "id": "39263103994",
