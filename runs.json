@@ -1,5 +1,153 @@
 [
   {
+    "id": "39468633678",
+    "runNumber": 62,
+    "date": "2026-10-20T17:44:32.912Z",
+    "event": "workflow_dispatch",
+    "branch": "main",
+    "sha": "7faaf39",
+    "runUrl": "https://github.com/gunashekarryml/playwright-e2e/actions/runs/39468633678",
+    "baseUrl": "https://www.saucedemo.com",
+    "environment": "PROD",
+    "scope": "partial",
+    "suite": "Sanity",
+    "filter": "",
+    "total": 3,
+    "passed": 1,
+    "failed": 1,
+    "flaky": 0,
+    "skipped": 1,
+    "smoke": {
+      "total": 0,
+      "passed": 0,
+      "failed": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "severity": {
+      "critical": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "high": {
+        "total": 1,
+        "passed": 0,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "medium": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "low": {
+        "total": 1,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 1
+      }
+    },
+    "durationMs": 7150.048,
+    "passRate": 50,
+    "features": {
+      "sanity": {
+        "total": 3,
+        "passed": 1,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 1,
+        "smoke": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      }
+    },
+    "projects": {
+      "chromium": {
+        "total": 3,
+        "passed": 1,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 1
+      }
+    },
+    "flakyTests": [],
+    "failedTests": [
+      {
+        "title": "wrong password shows the agreed error wording",
+        "file": "sanity.spec.ts",
+        "project": "chromium",
+        "feature": "sanity",
+        "severity": "high",
+        "error": "Error: expect(locator).toContainText(expected) failed",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “Invalid username or password” but the page showed “Epic sadface: Username and password do not match any user in this service”.",
+        "expected": "Invalid username or password",
+        "received": "Epic sadface: Username and password do not match any user in this service"
+      }
+    ],
+    "causes": {
+      "Assertion failure": {
+        "cause": "product",
+        "label": "Product behaves differently than expected",
+        "meaning": "The site showed or did something other than what the requirement says. Either the product has a defect, or the requirement changed and the test is out of date.",
+        "action": "Compare expected and actual. If the site is wrong, raise a defect; if the requirement changed, update the test.",
+        "owner": "Product / Dev",
+        "confidence": "Medium"
+      }
+    },
+    "tests": [
+      {
+        "title": "standard user can log in successfully",
+        "feature": "sanity",
+        "smoke": false,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            646
+          ]
+        }
+      },
+      {
+        "title": "wrong password shows the agreed error wording",
+        "feature": "sanity",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "unexpected",
+            5772
+          ]
+        }
+      },
+      {
+        "title": "SSO login is available",
+        "feature": "sanity",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "skipped",
+            0
+          ]
+        }
+      }
+    ]
+  },
+  {
     "id": "39446889070",
     "runNumber": 61,
     "date": "2026-10-20T15:17:24.024Z",
@@ -3420,81 +3568,7 @@
     },
     "flakyTests": [],
     "failedTests": [],
-    "causes": {},
-    "tests": [
-      {
-        "title": "adding an item updates the cart badge",
-        "feature": "cart",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            1021
-          ],
-          "firefox": [
-            "expected",
-            2948
-          ],
-          "mobile-chrome": [
-            "expected",
-            1211
-          ],
-          "webkit": [
-            "expected",
-            7936
-          ]
-        }
-      },
-      {
-        "title": "completes an order end-to-end with valid details",
-        "feature": "checkout",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            1292
-          ],
-          "firefox": [
-            "expected",
-            3582
-          ],
-          "mobile-chrome": [
-            "expected",
-            1606
-          ],
-          "webkit": [
-            "expected",
-            8768
-          ]
-        }
-      },
-      {
-        "title": "standard user can log in successfully",
-        "feature": "login",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            604
-          ],
-          "firefox": [
-            "expected",
-            1216
-          ],
-          "mobile-chrome": [
-            "expected",
-            663
-          ],
-          "webkit": [
-            "expected",
-            1301
-          ]
-        }
-      }
-    ]
+    "causes": {}
   },
   {
     "id": "39278316567",
