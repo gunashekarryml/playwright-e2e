@@ -1,5 +1,396 @@
 [
   {
+    "id": "39418993527",
+    "runNumber": 60,
+    "date": "2026-10-20T12:01:25.155Z",
+    "event": "workflow_dispatch",
+    "branch": "main",
+    "sha": "5d9c3bb",
+    "runUrl": "https://github.com/gunashekarryml/playwright-e2e/actions/runs/39418993527",
+    "baseUrl": "https://www.saucedemo.com",
+    "environment": "PROD",
+    "scope": "partial",
+    "suite": "Menu & Navigation",
+    "filter": "",
+    "total": 36,
+    "passed": 32,
+    "failed": 4,
+    "flaky": 0,
+    "skipped": 0,
+    "smoke": {
+      "total": 0,
+      "passed": 0,
+      "failed": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "severity": {
+      "critical": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "high": {
+        "total": 12,
+        "passed": 12,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "medium": {
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "low": {
+        "total": 16,
+        "passed": 12,
+        "failed": 4,
+        "flaky": 0,
+        "skipped": 0
+      }
+    },
+    "durationMs": 33096.1,
+    "passRate": 88.9,
+    "features": {
+      "menu-navigation": {
+        "total": 36,
+        "passed": 32,
+        "failed": 4,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      }
+    },
+    "projects": {
+      "chromium": {
+        "total": 9,
+        "passed": 8,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "firefox": {
+        "total": 9,
+        "passed": 8,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "mobile-chrome": {
+        "total": 9,
+        "passed": 8,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "webkit": {
+        "total": 9,
+        "passed": 8,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 0
+      }
+    },
+    "flakyTests": [],
+    "failedTests": [
+      {
+        "title": "[Demo] the Sauce Labs status page is reachable",
+        "file": "menu-navigation.spec.ts",
+        "project": "chromium",
+        "feature": "menu-navigation",
+        "severity": "low",
+        "error": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:65000/status",
+        "category": "Network / environment",
+        "cause": "env",
+        "hint": "Target site or network was unreachable; check app status and rerun.",
+        "what": "Could not connect to http://127.0.0.1:65000/status."
+      },
+      {
+        "title": "[Demo] the Sauce Labs status page is reachable",
+        "file": "menu-navigation.spec.ts",
+        "project": "firefox",
+        "feature": "menu-navigation",
+        "severity": "low",
+        "error": "Error: page.goto: NS_ERROR_CONNECTION_REFUSED",
+        "category": "Network / environment",
+        "cause": "env",
+        "hint": "Target site or network was unreachable; check app status and rerun.",
+        "what": "Could not connect to http://127.0.0.1:65000/status."
+      },
+      {
+        "title": "[Demo] the Sauce Labs status page is reachable",
+        "file": "menu-navigation.spec.ts",
+        "project": "mobile-chrome",
+        "feature": "menu-navigation",
+        "severity": "low",
+        "error": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:65000/status",
+        "category": "Network / environment",
+        "cause": "env",
+        "hint": "Target site or network was unreachable; check app status and rerun.",
+        "what": "Could not connect to http://127.0.0.1:65000/status."
+      },
+      {
+        "title": "[Demo] the Sauce Labs status page is reachable",
+        "file": "menu-navigation.spec.ts",
+        "project": "webkit",
+        "feature": "menu-navigation",
+        "severity": "low",
+        "error": "Error: page.goto: Could not connect to 127.0.0.1: Connection refused",
+        "category": "Unclassified",
+        "cause": "product",
+        "hint": "No rule matched; inspect the trace.",
+        "what": "Error: page.goto: Could not connect to 127.0.0.1: Connection refused"
+      }
+    ],
+    "causes": {
+      "Network / environment": {
+        "cause": "env",
+        "label": "Environment problem",
+        "meaning": "The test could not reach the site or a service it depends on, so the check never really ran. This is usually not a product defect.",
+        "action": "Check the environment is up, then re-run.",
+        "owner": "DevOps / Platform",
+        "confidence": "High"
+      },
+      "Unclassified": {
+        "cause": "product",
+        "label": "Needs investigation",
+        "meaning": "The error did not match a known pattern.",
+        "action": "Open the trace to find out what happened.",
+        "owner": "QA",
+        "confidence": "Low"
+      }
+    },
+    "tests": [
+      {
+        "title": "the menu lists every navigation option",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            1125
+          ],
+          "firefox": [
+            "expected",
+            2469
+          ],
+          "mobile-chrome": [
+            "expected",
+            722
+          ],
+          "webkit": [
+            "expected",
+            7022
+          ]
+        }
+      },
+      {
+        "title": "logging out returns to the login page",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            1766
+          ],
+          "firefox": [
+            "expected",
+            3492
+          ],
+          "mobile-chrome": [
+            "expected",
+            1613
+          ],
+          "webkit": [
+            "expected",
+            7154
+          ]
+        }
+      },
+      {
+        "title": "a logged-out user cannot return to the product list",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            1498
+          ],
+          "firefox": [
+            "expected",
+            2873
+          ],
+          "mobile-chrome": [
+            "expected",
+            1476
+          ],
+          "webkit": [
+            "expected",
+            3098
+          ]
+        }
+      },
+      {
+        "title": "Reset App State empties the cart",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            1514
+          ],
+          "firefox": [
+            "expected",
+            2330
+          ],
+          "mobile-chrome": [
+            "expected",
+            1436
+          ],
+          "webkit": [
+            "expected",
+            2248
+          ]
+        }
+      },
+      {
+        "title": "All Items goes back to the product list",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            1538
+          ],
+          "firefox": [
+            "expected",
+            2276
+          ],
+          "mobile-chrome": [
+            "expected",
+            2223
+          ],
+          "webkit": [
+            "expected",
+            2490
+          ]
+        }
+      },
+      {
+        "title": "About links to saucelabs.com",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            708
+          ],
+          "firefox": [
+            "expected",
+            1226
+          ],
+          "mobile-chrome": [
+            "expected",
+            533
+          ],
+          "webkit": [
+            "expected",
+            1889
+          ]
+        }
+      },
+      {
+        "title": "the menu can be closed",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            2364
+          ],
+          "firefox": [
+            "expected",
+            3114
+          ],
+          "mobile-chrome": [
+            "expected",
+            2255
+          ],
+          "webkit": [
+            "expected",
+            3297
+          ]
+        }
+      },
+      {
+        "title": "the menu is available from the cart page",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            756
+          ],
+          "firefox": [
+            "expected",
+            1219
+          ],
+          "mobile-chrome": [
+            "expected",
+            618
+          ],
+          "webkit": [
+            "expected",
+            1934
+          ]
+        }
+      },
+      {
+        "title": "[Demo] the Sauce Labs status page is reachable",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "unexpected",
+            1674
+          ],
+          "firefox": [
+            "unexpected",
+            11483
+          ],
+          "mobile-chrome": [
+            "unexpected",
+            1508
+          ],
+          "webkit": [
+            "unexpected",
+            4451
+          ]
+        }
+      }
+    ]
+  },
+  {
     "id": "39390244220",
     "runNumber": 59,
     "date": "2026-10-20T08:00:53.123Z",
@@ -9415,81 +9806,7 @@
       }
     },
     "flakyTests": [],
-    "failedTests": [],
-    "tests": [
-      {
-        "title": "adding an item updates the cart badge",
-        "feature": "cart",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            865
-          ],
-          "firefox": [
-            "expected",
-            2891
-          ],
-          "mobile-chrome": [
-            "expected",
-            1089
-          ],
-          "webkit": [
-            "expected",
-            6602
-          ]
-        }
-      },
-      {
-        "title": "completes an order end-to-end with valid details",
-        "feature": "checkout",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            1388
-          ],
-          "firefox": [
-            "expected",
-            3359
-          ],
-          "mobile-chrome": [
-            "expected",
-            1372
-          ],
-          "webkit": [
-            "expected",
-            7267
-          ]
-        }
-      },
-      {
-        "title": "standard user can log in successfully",
-        "feature": "login",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            634
-          ],
-          "firefox": [
-            "expected",
-            1071
-          ],
-          "mobile-chrome": [
-            "expected",
-            613
-          ],
-          "webkit": [
-            "expected",
-            1015
-          ]
-        }
-      }
-    ]
+    "failedTests": []
   },
   {
     "id": "39224578216",
