@@ -1,5 +1,157 @@
 [
   {
+    "id": "39978140255",
+    "runNumber": 67,
+    "date": "2026-10-23T15:26:06.768Z",
+    "event": "workflow_dispatch",
+    "branch": "main",
+    "sha": "a2c6a2a",
+    "runUrl": "https://github.com/gunashekarryml/playwright-e2e/actions/runs/39978140255",
+    "baseUrl": "https://www.saucedemo.com",
+    "environment": "PROD",
+    "scope": "smoke",
+    "suite": "Smoke",
+    "filter": "@critical",
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "smoke": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "severity": {
+      "critical": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "high": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "medium": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "low": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      }
+    },
+    "durationMs": 4080.474,
+    "passRate": 100,
+    "features": {
+      "cart": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 1,
+          "passed": 1,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "checkout": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 1,
+          "passed": 1,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "login": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 1,
+          "passed": 1,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      }
+    },
+    "projects": {
+      "chromium": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      }
+    },
+    "flakyTests": [],
+    "failedTests": [],
+    "causes": {},
+    "tests": [
+      {
+        "title": "adding an item updates the cart badge",
+        "feature": "cart",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            937
+          ]
+        }
+      },
+      {
+        "title": "completes an order end-to-end with valid details",
+        "feature": "checkout",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            1196
+          ]
+        }
+      },
+      {
+        "title": "standard user can log in successfully",
+        "feature": "login",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            559
+          ]
+        }
+      }
+    ]
+  },
+  {
     "id": "39921900575",
     "runNumber": 66,
     "date": "2026-10-23T08:03:37.245Z",
@@ -8918,81 +9070,7 @@
     },
     "flakyTests": [],
     "failedTests": [],
-    "causes": {},
-    "tests": [
-      {
-        "title": "adding an item updates the cart badge",
-        "feature": "cart",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            751
-          ],
-          "firefox": [
-            "expected",
-            1949
-          ],
-          "mobile-chrome": [
-            "expected",
-            888
-          ],
-          "webkit": [
-            "expected",
-            8897
-          ]
-        }
-      },
-      {
-        "title": "completes an order end-to-end with valid details",
-        "feature": "checkout",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            1053
-          ],
-          "firefox": [
-            "expected",
-            2495
-          ],
-          "mobile-chrome": [
-            "expected",
-            1360
-          ],
-          "webkit": [
-            "expected",
-            9607
-          ]
-        }
-      },
-      {
-        "title": "standard user can log in successfully",
-        "feature": "login",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            505
-          ],
-          "firefox": [
-            "expected",
-            836
-          ],
-          "mobile-chrome": [
-            "expected",
-            566
-          ],
-          "webkit": [
-            "expected",
-            1377
-          ]
-        }
-      }
-    ]
+    "causes": {}
   },
   {
     "id": "39418993527",
