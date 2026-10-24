@@ -1,5 +1,2847 @@
 [
   {
+    "id": "40075163216",
+    "runNumber": 68,
+    "date": "2026-10-24T07:42:30.160Z",
+    "event": "schedule",
+    "branch": "main",
+    "sha": "a2c6a2a",
+    "runUrl": "https://github.com/gunashekarryml/playwright-e2e/actions/runs/40075163216",
+    "baseUrl": "https://www.saucedemo.com",
+    "environment": "Default",
+    "scope": "full",
+    "suite": "Full Regression",
+    "filter": "",
+    "total": 364,
+    "passed": 331,
+    "failed": 24,
+    "flaky": 5,
+    "skipped": 4,
+    "smoke": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "severity": {
+      "critical": {
+        "total": 20,
+        "passed": 20,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "high": {
+        "total": 116,
+        "passed": 103,
+        "failed": 12,
+        "flaky": 1,
+        "skipped": 0
+      },
+      "medium": {
+        "total": 160,
+        "passed": 152,
+        "failed": 8,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "low": {
+        "total": 68,
+        "passed": 56,
+        "failed": 4,
+        "flaky": 4,
+        "skipped": 4
+      }
+    },
+    "durationMs": 151484.379,
+    "passRate": 93.3,
+    "features": {
+      "accessibility": {
+        "total": 16,
+        "passed": 16,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "cart": {
+        "total": 44,
+        "passed": 40,
+        "failed": 0,
+        "flaky": 4,
+        "skipped": 0,
+        "smoke": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "checkout": {
+        "total": 64,
+        "passed": 55,
+        "failed": 8,
+        "flaky": 1,
+        "skipped": 0,
+        "smoke": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "dynamic-catalog": {
+        "total": 20,
+        "passed": 16,
+        "failed": 4,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "inventory": {
+        "total": 72,
+        "passed": 72,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "login": {
+        "total": 44,
+        "passed": 40,
+        "failed": 4,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "menu-navigation": {
+        "total": 36,
+        "passed": 32,
+        "failed": 4,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "product-details": {
+        "total": 36,
+        "passed": 36,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "sanity": {
+        "total": 12,
+        "passed": 4,
+        "failed": 4,
+        "flaky": 0,
+        "skipped": 4,
+        "smoke": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "user-profiles": {
+        "total": 20,
+        "passed": 20,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      }
+    },
+    "projects": {
+      "chromium": {
+        "total": 91,
+        "passed": 83,
+        "failed": 6,
+        "flaky": 1,
+        "skipped": 1
+      },
+      "firefox": {
+        "total": 91,
+        "passed": 83,
+        "failed": 6,
+        "flaky": 1,
+        "skipped": 1
+      },
+      "mobile-chrome": {
+        "total": 91,
+        "passed": 83,
+        "failed": 6,
+        "flaky": 1,
+        "skipped": 1
+      },
+      "webkit": {
+        "total": 91,
+        "passed": 82,
+        "failed": 6,
+        "flaky": 2,
+        "skipped": 1
+      }
+    },
+    "flakyTests": [
+      {
+        "title": "[Demo] the cart shows the right item count (intermittent)",
+        "file": "cart.spec.ts",
+        "project": "chromium",
+        "feature": "cart",
+        "severity": "low",
+        "retries": 1,
+        "error": "Error: expect(locator).toHaveCount(expected) failed",
+        "category": "Assertion failure",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected 2 items but found 1.",
+        "expected": "2",
+        "received": "1"
+      },
+      {
+        "title": "[Demo] the cart shows the right item count (intermittent)",
+        "file": "cart.spec.ts",
+        "project": "firefox",
+        "feature": "cart",
+        "severity": "low",
+        "retries": 1,
+        "error": "Error: expect(locator).toHaveCount(expected) failed",
+        "category": "Assertion failure",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected 2 items but found 1.",
+        "expected": "2",
+        "received": "1"
+      },
+      {
+        "title": "[Demo] the cart shows the right item count (intermittent)",
+        "file": "cart.spec.ts",
+        "project": "mobile-chrome",
+        "feature": "cart",
+        "severity": "low",
+        "retries": 1,
+        "error": "Error: expect(locator).toHaveCount(expected) failed",
+        "category": "Assertion failure",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected 2 items but found 1.",
+        "expected": "2",
+        "received": "1"
+      },
+      {
+        "title": "[Demo] the cart shows the right item count (intermittent)",
+        "file": "cart.spec.ts",
+        "project": "webkit",
+        "feature": "cart",
+        "severity": "low",
+        "retries": 1,
+        "error": "Error: expect(locator).toHaveCount(expected) failed",
+        "category": "Assertion failure",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected 2 items but found 1.",
+        "expected": "2",
+        "received": "1"
+      },
+      {
+        "title": "the cart is empty after an order is placed",
+        "file": "checkout.spec.ts",
+        "project": "webkit",
+        "feature": "checkout",
+        "severity": "high",
+        "retries": 1,
+        "error": "TimeoutError: locator.click: Timeout 10000ms exceeded.",
+        "category": "Locator / UI change",
+        "hint": "Element missing or ambiguous; the UI or the locator likely changed.",
+        "what": "Could not find a “Finish” button on the page."
+      }
+    ],
+    "failedTests": [
+      {
+        "title": "[Demo] tax is calculated at 10% of the item total",
+        "file": "checkout.spec.ts",
+        "project": "chromium",
+        "feature": "checkout",
+        "severity": "high",
+        "error": "Error: expect(received).toBeCloseTo(expected, precision)",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “8” but the page showed “6.4”.",
+        "expected": "8",
+        "received": "6.4"
+      },
+      {
+        "title": "[Demo] a promo code can be applied before paying",
+        "file": "checkout.spec.ts",
+        "project": "chromium",
+        "feature": "checkout",
+        "severity": "high",
+        "error": "TimeoutError: locator.fill: Timeout 10000ms exceeded.",
+        "category": "Locator / UI change",
+        "cause": "test",
+        "hint": "Element missing or ambiguous; the UI or the locator likely changed.",
+        "what": "Could not find a field with the placeholder “Promo code” on the page."
+      },
+      {
+        "title": "[Demo] the spinner catalog page loads within a 50 ms budget",
+        "file": "dynamic-catalog.spec.ts",
+        "project": "chromium",
+        "feature": "dynamic-catalog",
+        "severity": "medium",
+        "error": "TimeoutError: page.goto: Timeout 50ms exceeded.",
+        "category": "Timing / timeout",
+        "cause": "product",
+        "hint": "Operation was too slow; check for slow users or add a proper wait condition.",
+        "what": "The page did not finish loading within 50 ms."
+      },
+      {
+        "title": "[Demo] a wrong password shows the agreed error wording",
+        "file": "login.spec.ts",
+        "project": "chromium",
+        "feature": "login",
+        "severity": "medium",
+        "error": "Error: expect(locator).toContainText(expected) failed",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “Invalid username or password” but the page showed “Epic sadface: Username and password do not match any user in this service”.",
+        "expected": "Invalid username or password",
+        "received": "Epic sadface: Username and password do not match any user in this service"
+      },
+      {
+        "title": "[Demo] the Sauce Labs status page is reachable",
+        "file": "menu-navigation.spec.ts",
+        "project": "chromium",
+        "feature": "menu-navigation",
+        "severity": "low",
+        "error": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:65000/status",
+        "category": "Network / environment",
+        "cause": "env",
+        "hint": "Target site or network was unreachable; check app status and rerun.",
+        "what": "Could not connect to http://127.0.0.1:65000/status."
+      },
+      {
+        "title": "wrong password shows the agreed error wording",
+        "file": "sanity.spec.ts",
+        "project": "chromium",
+        "feature": "sanity",
+        "severity": "high",
+        "error": "Error: expect(locator).toContainText(expected) failed",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “Invalid username or password” but the page showed “Epic sadface: Username and password do not match any user in this service”.",
+        "expected": "Invalid username or password",
+        "received": "Epic sadface: Username and password do not match any user in this service"
+      },
+      {
+        "title": "[Demo] tax is calculated at 10% of the item total",
+        "file": "checkout.spec.ts",
+        "project": "firefox",
+        "feature": "checkout",
+        "severity": "high",
+        "error": "Error: expect(received).toBeCloseTo(expected, precision)",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “8” but the page showed “6.4”.",
+        "expected": "8",
+        "received": "6.4"
+      },
+      {
+        "title": "[Demo] a promo code can be applied before paying",
+        "file": "checkout.spec.ts",
+        "project": "firefox",
+        "feature": "checkout",
+        "severity": "high",
+        "error": "TimeoutError: locator.fill: Timeout 10000ms exceeded.",
+        "category": "Locator / UI change",
+        "cause": "test",
+        "hint": "Element missing or ambiguous; the UI or the locator likely changed.",
+        "what": "Could not find a field with the placeholder “Promo code” on the page."
+      },
+      {
+        "title": "[Demo] the spinner catalog page loads within a 50 ms budget",
+        "file": "dynamic-catalog.spec.ts",
+        "project": "firefox",
+        "feature": "dynamic-catalog",
+        "severity": "medium",
+        "error": "TimeoutError: page.goto: Timeout 50ms exceeded.",
+        "category": "Timing / timeout",
+        "cause": "product",
+        "hint": "Operation was too slow; check for slow users or add a proper wait condition.",
+        "what": "The page did not finish loading within 50 ms."
+      },
+      {
+        "title": "[Demo] a wrong password shows the agreed error wording",
+        "file": "login.spec.ts",
+        "project": "firefox",
+        "feature": "login",
+        "severity": "medium",
+        "error": "Error: expect(locator).toContainText(expected) failed",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “Invalid username or password” but the page showed “Epic sadface: Username and password do not match any user in this service”.",
+        "expected": "Invalid username or password",
+        "received": "Epic sadface: Username and password do not match any user in this service"
+      },
+      {
+        "title": "[Demo] the Sauce Labs status page is reachable",
+        "file": "menu-navigation.spec.ts",
+        "project": "firefox",
+        "feature": "menu-navigation",
+        "severity": "low",
+        "error": "Error: page.goto: NS_ERROR_CONNECTION_REFUSED",
+        "category": "Network / environment",
+        "cause": "env",
+        "hint": "Target site or network was unreachable; check app status and rerun.",
+        "what": "Could not connect to http://127.0.0.1:65000/status."
+      },
+      {
+        "title": "wrong password shows the agreed error wording",
+        "file": "sanity.spec.ts",
+        "project": "firefox",
+        "feature": "sanity",
+        "severity": "high",
+        "error": "Error: expect(locator).toContainText(expected) failed",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “Invalid username or password” but the page showed “Epic sadface: Username and password do not match any user in this service”.",
+        "expected": "Invalid username or password",
+        "received": "Epic sadface: Username and password do not match any user in this service"
+      },
+      {
+        "title": "[Demo] tax is calculated at 10% of the item total",
+        "file": "checkout.spec.ts",
+        "project": "mobile-chrome",
+        "feature": "checkout",
+        "severity": "high",
+        "error": "Error: expect(received).toBeCloseTo(expected, precision)",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “8” but the page showed “6.4”.",
+        "expected": "8",
+        "received": "6.4"
+      },
+      {
+        "title": "[Demo] a promo code can be applied before paying",
+        "file": "checkout.spec.ts",
+        "project": "mobile-chrome",
+        "feature": "checkout",
+        "severity": "high",
+        "error": "TimeoutError: locator.fill: Timeout 10000ms exceeded.",
+        "category": "Locator / UI change",
+        "cause": "test",
+        "hint": "Element missing or ambiguous; the UI or the locator likely changed.",
+        "what": "Could not find a field with the placeholder “Promo code” on the page."
+      },
+      {
+        "title": "[Demo] the spinner catalog page loads within a 50 ms budget",
+        "file": "dynamic-catalog.spec.ts",
+        "project": "mobile-chrome",
+        "feature": "dynamic-catalog",
+        "severity": "medium",
+        "error": "TimeoutError: page.goto: Timeout 50ms exceeded.",
+        "category": "Timing / timeout",
+        "cause": "product",
+        "hint": "Operation was too slow; check for slow users or add a proper wait condition.",
+        "what": "The page did not finish loading within 50 ms."
+      },
+      {
+        "title": "[Demo] a wrong password shows the agreed error wording",
+        "file": "login.spec.ts",
+        "project": "mobile-chrome",
+        "feature": "login",
+        "severity": "medium",
+        "error": "Error: expect(locator).toContainText(expected) failed",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “Invalid username or password” but the page showed “Epic sadface: Username and password do not match any user in this service”.",
+        "expected": "Invalid username or password",
+        "received": "Epic sadface: Username and password do not match any user in this service"
+      },
+      {
+        "title": "[Demo] the Sauce Labs status page is reachable",
+        "file": "menu-navigation.spec.ts",
+        "project": "mobile-chrome",
+        "feature": "menu-navigation",
+        "severity": "low",
+        "error": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:65000/status",
+        "category": "Network / environment",
+        "cause": "env",
+        "hint": "Target site or network was unreachable; check app status and rerun.",
+        "what": "Could not connect to http://127.0.0.1:65000/status."
+      },
+      {
+        "title": "wrong password shows the agreed error wording",
+        "file": "sanity.spec.ts",
+        "project": "mobile-chrome",
+        "feature": "sanity",
+        "severity": "high",
+        "error": "Error: expect(locator).toContainText(expected) failed",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “Invalid username or password” but the page showed “Epic sadface: Username and password do not match any user in this service”.",
+        "expected": "Invalid username or password",
+        "received": "Epic sadface: Username and password do not match any user in this service"
+      },
+      {
+        "title": "[Demo] tax is calculated at 10% of the item total",
+        "file": "checkout.spec.ts",
+        "project": "webkit",
+        "feature": "checkout",
+        "severity": "high",
+        "error": "Error: expect(received).toBeCloseTo(expected, precision)",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “8” but the page showed “6.4”.",
+        "expected": "8",
+        "received": "6.4"
+      },
+      {
+        "title": "[Demo] a promo code can be applied before paying",
+        "file": "checkout.spec.ts",
+        "project": "webkit",
+        "feature": "checkout",
+        "severity": "high",
+        "error": "TimeoutError: locator.fill: Timeout 10000ms exceeded.",
+        "category": "Locator / UI change",
+        "cause": "test",
+        "hint": "Element missing or ambiguous; the UI or the locator likely changed.",
+        "what": "Could not find a field with the placeholder “Promo code” on the page."
+      },
+      {
+        "title": "[Demo] the spinner catalog page loads within a 50 ms budget",
+        "file": "dynamic-catalog.spec.ts",
+        "project": "webkit",
+        "feature": "dynamic-catalog",
+        "severity": "medium",
+        "error": "TimeoutError: page.goto: Timeout 50ms exceeded.",
+        "category": "Timing / timeout",
+        "cause": "product",
+        "hint": "Operation was too slow; check for slow users or add a proper wait condition.",
+        "what": "The page did not finish loading within 50 ms."
+      },
+      {
+        "title": "[Demo] a wrong password shows the agreed error wording",
+        "file": "login.spec.ts",
+        "project": "webkit",
+        "feature": "login",
+        "severity": "medium",
+        "error": "Error: expect(locator).toContainText(expected) failed",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “Invalid username or password” but the page showed “Epic sadface: Username and password do not match any user in this service”.",
+        "expected": "Invalid username or password",
+        "received": "Epic sadface: Username and password do not match any user in this service"
+      },
+      {
+        "title": "[Demo] the Sauce Labs status page is reachable",
+        "file": "menu-navigation.spec.ts",
+        "project": "webkit",
+        "feature": "menu-navigation",
+        "severity": "low",
+        "error": "Error: page.goto: Could not connect to 127.0.0.1: Connection refused",
+        "category": "Unclassified",
+        "cause": "product",
+        "hint": "No rule matched; inspect the trace.",
+        "what": "Error: page.goto: Could not connect to 127.0.0.1: Connection refused"
+      },
+      {
+        "title": "wrong password shows the agreed error wording",
+        "file": "sanity.spec.ts",
+        "project": "webkit",
+        "feature": "sanity",
+        "severity": "high",
+        "error": "Error: expect(locator).toContainText(expected) failed",
+        "category": "Assertion failure",
+        "cause": "product",
+        "hint": "App behaved differently from the expectation; likely a real bug or outdated expectation.",
+        "what": "Expected “Invalid username or password” but the page showed “Epic sadface: Username and password do not match any user in this service”.",
+        "expected": "Invalid username or password",
+        "received": "Epic sadface: Username and password do not match any user in this service"
+      }
+    ],
+    "causes": {
+      "Assertion failure": {
+        "cause": "product",
+        "label": "Product behaves differently than expected",
+        "meaning": "The site showed or did something other than what the requirement says. Either the product has a defect, or the requirement changed and the test is out of date.",
+        "action": "Compare expected and actual. If the site is wrong, raise a defect; if the requirement changed, update the test.",
+        "owner": "Product / Dev",
+        "confidence": "Medium"
+      },
+      "Locator / UI change": {
+        "cause": "test",
+        "label": "Screen element missing or changed",
+        "meaning": "The test could not find a button, field or text it expects. Either the screen changed, the feature is not built yet, or part of the page did not load.",
+        "action": "Open the screenshot. If the change is intended, update the test; if not, raise a defect.",
+        "owner": "QA to confirm, then Dev",
+        "confidence": "Medium"
+      },
+      "Timing / timeout": {
+        "cause": "product",
+        "label": "Page too slow or not responding",
+        "meaning": "A page did not load or respond within the time limit. Usually a slow environment or a performance problem.",
+        "action": "Re-run to rule out a one-off. If it repeats, treat it as a performance defect.",
+        "owner": "Dev / Performance",
+        "confidence": "Medium"
+      },
+      "Network / environment": {
+        "cause": "env",
+        "label": "Environment problem",
+        "meaning": "The test could not reach the site or a service it depends on, so the check never really ran. This is usually not a product defect.",
+        "action": "Check the environment is up, then re-run.",
+        "owner": "DevOps / Platform",
+        "confidence": "High"
+      },
+      "Unclassified": {
+        "cause": "product",
+        "label": "Needs investigation",
+        "meaning": "The error did not match a known pattern.",
+        "action": "Open the trace to find out what happened.",
+        "owner": "QA",
+        "confidence": "Low"
+      }
+    },
+    "tests": [
+      {
+        "title": "login page has no critical or serious a11y violations",
+        "feature": "accessibility",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            1047
+          ],
+          "firefox": [
+            "expected",
+            3214
+          ],
+          "mobile-chrome": [
+            "expected",
+            1352
+          ],
+          "webkit": [
+            "expected",
+            5394
+          ]
+        }
+      },
+      {
+        "title": "inventory page has no critical or serious a11y violations",
+        "feature": "accessibility",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            1281
+          ],
+          "firefox": [
+            "expected",
+            4189
+          ],
+          "mobile-chrome": [
+            "expected",
+            2603
+          ],
+          "webkit": [
+            "expected",
+            6225
+          ]
+        }
+      },
+      {
+        "title": "cart page has no critical or serious a11y violations",
+        "feature": "accessibility",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            1051
+          ],
+          "firefox": [
+            "expected",
+            2531
+          ],
+          "mobile-chrome": [
+            "expected",
+            1460
+          ],
+          "webkit": [
+            "expected",
+            2545
+          ]
+        }
+      },
+      {
+        "title": "checkout page has no critical or serious a11y violations",
+        "feature": "accessibility",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            1091
+          ],
+          "firefox": [
+            "expected",
+            2556
+          ],
+          "mobile-chrome": [
+            "expected",
+            1770
+          ],
+          "webkit": [
+            "expected",
+            2587
+          ]
+        }
+      },
+      {
+        "title": "adding an item updates the cart badge",
+        "feature": "cart",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            623
+          ],
+          "firefox": [
+            "expected",
+            1276
+          ],
+          "mobile-chrome": [
+            "expected",
+            799
+          ],
+          "webkit": [
+            "expected",
+            1650
+          ]
+        }
+      },
+      {
+        "title": "removing an item clears the cart badge",
+        "feature": "cart",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            563
+          ],
+          "firefox": [
+            "expected",
+            1542
+          ],
+          "mobile-chrome": [
+            "expected",
+            943
+          ],
+          "webkit": [
+            "expected",
+            1838
+          ]
+        }
+      },
+      {
+        "title": "cart page reflects items added from the product list",
+        "feature": "cart",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            572
+          ],
+          "firefox": [
+            "expected",
+            1580
+          ],
+          "mobile-chrome": [
+            "expected",
+            826
+          ],
+          "webkit": [
+            "expected",
+            1798
+          ]
+        }
+      },
+      {
+        "title": "products can be sorted low to high by price",
+        "feature": "cart",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            555
+          ],
+          "firefox": [
+            "expected",
+            1586
+          ],
+          "mobile-chrome": [
+            "expected",
+            741
+          ],
+          "webkit": [
+            "expected",
+            1613
+          ]
+        }
+      },
+      {
+        "title": "an empty cart shows no items",
+        "feature": "cart",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            514
+          ],
+          "firefox": [
+            "expected",
+            1473
+          ],
+          "mobile-chrome": [
+            "expected",
+            690
+          ],
+          "webkit": [
+            "expected",
+            1641
+          ]
+        }
+      },
+      {
+        "title": "an item can be removed from the cart page",
+        "feature": "cart",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            619
+          ],
+          "firefox": [
+            "expected",
+            1516
+          ],
+          "mobile-chrome": [
+            "expected",
+            837
+          ],
+          "webkit": [
+            "expected",
+            1924
+          ]
+        }
+      },
+      {
+        "title": "the cart shows each item with its price and quantity",
+        "feature": "cart",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            545
+          ],
+          "firefox": [
+            "expected",
+            1453
+          ],
+          "mobile-chrome": [
+            "expected",
+            770
+          ],
+          "webkit": [
+            "expected",
+            1553
+          ]
+        }
+      },
+      {
+        "title": "Continue Shopping returns to the product list",
+        "feature": "cart",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            607
+          ],
+          "firefox": [
+            "expected",
+            1482
+          ],
+          "mobile-chrome": [
+            "expected",
+            781
+          ],
+          "webkit": [
+            "expected",
+            1719
+          ]
+        }
+      },
+      {
+        "title": "cart contents are kept after a page reload",
+        "feature": "cart",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            670
+          ],
+          "firefox": [
+            "expected",
+            1579
+          ],
+          "mobile-chrome": [
+            "expected",
+            853
+          ],
+          "webkit": [
+            "expected",
+            1935
+          ]
+        }
+      },
+      {
+        "title": "Checkout opens the customer information step",
+        "feature": "cart",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            588
+          ],
+          "firefox": [
+            "expected",
+            1572
+          ],
+          "mobile-chrome": [
+            "expected",
+            843
+          ],
+          "webkit": [
+            "expected",
+            1705
+          ]
+        }
+      },
+      {
+        "title": "[Demo] the cart shows the right item count (intermittent)",
+        "feature": "cart",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "flaky",
+            6679
+          ],
+          "firefox": [
+            "flaky",
+            9686
+          ],
+          "mobile-chrome": [
+            "flaky",
+            7251
+          ],
+          "webkit": [
+            "flaky",
+            8819
+          ]
+        }
+      },
+      {
+        "title": "completes an order end-to-end with valid details",
+        "feature": "checkout",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            762
+          ],
+          "firefox": [
+            "expected",
+            1466
+          ],
+          "mobile-chrome": [
+            "expected",
+            941
+          ],
+          "webkit": [
+            "expected",
+            1580
+          ]
+        }
+      },
+      {
+        "title": "blocks checkout when required fields are missing",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            632
+          ],
+          "firefox": [
+            "expected",
+            3319
+          ],
+          "mobile-chrome": [
+            "expected",
+            753
+          ],
+          "webkit": [
+            "expected",
+            1396
+          ]
+        }
+      },
+      {
+        "title": "requires a last name",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            569
+          ],
+          "firefox": [
+            "expected",
+            1829
+          ],
+          "mobile-chrome": [
+            "expected",
+            760
+          ],
+          "webkit": [
+            "expected",
+            1420
+          ]
+        }
+      },
+      {
+        "title": "requires a postal code",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            571
+          ],
+          "firefox": [
+            "expected",
+            1949
+          ],
+          "mobile-chrome": [
+            "expected",
+            739
+          ],
+          "webkit": [
+            "expected",
+            1575
+          ]
+        }
+      },
+      {
+        "title": "cancelling on the information step returns to the cart",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            583
+          ],
+          "firefox": [
+            "expected",
+            1802
+          ],
+          "mobile-chrome": [
+            "expected",
+            762
+          ],
+          "webkit": [
+            "expected",
+            1992
+          ]
+        }
+      },
+      {
+        "title": "cancelling on the overview step returns to the product list",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            738
+          ],
+          "firefox": [
+            "expected",
+            1768
+          ],
+          "mobile-chrome": [
+            "expected",
+            958
+          ],
+          "webkit": [
+            "expected",
+            2378
+          ]
+        }
+      },
+      {
+        "title": "the overview lists the selected items with their prices",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            625
+          ],
+          "firefox": [
+            "expected",
+            1887
+          ],
+          "mobile-chrome": [
+            "expected",
+            905
+          ],
+          "webkit": [
+            "expected",
+            2092
+          ]
+        }
+      },
+      {
+        "title": "the item total equals the sum of the item prices",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            645
+          ],
+          "firefox": [
+            "expected",
+            1730
+          ],
+          "mobile-chrome": [
+            "expected",
+            1188
+          ],
+          "webkit": [
+            "expected",
+            2081
+          ]
+        }
+      },
+      {
+        "title": "tax is calculated at 8% of the item total",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            768
+          ],
+          "firefox": [
+            "expected",
+            1856
+          ],
+          "mobile-chrome": [
+            "expected",
+            959
+          ],
+          "webkit": [
+            "expected",
+            2104
+          ]
+        }
+      },
+      {
+        "title": "the overview shows payment and shipping information",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            917
+          ],
+          "firefox": [
+            "expected",
+            1942
+          ],
+          "mobile-chrome": [
+            "expected",
+            1045
+          ],
+          "webkit": [
+            "expected",
+            2120
+          ]
+        }
+      },
+      {
+        "title": "the confirmation page thanks the customer",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            834
+          ],
+          "firefox": [
+            "expected",
+            2006
+          ],
+          "mobile-chrome": [
+            "expected",
+            1015
+          ],
+          "webkit": [
+            "expected",
+            2106
+          ]
+        }
+      },
+      {
+        "title": "the cart is empty after an order is placed",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            812
+          ],
+          "firefox": [
+            "expected",
+            1917
+          ],
+          "mobile-chrome": [
+            "expected",
+            1051
+          ],
+          "webkit": [
+            "flaky",
+            14350
+          ]
+        }
+      },
+      {
+        "title": "Back Home returns to the product list after an order",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            917
+          ],
+          "firefox": [
+            "expected",
+            2009
+          ],
+          "mobile-chrome": [
+            "expected",
+            1141
+          ],
+          "webkit": [
+            "expected",
+            2104
+          ]
+        }
+      },
+      {
+        "title": "the order confirmation can be downloaded as a PDF",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            1018
+          ],
+          "firefox": [
+            "expected",
+            2158
+          ],
+          "mobile-chrome": [
+            "expected",
+            1500
+          ],
+          "webkit": [
+            "expected",
+            2146
+          ]
+        }
+      },
+      {
+        "title": "[Demo] tax is calculated at 10% of the item total",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "unexpected",
+            2307
+          ],
+          "firefox": [
+            "unexpected",
+            6399
+          ],
+          "mobile-chrome": [
+            "unexpected",
+            2997
+          ],
+          "webkit": [
+            "unexpected",
+            5042
+          ]
+        }
+      },
+      {
+        "title": "[Demo] a promo code can be applied before paying",
+        "feature": "checkout",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "unexpected",
+            33513
+          ],
+          "firefox": [
+            "unexpected",
+            37599
+          ],
+          "mobile-chrome": [
+            "unexpected",
+            34983
+          ],
+          "webkit": [
+            "unexpected",
+            37661
+          ]
+        }
+      },
+      {
+        "title": "the menu exposes the Lazy Load, Spinner and Slider demos",
+        "feature": "dynamic-catalog",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            1468
+          ],
+          "firefox": [
+            "expected",
+            2918
+          ],
+          "mobile-chrome": [
+            "expected",
+            1571
+          ],
+          "webkit": [
+            "expected",
+            1787
+          ]
+        }
+      },
+      {
+        "title": "the lazy-load page renders products as they come into view",
+        "feature": "dynamic-catalog",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            679
+          ],
+          "firefox": [
+            "expected",
+            1308
+          ],
+          "mobile-chrome": [
+            "expected",
+            798
+          ],
+          "webkit": [
+            "expected",
+            1353
+          ]
+        }
+      },
+      {
+        "title": "the spinner page loads all six products",
+        "feature": "dynamic-catalog",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            3716
+          ],
+          "firefox": [
+            "expected",
+            3887
+          ],
+          "mobile-chrome": [
+            "expected",
+            1364
+          ],
+          "webkit": [
+            "expected",
+            3989
+          ]
+        }
+      },
+      {
+        "title": "the slider page rotates through products",
+        "feature": "dynamic-catalog",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            2726
+          ],
+          "firefox": [
+            "expected",
+            3158
+          ],
+          "mobile-chrome": [
+            "expected",
+            2845
+          ],
+          "webkit": [
+            "expected",
+            3510
+          ]
+        }
+      },
+      {
+        "title": "[Demo] the spinner catalog page loads within a 50 ms budget",
+        "feature": "dynamic-catalog",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "unexpected",
+            11986
+          ],
+          "firefox": [
+            "unexpected",
+            5311
+          ],
+          "mobile-chrome": [
+            "unexpected",
+            2042
+          ],
+          "webkit": [
+            "unexpected",
+            3585
+          ]
+        }
+      },
+      {
+        "title": "lists all six products from the catalog",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            540
+          ],
+          "firefox": [
+            "expected",
+            2012
+          ],
+          "mobile-chrome": [
+            "expected",
+            649
+          ],
+          "webkit": [
+            "expected",
+            1228
+          ]
+        }
+      },
+      {
+        "title": "every product shows an image, description, price and add-to-cart button",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            457
+          ],
+          "firefox": [
+            "expected",
+            1092
+          ],
+          "mobile-chrome": [
+            "expected",
+            600
+          ],
+          "webkit": [
+            "expected",
+            1262
+          ]
+        }
+      },
+      {
+        "title": "shows the correct price for Sauce Labs Backpack",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            480
+          ],
+          "firefox": [
+            "expected",
+            884
+          ],
+          "mobile-chrome": [
+            "expected",
+            538
+          ],
+          "webkit": [
+            "expected",
+            1129
+          ]
+        }
+      },
+      {
+        "title": "shows the correct price for Sauce Labs Bike Light",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            490
+          ],
+          "firefox": [
+            "expected",
+            976
+          ],
+          "mobile-chrome": [
+            "expected",
+            524
+          ],
+          "webkit": [
+            "expected",
+            1139
+          ]
+        }
+      },
+      {
+        "title": "shows the correct price for Sauce Labs Bolt T-Shirt",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            513
+          ],
+          "firefox": [
+            "expected",
+            988
+          ],
+          "mobile-chrome": [
+            "expected",
+            546
+          ],
+          "webkit": [
+            "expected",
+            1245
+          ]
+        }
+      },
+      {
+        "title": "shows the correct price for Sauce Labs Fleece Jacket",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            482
+          ],
+          "firefox": [
+            "expected",
+            978
+          ],
+          "mobile-chrome": [
+            "expected",
+            517
+          ],
+          "webkit": [
+            "expected",
+            1393
+          ]
+        }
+      },
+      {
+        "title": "shows the correct price for Sauce Labs Onesie",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            469
+          ],
+          "firefox": [
+            "expected",
+            889
+          ],
+          "mobile-chrome": [
+            "expected",
+            534
+          ],
+          "webkit": [
+            "expected",
+            1551
+          ]
+        }
+      },
+      {
+        "title": "shows the correct price for Test.allTheThings() T-Shirt (Red)",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            523
+          ],
+          "firefox": [
+            "expected",
+            897
+          ],
+          "mobile-chrome": [
+            "expected",
+            553
+          ],
+          "webkit": [
+            "expected",
+            1239
+          ]
+        }
+      },
+      {
+        "title": "products can be sorted by name A to Z",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            474
+          ],
+          "firefox": [
+            "expected",
+            951
+          ],
+          "mobile-chrome": [
+            "expected",
+            571
+          ],
+          "webkit": [
+            "expected",
+            1189
+          ]
+        }
+      },
+      {
+        "title": "products can be sorted by name Z to A",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            493
+          ],
+          "firefox": [
+            "expected",
+            3691
+          ],
+          "mobile-chrome": [
+            "expected",
+            629
+          ],
+          "webkit": [
+            "expected",
+            1482
+          ]
+        }
+      },
+      {
+        "title": "products can be sorted by price high to low",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            474
+          ],
+          "firefox": [
+            "expected",
+            2248
+          ],
+          "mobile-chrome": [
+            "expected",
+            623
+          ],
+          "webkit": [
+            "expected",
+            1188
+          ]
+        }
+      },
+      {
+        "title": "add to cart switches to remove and updates the cart badge",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            523
+          ],
+          "firefox": [
+            "expected",
+            1776
+          ],
+          "mobile-chrome": [
+            "expected",
+            631
+          ],
+          "webkit": [
+            "expected",
+            1254
+          ]
+        }
+      },
+      {
+        "title": "adding several products increases the cart badge each time",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            519
+          ],
+          "firefox": [
+            "expected",
+            1481
+          ],
+          "mobile-chrome": [
+            "expected",
+            694
+          ],
+          "webkit": [
+            "expected",
+            1354
+          ]
+        }
+      },
+      {
+        "title": "the cart badge survives a page reload",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            522
+          ],
+          "firefox": [
+            "expected",
+            1533
+          ],
+          "mobile-chrome": [
+            "expected",
+            652
+          ],
+          "webkit": [
+            "expected",
+            1384
+          ]
+        }
+      },
+      {
+        "title": "footer shows the copyright notice",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            493
+          ],
+          "firefox": [
+            "expected",
+            1270
+          ],
+          "mobile-chrome": [
+            "expected",
+            598
+          ],
+          "webkit": [
+            "expected",
+            1181
+          ]
+        }
+      },
+      {
+        "title": "footer x link points to x.com and opens in a new tab",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            516
+          ],
+          "firefox": [
+            "expected",
+            1339
+          ],
+          "mobile-chrome": [
+            "expected",
+            644
+          ],
+          "webkit": [
+            "expected",
+            1282
+          ]
+        }
+      },
+      {
+        "title": "footer facebook link points to facebook.com and opens in a new tab",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            493
+          ],
+          "firefox": [
+            "expected",
+            1298
+          ],
+          "mobile-chrome": [
+            "expected",
+            773
+          ],
+          "webkit": [
+            "expected",
+            1670
+          ]
+        }
+      },
+      {
+        "title": "footer linkedin link points to linkedin.com and opens in a new tab",
+        "feature": "inventory",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            567
+          ],
+          "firefox": [
+            "expected",
+            1376
+          ],
+          "mobile-chrome": [
+            "expected",
+            677
+          ],
+          "webkit": [
+            "expected",
+            1515
+          ]
+        }
+      },
+      {
+        "title": "standard user can log in successfully",
+        "feature": "login",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            625
+          ],
+          "firefox": [
+            "expected",
+            1199
+          ],
+          "mobile-chrome": [
+            "expected",
+            543
+          ],
+          "webkit": [
+            "expected",
+            1441
+          ]
+        }
+      },
+      {
+        "title": "locked out user sees an error",
+        "feature": "login",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            504
+          ],
+          "firefox": [
+            "expected",
+            919
+          ],
+          "mobile-chrome": [
+            "expected",
+            446
+          ],
+          "webkit": [
+            "expected",
+            1267
+          ]
+        }
+      },
+      {
+        "title": "invalid credentials are rejected",
+        "feature": "login",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            487
+          ],
+          "firefox": [
+            "expected",
+            1030
+          ],
+          "mobile-chrome": [
+            "expected",
+            476
+          ],
+          "webkit": [
+            "expected",
+            1270
+          ]
+        }
+      },
+      {
+        "title": "a valid username with the wrong password is rejected",
+        "feature": "login",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            429
+          ],
+          "firefox": [
+            "expected",
+            952
+          ],
+          "mobile-chrome": [
+            "expected",
+            470
+          ],
+          "webkit": [
+            "expected",
+            1201
+          ]
+        }
+      },
+      {
+        "title": "empty submission is rejected",
+        "feature": "login",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            410
+          ],
+          "firefox": [
+            "expected",
+            843
+          ],
+          "mobile-chrome": [
+            "expected",
+            426
+          ],
+          "webkit": [
+            "expected",
+            1164
+          ]
+        }
+      },
+      {
+        "title": "a missing password is rejected",
+        "feature": "login",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            433
+          ],
+          "firefox": [
+            "expected",
+            893
+          ],
+          "mobile-chrome": [
+            "expected",
+            476
+          ],
+          "webkit": [
+            "expected",
+            1128
+          ]
+        }
+      },
+      {
+        "title": "the error message can be dismissed",
+        "feature": "login",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            469
+          ],
+          "firefox": [
+            "expected",
+            888
+          ],
+          "mobile-chrome": [
+            "expected",
+            456
+          ],
+          "webkit": [
+            "expected",
+            1171
+          ]
+        }
+      },
+      {
+        "title": "the password field masks what is typed",
+        "feature": "login",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            403
+          ],
+          "firefox": [
+            "expected",
+            750
+          ],
+          "mobile-chrome": [
+            "expected",
+            418
+          ],
+          "webkit": [
+            "expected",
+            1100
+          ]
+        }
+      },
+      {
+        "title": "a protected page redirects to login with a message when not logged in",
+        "feature": "login",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            450
+          ],
+          "firefox": [
+            "expected",
+            821
+          ],
+          "mobile-chrome": [
+            "expected",
+            457
+          ],
+          "webkit": [
+            "expected",
+            1176
+          ]
+        }
+      },
+      {
+        "title": "the user stays logged in after a page reload",
+        "feature": "login",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            547
+          ],
+          "firefox": [
+            "expected",
+            1314
+          ],
+          "mobile-chrome": [
+            "expected",
+            608
+          ],
+          "webkit": [
+            "expected",
+            1663
+          ]
+        }
+      },
+      {
+        "title": "[Demo] a wrong password shows the agreed error wording",
+        "feature": "login",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "unexpected",
+            17139
+          ],
+          "firefox": [
+            "unexpected",
+            22458
+          ],
+          "mobile-chrome": [
+            "unexpected",
+            18089
+          ],
+          "webkit": [
+            "unexpected",
+            19966
+          ]
+        }
+      },
+      {
+        "title": "the menu lists every navigation option",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            496
+          ],
+          "firefox": [
+            "expected",
+            3868
+          ],
+          "mobile-chrome": [
+            "expected",
+            1071
+          ],
+          "webkit": [
+            "expected",
+            1647
+          ]
+        }
+      },
+      {
+        "title": "logging out returns to the login page",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            1327
+          ],
+          "firefox": [
+            "expected",
+            2700
+          ],
+          "mobile-chrome": [
+            "expected",
+            1482
+          ],
+          "webkit": [
+            "expected",
+            1661
+          ]
+        }
+      },
+      {
+        "title": "a logged-out user cannot return to the product list",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            1354
+          ],
+          "firefox": [
+            "expected",
+            2754
+          ],
+          "mobile-chrome": [
+            "expected",
+            1476
+          ],
+          "webkit": [
+            "expected",
+            1824
+          ]
+        }
+      },
+      {
+        "title": "Reset App State empties the cart",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            1348
+          ],
+          "firefox": [
+            "expected",
+            2286
+          ],
+          "mobile-chrome": [
+            "expected",
+            1409
+          ],
+          "webkit": [
+            "expected",
+            2181
+          ]
+        }
+      },
+      {
+        "title": "All Items goes back to the product list",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            1415
+          ],
+          "firefox": [
+            "expected",
+            1150
+          ],
+          "mobile-chrome": [
+            "expected",
+            1537
+          ],
+          "webkit": [
+            "expected",
+            2528
+          ]
+        }
+      },
+      {
+        "title": "About links to saucelabs.com",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            529
+          ],
+          "firefox": [
+            "expected",
+            1121
+          ],
+          "mobile-chrome": [
+            "expected",
+            888
+          ],
+          "webkit": [
+            "expected",
+            1320
+          ]
+        }
+      },
+      {
+        "title": "the menu can be closed",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            2104
+          ],
+          "firefox": [
+            "expected",
+            2736
+          ],
+          "mobile-chrome": [
+            "expected",
+            2231
+          ],
+          "webkit": [
+            "expected",
+            2696
+          ]
+        }
+      },
+      {
+        "title": "the menu is available from the cart page",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "expected",
+            516
+          ],
+          "firefox": [
+            "expected",
+            1401
+          ],
+          "mobile-chrome": [
+            "expected",
+            589
+          ],
+          "webkit": [
+            "expected",
+            1803
+          ]
+        }
+      },
+      {
+        "title": "[Demo] the Sauce Labs status page is reachable",
+        "feature": "menu-navigation",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "unexpected",
+            1362
+          ],
+          "firefox": [
+            "unexpected",
+            6283
+          ],
+          "mobile-chrome": [
+            "unexpected",
+            1910
+          ],
+          "webkit": [
+            "unexpected",
+            4546
+          ]
+        }
+      },
+      {
+        "title": "clicking a product name opens its details page",
+        "feature": "product-details",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            678
+          ],
+          "firefox": [
+            "expected",
+            2574
+          ],
+          "mobile-chrome": [
+            "expected",
+            976
+          ],
+          "webkit": [
+            "expected",
+            1747
+          ]
+        }
+      },
+      {
+        "title": "clicking a product image opens its details page",
+        "feature": "product-details",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            487
+          ],
+          "firefox": [
+            "expected",
+            2774
+          ],
+          "mobile-chrome": [
+            "expected",
+            1059
+          ],
+          "webkit": [
+            "expected",
+            1818
+          ]
+        }
+      },
+      {
+        "title": "details page for Sauce Labs Backpack shows its image, description and price",
+        "feature": "product-details",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            482
+          ],
+          "firefox": [
+            "expected",
+            1235
+          ],
+          "mobile-chrome": [
+            "expected",
+            793
+          ],
+          "webkit": [
+            "expected",
+            1571
+          ]
+        }
+      },
+      {
+        "title": "details page for Sauce Labs Fleece Jacket shows its image, description and price",
+        "feature": "product-details",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            459
+          ],
+          "firefox": [
+            "expected",
+            1225
+          ],
+          "mobile-chrome": [
+            "expected",
+            975
+          ],
+          "webkit": [
+            "expected",
+            1570
+          ]
+        }
+      },
+      {
+        "title": "details page for Test.allTheThings() T-Shirt (Red) shows its image, description and price",
+        "feature": "product-details",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            478
+          ],
+          "firefox": [
+            "expected",
+            1334
+          ],
+          "mobile-chrome": [
+            "expected",
+            777
+          ],
+          "webkit": [
+            "expected",
+            1554
+          ]
+        }
+      },
+      {
+        "title": "adding to the cart from the details page updates the badge",
+        "feature": "product-details",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "expected",
+            427
+          ],
+          "firefox": [
+            "expected",
+            1333
+          ],
+          "mobile-chrome": [
+            "expected",
+            719
+          ],
+          "webkit": [
+            "expected",
+            1482
+          ]
+        }
+      },
+      {
+        "title": "removing from the details page clears the badge",
+        "feature": "product-details",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            455
+          ],
+          "firefox": [
+            "expected",
+            1606
+          ],
+          "mobile-chrome": [
+            "expected",
+            752
+          ],
+          "webkit": [
+            "expected",
+            1634
+          ]
+        }
+      },
+      {
+        "title": "Back to products returns to the listing",
+        "feature": "product-details",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            460
+          ],
+          "firefox": [
+            "expected",
+            1361
+          ],
+          "mobile-chrome": [
+            "expected",
+            726
+          ],
+          "webkit": [
+            "expected",
+            1686
+          ]
+        }
+      },
+      {
+        "title": "a product added on the details page shows as added in the listing",
+        "feature": "product-details",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            504
+          ],
+          "firefox": [
+            "expected",
+            1571
+          ],
+          "mobile-chrome": [
+            "expected",
+            808
+          ],
+          "webkit": [
+            "expected",
+            1773
+          ]
+        }
+      },
+      {
+        "title": "standard user can log in successfully",
+        "feature": "sanity",
+        "smoke": false,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            425
+          ],
+          "firefox": [
+            "expected",
+            1094
+          ],
+          "mobile-chrome": [
+            "expected",
+            674
+          ],
+          "webkit": [
+            "expected",
+            1547
+          ]
+        }
+      },
+      {
+        "title": "wrong password shows the agreed error wording",
+        "feature": "sanity",
+        "smoke": false,
+        "severity": "high",
+        "results": {
+          "chromium": [
+            "unexpected",
+            16739
+          ],
+          "firefox": [
+            "unexpected",
+            18919
+          ],
+          "mobile-chrome": [
+            "unexpected",
+            18127
+          ],
+          "webkit": [
+            "unexpected",
+            19029
+          ]
+        }
+      },
+      {
+        "title": "SSO login is available",
+        "feature": "sanity",
+        "smoke": false,
+        "severity": "low",
+        "results": {
+          "chromium": [
+            "skipped",
+            0
+          ],
+          "firefox": [
+            "skipped",
+            0
+          ],
+          "mobile-chrome": [
+            "skipped",
+            0
+          ],
+          "webkit": [
+            "skipped",
+            0
+          ]
+        }
+      },
+      {
+        "title": "performance_glitch_user can log in and sees the full catalog",
+        "feature": "user-profiles",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            5591
+          ],
+          "firefox": [
+            "expected",
+            5983
+          ],
+          "mobile-chrome": [
+            "expected",
+            5945
+          ],
+          "webkit": [
+            "expected",
+            6486
+          ]
+        }
+      },
+      {
+        "title": "error_user can log in and sees the full catalog",
+        "feature": "user-profiles",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            471
+          ],
+          "firefox": [
+            "expected",
+            892
+          ],
+          "mobile-chrome": [
+            "expected",
+            853
+          ],
+          "webkit": [
+            "expected",
+            1463
+          ]
+        }
+      },
+      {
+        "title": "visual_user can log in and sees the full catalog",
+        "feature": "user-profiles",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            511
+          ],
+          "firefox": [
+            "expected",
+            1088
+          ],
+          "mobile-chrome": [
+            "expected",
+            828
+          ],
+          "webkit": [
+            "expected",
+            1104
+          ]
+        }
+      },
+      {
+        "title": "problem_user can log in and sees the full catalog",
+        "feature": "user-profiles",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            488
+          ],
+          "firefox": [
+            "expected",
+            2650
+          ],
+          "mobile-chrome": [
+            "expected",
+            660
+          ],
+          "webkit": [
+            "expected",
+            1179
+          ]
+        }
+      },
+      {
+        "title": "problem_user sees a distinct image for every product",
+        "feature": "user-profiles",
+        "smoke": false,
+        "severity": "medium",
+        "results": {
+          "chromium": [
+            "expected",
+            508
+          ],
+          "firefox": [
+            "expected",
+            1071
+          ],
+          "mobile-chrome": [
+            "expected",
+            706
+          ],
+          "webkit": [
+            "expected",
+            1242
+          ]
+        }
+      }
+    ]
+  },
+  {
     "id": "39978140255",
     "runNumber": 67,
     "date": "2026-10-23T15:26:06.768Z",
@@ -6453,2193 +9295,7 @@
         "owner": "QA",
         "confidence": "Low"
       }
-    },
-    "tests": [
-      {
-        "title": "login page has no critical or serious a11y violations",
-        "feature": "accessibility",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            2002
-          ],
-          "firefox": [
-            "expected",
-            3926
-          ],
-          "mobile-chrome": [
-            "expected",
-            1118
-          ],
-          "webkit": [
-            "expected",
-            2226
-          ]
-        }
-      },
-      {
-        "title": "inventory page has no critical or serious a11y violations",
-        "feature": "accessibility",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            2197
-          ],
-          "firefox": [
-            "expected",
-            4414
-          ],
-          "mobile-chrome": [
-            "expected",
-            1517
-          ],
-          "webkit": [
-            "expected",
-            3131
-          ]
-        }
-      },
-      {
-        "title": "cart page has no critical or serious a11y violations",
-        "feature": "accessibility",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            1236
-          ],
-          "firefox": [
-            "expected",
-            2149
-          ],
-          "mobile-chrome": [
-            "expected",
-            1217
-          ],
-          "webkit": [
-            "expected",
-            2300
-          ]
-        }
-      },
-      {
-        "title": "checkout page has no critical or serious a11y violations",
-        "feature": "accessibility",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            1324
-          ],
-          "firefox": [
-            "expected",
-            2299
-          ],
-          "mobile-chrome": [
-            "expected",
-            1282
-          ],
-          "webkit": [
-            "expected",
-            2452
-          ]
-        }
-      },
-      {
-        "title": "adding an item updates the cart badge",
-        "feature": "cart",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            609
-          ],
-          "firefox": [
-            "expected",
-            1097
-          ],
-          "mobile-chrome": [
-            "expected",
-            609
-          ],
-          "webkit": [
-            "expected",
-            1480
-          ]
-        }
-      },
-      {
-        "title": "removing an item clears the cart badge",
-        "feature": "cart",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            616
-          ],
-          "firefox": [
-            "expected",
-            2308
-          ],
-          "mobile-chrome": [
-            "expected",
-            631
-          ],
-          "webkit": [
-            "expected",
-            1567
-          ]
-        }
-      },
-      {
-        "title": "cart page reflects items added from the product list",
-        "feature": "cart",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            666
-          ],
-          "firefox": [
-            "expected",
-            2288
-          ],
-          "mobile-chrome": [
-            "expected",
-            580
-          ],
-          "webkit": [
-            "expected",
-            1611
-          ]
-        }
-      },
-      {
-        "title": "products can be sorted low to high by price",
-        "feature": "cart",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            510
-          ],
-          "firefox": [
-            "expected",
-            1167
-          ],
-          "mobile-chrome": [
-            "expected",
-            566
-          ],
-          "webkit": [
-            "expected",
-            1426
-          ]
-        }
-      },
-      {
-        "title": "an empty cart shows no items",
-        "feature": "cart",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            564
-          ],
-          "firefox": [
-            "expected",
-            1161
-          ],
-          "mobile-chrome": [
-            "expected",
-            545
-          ],
-          "webkit": [
-            "expected",
-            1419
-          ]
-        }
-      },
-      {
-        "title": "an item can be removed from the cart page",
-        "feature": "cart",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            767
-          ],
-          "firefox": [
-            "expected",
-            1393
-          ],
-          "mobile-chrome": [
-            "expected",
-            645
-          ],
-          "webkit": [
-            "expected",
-            1725
-          ]
-        }
-      },
-      {
-        "title": "the cart shows each item with its price and quantity",
-        "feature": "cart",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            626
-          ],
-          "firefox": [
-            "expected",
-            1259
-          ],
-          "mobile-chrome": [
-            "expected",
-            566
-          ],
-          "webkit": [
-            "expected",
-            1534
-          ]
-        }
-      },
-      {
-        "title": "Continue Shopping returns to the product list",
-        "feature": "cart",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            615
-          ],
-          "firefox": [
-            "expected",
-            1367
-          ],
-          "mobile-chrome": [
-            "expected",
-            668
-          ],
-          "webkit": [
-            "expected",
-            1616
-          ]
-        }
-      },
-      {
-        "title": "cart contents are kept after a page reload",
-        "feature": "cart",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            733
-          ],
-          "firefox": [
-            "expected",
-            1657
-          ],
-          "mobile-chrome": [
-            "expected",
-            632
-          ],
-          "webkit": [
-            "expected",
-            1520
-          ]
-        }
-      },
-      {
-        "title": "Checkout opens the customer information step",
-        "feature": "cart",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            551
-          ],
-          "firefox": [
-            "expected",
-            1497
-          ],
-          "mobile-chrome": [
-            "expected",
-            607
-          ],
-          "webkit": [
-            "expected",
-            1522
-          ]
-        }
-      },
-      {
-        "title": "[Demo] the cart shows the right item count (intermittent)",
-        "feature": "cart",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "flaky",
-            6894
-          ],
-          "firefox": [
-            "flaky",
-            8826
-          ],
-          "mobile-chrome": [
-            "flaky",
-            6446
-          ],
-          "webkit": [
-            "flaky",
-            8447
-          ]
-        }
-      },
-      {
-        "title": "completes an order end-to-end with valid details",
-        "feature": "checkout",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            864
-          ],
-          "firefox": [
-            "expected",
-            1288
-          ],
-          "mobile-chrome": [
-            "expected",
-            749
-          ],
-          "webkit": [
-            "expected",
-            1458
-          ]
-        }
-      },
-      {
-        "title": "blocks checkout when required fields are missing",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            613
-          ],
-          "firefox": [
-            "expected",
-            3124
-          ],
-          "mobile-chrome": [
-            "expected",
-            665
-          ],
-          "webkit": [
-            "expected",
-            1246
-          ]
-        }
-      },
-      {
-        "title": "requires a last name",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            604
-          ],
-          "firefox": [
-            "expected",
-            1646
-          ],
-          "mobile-chrome": [
-            "expected",
-            620
-          ],
-          "webkit": [
-            "expected",
-            1253
-          ]
-        }
-      },
-      {
-        "title": "requires a postal code",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            552
-          ],
-          "firefox": [
-            "expected",
-            1501
-          ],
-          "mobile-chrome": [
-            "expected",
-            670
-          ],
-          "webkit": [
-            "expected",
-            1353
-          ]
-        }
-      },
-      {
-        "title": "cancelling on the information step returns to the cart",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            602
-          ],
-          "firefox": [
-            "expected",
-            1621
-          ],
-          "mobile-chrome": [
-            "expected",
-            637
-          ],
-          "webkit": [
-            "expected",
-            1795
-          ]
-        }
-      },
-      {
-        "title": "cancelling on the overview step returns to the product list",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            731
-          ],
-          "firefox": [
-            "expected",
-            1676
-          ],
-          "mobile-chrome": [
-            "expected",
-            897
-          ],
-          "webkit": [
-            "expected",
-            2086
-          ]
-        }
-      },
-      {
-        "title": "the overview lists the selected items with their prices",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            673
-          ],
-          "firefox": [
-            "expected",
-            1590
-          ],
-          "mobile-chrome": [
-            "expected",
-            743
-          ],
-          "webkit": [
-            "expected",
-            2038
-          ]
-        }
-      },
-      {
-        "title": "the item total equals the sum of the item prices",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            650
-          ],
-          "firefox": [
-            "expected",
-            1507
-          ],
-          "mobile-chrome": [
-            "expected",
-            834
-          ],
-          "webkit": [
-            "expected",
-            1848
-          ]
-        }
-      },
-      {
-        "title": "tax is calculated at 8% of the item total",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            734
-          ],
-          "firefox": [
-            "expected",
-            1563
-          ],
-          "mobile-chrome": [
-            "expected",
-            809
-          ],
-          "webkit": [
-            "expected",
-            1889
-          ]
-        }
-      },
-      {
-        "title": "the overview shows payment and shipping information",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            951
-          ],
-          "firefox": [
-            "expected",
-            1475
-          ],
-          "mobile-chrome": [
-            "expected",
-            771
-          ],
-          "webkit": [
-            "expected",
-            1856
-          ]
-        }
-      },
-      {
-        "title": "the confirmation page thanks the customer",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            857
-          ],
-          "firefox": [
-            "expected",
-            1798
-          ],
-          "mobile-chrome": [
-            "expected",
-            810
-          ],
-          "webkit": [
-            "expected",
-            2088
-          ]
-        }
-      },
-      {
-        "title": "the cart is empty after an order is placed",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            888
-          ],
-          "firefox": [
-            "expected",
-            1875
-          ],
-          "mobile-chrome": [
-            "expected",
-            786
-          ],
-          "webkit": [
-            "expected",
-            1810
-          ]
-        }
-      },
-      {
-        "title": "Back Home returns to the product list after an order",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            1027
-          ],
-          "firefox": [
-            "expected",
-            1855
-          ],
-          "mobile-chrome": [
-            "expected",
-            845
-          ],
-          "webkit": [
-            "expected",
-            2266
-          ]
-        }
-      },
-      {
-        "title": "the order confirmation can be downloaded as a PDF",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            1213
-          ],
-          "firefox": [
-            "expected",
-            2111
-          ],
-          "mobile-chrome": [
-            "expected",
-            1192
-          ],
-          "webkit": [
-            "expected",
-            2377
-          ]
-        }
-      },
-      {
-        "title": "[Demo] tax is calculated at 10% of the item total",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "unexpected",
-            2400
-          ],
-          "firefox": [
-            "unexpected",
-            7104
-          ],
-          "mobile-chrome": [
-            "unexpected",
-            2717
-          ],
-          "webkit": [
-            "unexpected",
-            5117
-          ]
-        }
-      },
-      {
-        "title": "[Demo] a promo code can be applied before paying",
-        "feature": "checkout",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "unexpected",
-            33892
-          ],
-          "firefox": [
-            "unexpected",
-            37072
-          ],
-          "mobile-chrome": [
-            "unexpected",
-            33135
-          ],
-          "webkit": [
-            "unexpected",
-            37057
-          ]
-        }
-      },
-      {
-        "title": "the menu exposes the Lazy Load, Spinner and Slider demos",
-        "feature": "dynamic-catalog",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            1475
-          ],
-          "firefox": [
-            "expected",
-            3187
-          ],
-          "mobile-chrome": [
-            "expected",
-            1385
-          ],
-          "webkit": [
-            "expected",
-            2142
-          ]
-        }
-      },
-      {
-        "title": "the lazy-load page renders products as they come into view",
-        "feature": "dynamic-catalog",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            747
-          ],
-          "firefox": [
-            "expected",
-            1081
-          ],
-          "mobile-chrome": [
-            "expected",
-            617
-          ],
-          "webkit": [
-            "expected",
-            1302
-          ]
-        }
-      },
-      {
-        "title": "the spinner page loads all six products",
-        "feature": "dynamic-catalog",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            2482
-          ],
-          "firefox": [
-            "expected",
-            3075
-          ],
-          "mobile-chrome": [
-            "expected",
-            3260
-          ],
-          "webkit": [
-            "expected",
-            4468
-          ]
-        }
-      },
-      {
-        "title": "the slider page rotates through products",
-        "feature": "dynamic-catalog",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            2979
-          ],
-          "firefox": [
-            "expected",
-            3220
-          ],
-          "mobile-chrome": [
-            "expected",
-            2784
-          ],
-          "webkit": [
-            "expected",
-            3467
-          ]
-        }
-      },
-      {
-        "title": "[Demo] the spinner catalog page loads within a 50 ms budget",
-        "feature": "dynamic-catalog",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "unexpected",
-            11336
-          ],
-          "firefox": [
-            "unexpected",
-            4559
-          ],
-          "mobile-chrome": [
-            "unexpected",
-            15868
-          ],
-          "webkit": [
-            "unexpected",
-            2769
-          ]
-        }
-      },
-      {
-        "title": "lists all six products from the catalog",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            532
-          ],
-          "firefox": [
-            "expected",
-            1790
-          ],
-          "mobile-chrome": [
-            "expected",
-            520
-          ],
-          "webkit": [
-            "expected",
-            1099
-          ]
-        }
-      },
-      {
-        "title": "every product shows an image, description, price and add-to-cart button",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            681
-          ],
-          "firefox": [
-            "expected",
-            998
-          ],
-          "mobile-chrome": [
-            "expected",
-            489
-          ],
-          "webkit": [
-            "expected",
-            1141
-          ]
-        }
-      },
-      {
-        "title": "shows the correct price for Sauce Labs Backpack",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            509
-          ],
-          "firefox": [
-            "expected",
-            839
-          ],
-          "mobile-chrome": [
-            "expected",
-            486
-          ],
-          "webkit": [
-            "expected",
-            1057
-          ]
-        }
-      },
-      {
-        "title": "shows the correct price for Sauce Labs Bike Light",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            475
-          ],
-          "firefox": [
-            "expected",
-            928
-          ],
-          "mobile-chrome": [
-            "expected",
-            473
-          ],
-          "webkit": [
-            "expected",
-            1166
-          ]
-        }
-      },
-      {
-        "title": "shows the correct price for Sauce Labs Bolt T-Shirt",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            468
-          ],
-          "firefox": [
-            "expected",
-            925
-          ],
-          "mobile-chrome": [
-            "expected",
-            478
-          ],
-          "webkit": [
-            "expected",
-            1287
-          ]
-        }
-      },
-      {
-        "title": "shows the correct price for Sauce Labs Fleece Jacket",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            446
-          ],
-          "firefox": [
-            "expected",
-            929
-          ],
-          "mobile-chrome": [
-            "expected",
-            508
-          ],
-          "webkit": [
-            "expected",
-            1053
-          ]
-        }
-      },
-      {
-        "title": "shows the correct price for Sauce Labs Onesie",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            480
-          ],
-          "firefox": [
-            "expected",
-            822
-          ],
-          "mobile-chrome": [
-            "expected",
-            483
-          ],
-          "webkit": [
-            "expected",
-            994
-          ]
-        }
-      },
-      {
-        "title": "shows the correct price for Test.allTheThings() T-Shirt (Red)",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            482
-          ],
-          "firefox": [
-            "expected",
-            852
-          ],
-          "mobile-chrome": [
-            "expected",
-            492
-          ],
-          "webkit": [
-            "expected",
-            961
-          ]
-        }
-      },
-      {
-        "title": "products can be sorted by name A to Z",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            486
-          ],
-          "firefox": [
-            "expected",
-            881
-          ],
-          "mobile-chrome": [
-            "expected",
-            460
-          ],
-          "webkit": [
-            "expected",
-            1050
-          ]
-        }
-      },
-      {
-        "title": "products can be sorted by name Z to A",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            462
-          ],
-          "firefox": [
-            "expected",
-            3791
-          ],
-          "mobile-chrome": [
-            "expected",
-            546
-          ],
-          "webkit": [
-            "expected",
-            1050
-          ]
-        }
-      },
-      {
-        "title": "products can be sorted by price high to low",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            480
-          ],
-          "firefox": [
-            "expected",
-            1862
-          ],
-          "mobile-chrome": [
-            "expected",
-            631
-          ],
-          "webkit": [
-            "expected",
-            1015
-          ]
-        }
-      },
-      {
-        "title": "add to cart switches to remove and updates the cart badge",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            435
-          ],
-          "firefox": [
-            "expected",
-            1149
-          ],
-          "mobile-chrome": [
-            "expected",
-            683
-          ],
-          "webkit": [
-            "expected",
-            1114
-          ]
-        }
-      },
-      {
-        "title": "adding several products increases the cart badge each time",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            525
-          ],
-          "firefox": [
-            "expected",
-            1743
-          ],
-          "mobile-chrome": [
-            "expected",
-            706
-          ],
-          "webkit": [
-            "expected",
-            1183
-          ]
-        }
-      },
-      {
-        "title": "the cart badge survives a page reload",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            534
-          ],
-          "firefox": [
-            "expected",
-            1376
-          ],
-          "mobile-chrome": [
-            "expected",
-            617
-          ],
-          "webkit": [
-            "expected",
-            1158
-          ]
-        }
-      },
-      {
-        "title": "footer shows the copyright notice",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            480
-          ],
-          "firefox": [
-            "expected",
-            1074
-          ],
-          "mobile-chrome": [
-            "expected",
-            554
-          ],
-          "webkit": [
-            "expected",
-            1074
-          ]
-        }
-      },
-      {
-        "title": "footer x link points to x.com and opens in a new tab",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            448
-          ],
-          "firefox": [
-            "expected",
-            1111
-          ],
-          "mobile-chrome": [
-            "expected",
-            578
-          ],
-          "webkit": [
-            "expected",
-            1226
-          ]
-        }
-      },
-      {
-        "title": "footer facebook link points to facebook.com and opens in a new tab",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            458
-          ],
-          "firefox": [
-            "expected",
-            1164
-          ],
-          "mobile-chrome": [
-            "expected",
-            526
-          ],
-          "webkit": [
-            "expected",
-            1493
-          ]
-        }
-      },
-      {
-        "title": "footer linkedin link points to linkedin.com and opens in a new tab",
-        "feature": "inventory",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            501
-          ],
-          "firefox": [
-            "expected",
-            1323
-          ],
-          "mobile-chrome": [
-            "expected",
-            549
-          ],
-          "webkit": [
-            "expected",
-            1417
-          ]
-        }
-      },
-      {
-        "title": "standard user can log in successfully",
-        "feature": "login",
-        "smoke": true,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            465
-          ],
-          "firefox": [
-            "expected",
-            911
-          ],
-          "mobile-chrome": [
-            "expected",
-            499
-          ],
-          "webkit": [
-            "expected",
-            1267
-          ]
-        }
-      },
-      {
-        "title": "locked out user sees an error",
-        "feature": "login",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            448
-          ],
-          "firefox": [
-            "expected",
-            1206
-          ],
-          "mobile-chrome": [
-            "expected",
-            443
-          ],
-          "webkit": [
-            "expected",
-            1084
-          ]
-        }
-      },
-      {
-        "title": "invalid credentials are rejected",
-        "feature": "login",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            498
-          ],
-          "firefox": [
-            "expected",
-            949
-          ],
-          "mobile-chrome": [
-            "expected",
-            477
-          ],
-          "webkit": [
-            "expected",
-            1043
-          ]
-        }
-      },
-      {
-        "title": "a valid username with the wrong password is rejected",
-        "feature": "login",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            593
-          ],
-          "firefox": [
-            "expected",
-            796
-          ],
-          "mobile-chrome": [
-            "expected",
-            454
-          ],
-          "webkit": [
-            "expected",
-            1086
-          ]
-        }
-      },
-      {
-        "title": "empty submission is rejected",
-        "feature": "login",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            502
-          ],
-          "firefox": [
-            "expected",
-            789
-          ],
-          "mobile-chrome": [
-            "expected",
-            446
-          ],
-          "webkit": [
-            "expected",
-            918
-          ]
-        }
-      },
-      {
-        "title": "a missing password is rejected",
-        "feature": "login",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            522
-          ],
-          "firefox": [
-            "expected",
-            807
-          ],
-          "mobile-chrome": [
-            "expected",
-            437
-          ],
-          "webkit": [
-            "expected",
-            1002
-          ]
-        }
-      },
-      {
-        "title": "the error message can be dismissed",
-        "feature": "login",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            506
-          ],
-          "firefox": [
-            "expected",
-            803
-          ],
-          "mobile-chrome": [
-            "expected",
-            454
-          ],
-          "webkit": [
-            "expected",
-            988
-          ]
-        }
-      },
-      {
-        "title": "the password field masks what is typed",
-        "feature": "login",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            377
-          ],
-          "firefox": [
-            "expected",
-            674
-          ],
-          "mobile-chrome": [
-            "expected",
-            421
-          ],
-          "webkit": [
-            "expected",
-            944
-          ]
-        }
-      },
-      {
-        "title": "a protected page redirects to login with a message when not logged in",
-        "feature": "login",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            446
-          ],
-          "firefox": [
-            "expected",
-            700
-          ],
-          "mobile-chrome": [
-            "expected",
-            471
-          ],
-          "webkit": [
-            "expected",
-            950
-          ]
-        }
-      },
-      {
-        "title": "the user stays logged in after a page reload",
-        "feature": "login",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            617
-          ],
-          "firefox": [
-            "expected",
-            1073
-          ],
-          "mobile-chrome": [
-            "expected",
-            562
-          ],
-          "webkit": [
-            "expected",
-            1478
-          ]
-        }
-      },
-      {
-        "title": "[Demo] a wrong password shows the agreed error wording",
-        "feature": "login",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "unexpected",
-            17844
-          ],
-          "firefox": [
-            "unexpected",
-            21752
-          ],
-          "mobile-chrome": [
-            "unexpected",
-            17139
-          ],
-          "webkit": [
-            "unexpected",
-            19024
-          ]
-        }
-      },
-      {
-        "title": "the menu lists every navigation option",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            486
-          ],
-          "firefox": [
-            "expected",
-            4305
-          ],
-          "mobile-chrome": [
-            "expected",
-            491
-          ],
-          "webkit": [
-            "expected",
-            1275
-          ]
-        }
-      },
-      {
-        "title": "logging out returns to the login page",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            1334
-          ],
-          "firefox": [
-            "expected",
-            2739
-          ],
-          "mobile-chrome": [
-            "expected",
-            1354
-          ],
-          "webkit": [
-            "expected",
-            1947
-          ]
-        }
-      },
-      {
-        "title": "a logged-out user cannot return to the product list",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            1368
-          ],
-          "firefox": [
-            "expected",
-            2793
-          ],
-          "mobile-chrome": [
-            "expected",
-            1383
-          ],
-          "webkit": [
-            "expected",
-            2113
-          ]
-        }
-      },
-      {
-        "title": "Reset App State empties the cart",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            1336
-          ],
-          "firefox": [
-            "expected",
-            1956
-          ],
-          "mobile-chrome": [
-            "expected",
-            1337
-          ],
-          "webkit": [
-            "expected",
-            2034
-          ]
-        }
-      },
-      {
-        "title": "All Items goes back to the product list",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            1536
-          ],
-          "firefox": [
-            "expected",
-            1065
-          ],
-          "mobile-chrome": [
-            "expected",
-            1452
-          ],
-          "webkit": [
-            "expected",
-            2112
-          ]
-        }
-      },
-      {
-        "title": "About links to saucelabs.com",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            604
-          ],
-          "firefox": [
-            "expected",
-            976
-          ],
-          "mobile-chrome": [
-            "expected",
-            498
-          ],
-          "webkit": [
-            "expected",
-            1199
-          ]
-        }
-      },
-      {
-        "title": "the menu can be closed",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            2135
-          ],
-          "firefox": [
-            "expected",
-            2736
-          ],
-          "mobile-chrome": [
-            "expected",
-            2090
-          ],
-          "webkit": [
-            "expected",
-            2944
-          ]
-        }
-      },
-      {
-        "title": "the menu is available from the cart page",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "expected",
-            519
-          ],
-          "firefox": [
-            "expected",
-            1382
-          ],
-          "mobile-chrome": [
-            "expected",
-            540
-          ],
-          "webkit": [
-            "expected",
-            1309
-          ]
-        }
-      },
-      {
-        "title": "[Demo] the Sauce Labs status page is reachable",
-        "feature": "menu-navigation",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "unexpected",
-            1674
-          ],
-          "firefox": [
-            "unexpected",
-            6537
-          ],
-          "mobile-chrome": [
-            "unexpected",
-            1450
-          ],
-          "webkit": [
-            "unexpected",
-            3890
-          ]
-        }
-      },
-      {
-        "title": "clicking a product name opens its details page",
-        "feature": "product-details",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            724
-          ],
-          "firefox": [
-            "expected",
-            2525
-          ],
-          "mobile-chrome": [
-            "expected",
-            731
-          ],
-          "webkit": [
-            "expected",
-            1608
-          ]
-        }
-      },
-      {
-        "title": "clicking a product image opens its details page",
-        "feature": "product-details",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            503
-          ],
-          "firefox": [
-            "expected",
-            2320
-          ],
-          "mobile-chrome": [
-            "expected",
-            599
-          ],
-          "webkit": [
-            "expected",
-            1686
-          ]
-        }
-      },
-      {
-        "title": "details page for Sauce Labs Backpack shows its image, description and price",
-        "feature": "product-details",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            490
-          ],
-          "firefox": [
-            "expected",
-            969
-          ],
-          "mobile-chrome": [
-            "expected",
-            510
-          ],
-          "webkit": [
-            "expected",
-            1228
-          ]
-        }
-      },
-      {
-        "title": "details page for Sauce Labs Fleece Jacket shows its image, description and price",
-        "feature": "product-details",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            545
-          ],
-          "firefox": [
-            "expected",
-            1155
-          ],
-          "mobile-chrome": [
-            "expected",
-            608
-          ],
-          "webkit": [
-            "expected",
-            1396
-          ]
-        }
-      },
-      {
-        "title": "details page for Test.allTheThings() T-Shirt (Red) shows its image, description and price",
-        "feature": "product-details",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            647
-          ],
-          "firefox": [
-            "expected",
-            1192
-          ],
-          "mobile-chrome": [
-            "expected",
-            623
-          ],
-          "webkit": [
-            "expected",
-            1353
-          ]
-        }
-      },
-      {
-        "title": "adding to the cart from the details page updates the badge",
-        "feature": "product-details",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "expected",
-            405
-          ],
-          "firefox": [
-            "expected",
-            1111
-          ],
-          "mobile-chrome": [
-            "expected",
-            489
-          ],
-          "webkit": [
-            "expected",
-            1371
-          ]
-        }
-      },
-      {
-        "title": "removing from the details page clears the badge",
-        "feature": "product-details",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            472
-          ],
-          "firefox": [
-            "expected",
-            1378
-          ],
-          "mobile-chrome": [
-            "expected",
-            525
-          ],
-          "webkit": [
-            "expected",
-            1559
-          ]
-        }
-      },
-      {
-        "title": "Back to products returns to the listing",
-        "feature": "product-details",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            427
-          ],
-          "firefox": [
-            "expected",
-            1136
-          ],
-          "mobile-chrome": [
-            "expected",
-            478
-          ],
-          "webkit": [
-            "expected",
-            1384
-          ]
-        }
-      },
-      {
-        "title": "a product added on the details page shows as added in the listing",
-        "feature": "product-details",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            551
-          ],
-          "firefox": [
-            "expected",
-            1321
-          ],
-          "mobile-chrome": [
-            "expected",
-            505
-          ],
-          "webkit": [
-            "expected",
-            1584
-          ]
-        }
-      },
-      {
-        "title": "standard user can log in successfully",
-        "feature": "sanity",
-        "smoke": false,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            599
-          ],
-          "firefox": [
-            "expected",
-            896
-          ],
-          "mobile-chrome": [
-            "expected",
-            465
-          ],
-          "webkit": [
-            "expected",
-            1238
-          ]
-        }
-      },
-      {
-        "title": "wrong password shows the agreed error wording",
-        "feature": "sanity",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "unexpected",
-            17305
-          ],
-          "firefox": [
-            "unexpected",
-            18614
-          ],
-          "mobile-chrome": [
-            "unexpected",
-            16803
-          ],
-          "webkit": [
-            "unexpected",
-            19107
-          ]
-        }
-      },
-      {
-        "title": "SSO login is available",
-        "feature": "sanity",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "skipped",
-            0
-          ],
-          "firefox": [
-            "skipped",
-            0
-          ],
-          "mobile-chrome": [
-            "skipped",
-            0
-          ],
-          "webkit": [
-            "skipped",
-            0
-          ]
-        }
-      },
-      {
-        "title": "performance_glitch_user can log in and sees the full catalog",
-        "feature": "user-profiles",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            5934
-          ],
-          "firefox": [
-            "expected",
-            5740
-          ],
-          "mobile-chrome": [
-            "expected",
-            5608
-          ],
-          "webkit": [
-            "expected",
-            6340
-          ]
-        }
-      },
-      {
-        "title": "error_user can log in and sees the full catalog",
-        "feature": "user-profiles",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            476
-          ],
-          "firefox": [
-            "expected",
-            903
-          ],
-          "mobile-chrome": [
-            "expected",
-            539
-          ],
-          "webkit": [
-            "expected",
-            1646
-          ]
-        }
-      },
-      {
-        "title": "visual_user can log in and sees the full catalog",
-        "feature": "user-profiles",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            458
-          ],
-          "firefox": [
-            "expected",
-            944
-          ],
-          "mobile-chrome": [
-            "expected",
-            534
-          ],
-          "webkit": [
-            "expected",
-            1039
-          ]
-        }
-      },
-      {
-        "title": "problem_user can log in and sees the full catalog",
-        "feature": "user-profiles",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            469
-          ],
-          "firefox": [
-            "expected",
-            2438
-          ],
-          "mobile-chrome": [
-            "expected",
-            506
-          ],
-          "webkit": [
-            "expected",
-            876
-          ]
-        }
-      },
-      {
-        "title": "problem_user sees a distinct image for every product",
-        "feature": "user-profiles",
-        "smoke": false,
-        "severity": "medium",
-        "results": {
-          "chromium": [
-            "expected",
-            459
-          ],
-          "firefox": [
-            "expected",
-            958
-          ],
-          "mobile-chrome": [
-            "expected",
-            525
-          ],
-          "webkit": [
-            "expected",
-            951
-          ]
-        }
-      }
-    ]
+    }
   },
   {
     "id": "39471490539",
