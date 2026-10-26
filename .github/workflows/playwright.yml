@@ -177,12 +177,12 @@ jobs:
           fi
 
       - name: Job summary
-        if: always()
+        if: always() && hashFiles('test-results/results.json') != ''
         uses: daun/playwright-report-summary@v4
         with:
           report-file: test-results/results.json
           job-summary: true
-          comment: false
+          create-comment: false
 
       - name: Flaky test report
         if: always()
