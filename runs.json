@@ -1,5 +1,157 @@
 [
   {
+    "id": "40348086646",
+    "runNumber": 79,
+    "date": "2026-10-26T15:19:12.213Z",
+    "event": "workflow_dispatch",
+    "branch": "main",
+    "sha": "45ad3ef",
+    "runUrl": "https://github.com/gunashekarryml/playwright-e2e/actions/runs/40348086646",
+    "baseUrl": "https://www.saucedemo.com",
+    "environment": "PROD",
+    "scope": "smoke",
+    "suite": "Smoke",
+    "filter": "",
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "smoke": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "severity": {
+      "critical": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "high": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "medium": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      },
+      "low": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      }
+    },
+    "durationMs": 3905.347,
+    "passRate": 100,
+    "features": {
+      "cart": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 1,
+          "passed": 1,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "checkout": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 1,
+          "passed": 1,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      },
+      "login": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "smoke": {
+          "total": 1,
+          "passed": 1,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0
+        }
+      }
+    },
+    "projects": {
+      "chromium": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0
+      }
+    },
+    "flakyTests": [],
+    "failedTests": [],
+    "causes": {},
+    "tests": [
+      {
+        "title": "adding an item updates the cart badge",
+        "feature": "cart",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            907
+          ]
+        }
+      },
+      {
+        "title": "completes an order end-to-end with valid details",
+        "feature": "checkout",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            1216
+          ]
+        }
+      },
+      {
+        "title": "standard user can log in successfully",
+        "feature": "login",
+        "smoke": true,
+        "severity": "critical",
+        "results": {
+          "chromium": [
+            "expected",
+            601
+          ]
+        }
+      }
+    ]
+  },
+  {
     "id": "40339453710",
     "runNumber": 78,
     "date": "2026-10-26T14:25:23.903Z",
@@ -4821,45 +4973,7 @@
         "owner": "Product / Dev",
         "confidence": "Medium"
       }
-    },
-    "tests": [
-      {
-        "title": "standard user can log in successfully",
-        "feature": "sanity",
-        "smoke": false,
-        "severity": "critical",
-        "results": {
-          "chromium": [
-            "expected",
-            1161
-          ]
-        }
-      },
-      {
-        "title": "wrong password shows the agreed error wording",
-        "feature": "sanity",
-        "smoke": false,
-        "severity": "high",
-        "results": {
-          "chromium": [
-            "unexpected",
-            6397
-          ]
-        }
-      },
-      {
-        "title": "SSO login is available",
-        "feature": "sanity",
-        "smoke": false,
-        "severity": "low",
-        "results": {
-          "chromium": [
-            "skipped",
-            0
-          ]
-        }
-      }
-    ]
+    }
   },
   {
     "id": "39468633678",
