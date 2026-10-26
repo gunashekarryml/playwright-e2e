@@ -85,16 +85,15 @@ async function slackApi(env, method, body) {
 // ---- the run form: Environment, Run type, Features, Severity, Browsers (+ PROD confirmation, summary, Advanced) ----
 const RUN_INFO = {
   Smoke: { label: 'Smoke', desc: 'critical journeys, fastest', tag: 'smoke' },
-  Sanity: { label: 'Sanity', desc: 'quick login check, 1 browser', tag: 'sanity-login' },
-  'Full Regression': { label: 'Regression', desc: 'every test, all browsers', tag: null },
+  Sanity: { label: 'Sanity', desc: 'quick login check', tag: 'sanity-login' },
+  'Full Regression': { label: 'Regression', desc: 'every test', tag: null },
 };
 const FEATURE_TAGS = { 'Product Details': 'product', 'Product Listing': 'inventory', Login: 'login', Cart: 'cart', Checkout: 'checkout', 'Menu & Navigation': 'menu', 'Dynamic Catalog': 'catalog', Accessibility: 'a11y', 'User Profiles': 'users' };
 const SEVERITIES = ['critical', 'high', 'medium', 'low'];
 const BROWSERS = { chromium: 'Chromium', firefox: 'Firefox', webkit: 'WebKit', 'mobile-chrome': 'Mobile Chrome' };
 const RETRIES = ['0', '1', '2'];
 const FORM_ACTIONS = ['env', 'run', 'feat', 'sev', 'brw']; // changing these refreshes the summary
-const FORM_DEFAULTS = { env: 'QA', runType: 'Smoke', features: [], severity: [], browsers: Object.keys(BROWSERS), retries: '', baseUrl: '', extra: '', confirm: false };
-const defaultBrowsers = (runType) => (runType === 'Sanity' ? ['chromium'] : Object.keys(BROWSERS));
+const FORM_DEFAULTS = { env: 'QA', runType: 'Smoke', features: [], severity: [], browsers: ['chromium'], retries: '', baseUrl: '', extra: '', confirm: false };
 
 const plain = (text) => ({ type: 'plain_text', text });
 const sel = (v, text = v, description) => ({ text: plain(text), value: v, ...(description ? { description: plain(description) } : {}) });
@@ -148,7 +147,7 @@ function formView(channel, st = FORM_DEFAULTS) {
       input('run_b', 'Run type *', { type: 'radio_buttons', action_id: 'run', options: RUN_TYPES.map((r) => sel(r, RUN_INFO[r].label, RUN_INFO[r].desc)), initial_option: sel(st.runType, RUN_INFO[st.runType].label, RUN_INFO[st.runType].desc) }, { dispatch_action: true }),
       input('feat_b', 'Features (optional · none = all)', { type: 'multi_static_select', action_id: 'feat', placeholder: plain('All features'), options: Object.keys(FEATURE_TAGS).map((f) => sel(f)), ...picked(st.features, Object.keys(FEATURE_TAGS), (f) => sel(f)) }, { optional: true, dispatch_action: true }),
       input('sev_b', 'Severity (optional · none = all)', { type: 'checkboxes', action_id: 'sev', options: SEVERITIES.map((v) => sel(v, v[0].toUpperCase() + v.slice(1))), ...picked(st.severity, SEVERITIES, (v) => sel(v, v[0].toUpperCase() + v.slice(1))) }, { optional: true, dispatch_action: true }),
-      input('brw_b', 'Browsers *', { type: 'checkboxes', action_id: 'brw', options: Object.entries(BROWSERS).map(([v, t]) => sel(v, t)), ...picked(st.browsers, Object.keys(BROWSERS), (v) => sel(v, BROWSERS[v])) }, { dispatch_action: true, hint: plain('Sanity defaults to Chromium; Smoke and Regression to all four.') }),
+      input('brw_b', 'Browsers *', { type: 'checkboxes', action_id: 'brw', options: Object.entries(BROWSERS).map(([v, t]) => sel(v, t)), ...picked(st.browsers, Object.keys(BROWSERS), (v) => sel(v, BROWSERS[v])) }, { dispatch_action: true, hint: plain('Chromium is the default; add others only when you need them.') }),
       ...(st.env === 'PROD' ? [
         { type: 'context', elements: [{ type: 'mrkdwn', text: '⚠️ *PROD runs real checkouts against production.*' }] },
         input('conf_b', 'Production *', { type: 'checkboxes', action_id: 'conf', options: [sel('yes', 'I understand, run against PROD')], ...(st.confirm ? { initial_options: [sel('yes', 'I understand, run against PROD')] } : {}) }),
@@ -163,10 +162,9 @@ function formView(channel, st = FORM_DEFAULTS) {
   };
 }
 
-// rebuilds the form from its current answers (live summary, PROD confirmation, per-run-type browser default)
+// rebuilds the form from its current answers (live summary, PROD confirmation)
 async function refreshForm(payload, env) {
   const st = readState(payload.view.state.values);
-  if (payload.actions?.[0]?.action_id === 'run') st.browsers = defaultBrowsers(st.runType);
   await slackApi(env, 'views.update', { view_id: payload.view.id, hash: payload.view.hash, view: formView(payload.view.private_metadata, st) });
 }
 

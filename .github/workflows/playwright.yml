@@ -47,7 +47,7 @@ on:
         required: false
         default: ''
       browsers:
-        description: 'Browsers to run, as a JSON list (default: all four; Sanity: chromium only)'
+        description: 'Browsers to run, as a JSON list, e.g. ["chromium","firefox"] (default: chromium only)'
         required: false
         default: ''
       retries:
@@ -111,7 +111,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: ${{ fromJSON(github.event.inputs.browsers || (github.event.inputs.suite == 'Sanity' && '["chromium"]' || '["chromium","firefox","webkit","mobile-chrome"]')) }}
+        project: ${{ fromJSON(github.event.inputs.browsers || '["chromium"]') }}
     steps:
       - uses: actions/checkout@v4
 

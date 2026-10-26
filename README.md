@@ -38,8 +38,7 @@ playwright-e2e/
 │   └── config.ts             # Allure environment info + defect categories
 ├── scripts/
 │   ├── report-flaky.js         # flags retried tests in the CI job summary
-│   ├── strip-language-label.js # drops the redundant "language" chip
-│   └── brand-allure-report.js  # wordmark/favicon/tab-title branding
+│   └── strip-language-label.js # drops the redundant "language" chip
 └── .github/workflows/playwright.yml
 ```
 
@@ -106,18 +105,6 @@ script chain in `package.json`):
    - `executor.json`, written by a CI-only step in `playwright.yml` (build
      number, link back to the GitHub Actions run, link to the published
      Pages report) — powers the Executions widget.
-3. `scripts/brand-allure-report.js` injects a small "Code & Theory"
-   wordmark, a monogram favicon, and a custom tab title via a linked
-   `custom/custom.css` — deliberately CSS-only and scoped to `body`/
-   scrollbar selectors rather than Allure's internal (minified, versioned)
-   component classes, so it keeps working across Allure upgrades.
-
-To swap the text wordmark for a real logo, drop `assets/logo.svg` or
-`assets/logo.png` into the repo — the branding script already copies it
-into the report's `custom/` folder; reference it from `custom.css` to
-replace the `body::before` text with an `<img>`/background-image. Override
-the wordmark text or accent color without code changes via
-`ALLURE_BRAND_NAME` / `ALLURE_BRAND_ACCENT` env vars.
 
 ## 5. CI behavior
 

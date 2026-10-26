@@ -128,7 +128,7 @@ Only QA or default runs on `main` update the published Allure report and dashboa
 | Run type | Smoke, Sanity, Regression | Smoke | Yes |
 | Features | any of: Login, Product Listing, Product Details, Cart, Checkout, Menu & Navigation, Dynamic Catalog, Accessibility, User Profiles | all | No |
 | Severity | any of: Critical, High, Medium, Low | all | No |
-| Browsers | Chromium, Firefox, WebKit, Mobile Chrome (Sanity defaults to Chromium) | by run type | Yes |
+| Browsers | Chromium, Firefox, WebKit, Mobile Chrome | Chromium | Yes |
 | Advanced | Environment URL override (https), Retries (0, 1, 2), Extra tag filter | none | No |
 
 The form shows a live "Will run" summary with the test count, and blocks a selection that matches no tests. Run type, Features and Severity are combined with AND (within Features or Severity, "any of"). The test counts come from `slack/worker/test-map.json`; regenerate it with `node scripts/gen-test-map.js` after adding or retagging tests.
