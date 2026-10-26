@@ -123,8 +123,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium ${{ matrix.project != 'mobile-chrome' && matrix.project || '' }}
+        # apt (--with-deps) can stall on the runner's mirror, and headless chromium needs nothing extra there;
+        # firefox and webkit do need system packages, so only they take --with-deps.
+        timeout-minutes: 5
+        run: npx playwright install ${{ (matrix.project == 'firefox' || matrix.project == 'webkit') && '--with-deps' || '' }} chromium ${{ matrix.project != 'mobile-chrome' && matrix.project || '' }}
 
       - name: Determine test scope
         id: scope
