@@ -395,6 +395,8 @@ jobs:
           fi
           mkdir -p site/latest-run
           cp -R allure-run/. site/latest-run/
+          # The cached full-regression report can predate the removal of the old branding, so clean the site root.
+          node scripts/strip-allure-branding.js site
 
       - name: Keep this full-regression report for later smoke and feature runs
         if: steps.dash.outputs.scope == 'full'
